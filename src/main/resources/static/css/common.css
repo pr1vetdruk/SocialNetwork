@@ -1,0 +1,9 @@
+.forgot {
+    display: inline-block;
+}
+
+a {
+    color: #2a5885;
+    text-decoration: none;
+    cursor: pointer;
+}
