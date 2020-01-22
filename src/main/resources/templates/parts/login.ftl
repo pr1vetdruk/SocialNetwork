@@ -3,7 +3,7 @@
         <form action="/login" method="post">
             <div class="form-group row">
                 <div class="col-sm" style="width: 270px">
-                    <input type="text" name="login" placeholder="Логин" value="<#if user??>${user.login}</#if>"
+                    <input type="text" name="username" placeholder="Логин" value="<#if user??>${user.login}</#if>"
                            class="form-control ${(loginError??)?string('is-invalid', '')}"/>
                     <#if loginError??>
                         <div class="invalid-feedback">
@@ -28,6 +28,15 @@
                     type="submit">Войти
             </button>
             <div class="forgot"><a href="">Забыли пароль?</a></div>
+        </form>
+    </div>
+</#macro>
+
+<#macro logout>
+    <div>
+        <form action="/logout" method="post">
+            <button class="btn btn-primary" type="submit"><#if user??>Sign Out<#else>Log in</#if></button>
+            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         </form>
     </div>
 </#macro>

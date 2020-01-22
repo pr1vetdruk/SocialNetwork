@@ -1,9 +1,8 @@
 <#import "parts/common.ftl" as common>
-
+<#include "parts/security.ftl">
 
 <@common.page>
     <div class="container mx-auto border" style="width: 300px; padding: 25px; background: #fff;">
-
         <div class="row mb-2">
             <div class="col text-center">
                 <h5>Регистрация</h5>
@@ -56,7 +55,7 @@
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
             <button class="btn" style="background-color: #5181b8; color: #fff"
-                    type="submit">Регистрация
+                    type="submit">Продолжить
             </button>
         </form>
     </div>

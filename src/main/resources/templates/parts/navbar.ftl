@@ -1,7 +1,9 @@
-<div style="
-    width: 100%;
-    background: #4a76a8;
-    height: 42px;
-    box-sizing: border-box;
-    border-bottom: 1px solid #4872a3;">
-</div>
+<#import "login.ftl" as login>
+
+
+<nav class="navbar" style="background: #4a76a8; border-bottom: 1px solid #4872a3;">
+    <a class="navbar-brand" style=" color: #ffffff" href="#">
+        SocialNetwork
+    </a>
+
+</nav>
