@@ -9,7 +9,7 @@
     >
 <#else>
     <#assign
-    name = "Guest"
+    login = "Guest"
     isAdmin = false
     userId = -1
     >

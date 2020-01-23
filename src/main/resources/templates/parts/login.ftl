@@ -3,7 +3,7 @@
         <form action="/login" method="post">
             <div class="form-group row">
                 <div class="col-sm" style="width: 270px">
-                    <input type="text" name="username" placeholder="Логин" value="<#if user??>${user.login}</#if>"
+                    <input type="text" name="username" placeholder="Логин"
                            class="form-control ${(loginError??)?string('is-invalid', '')}"/>
                     <#if loginError??>
                         <div class="invalid-feedback">
