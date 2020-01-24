@@ -2,43 +2,33 @@ package ru.privetdruk.socialnetwork.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.privetdruk.socialnetwork.domain.User;
-import ru.privetdruk.socialnetwork.repository.UtilsRepository;
+import ru.privetdruk.socialnetwork.repository.CityRepository;
 import ru.privetdruk.socialnetwork.service.RegistrationService;
-import ru.privetdruk.socialnetwork.service.UserService;
 import ru.privetdruk.socialnetwork.utils.ControllerUtils;
 import ru.privetdruk.socialnetwork.utils.ModelUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
-import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Controller
 public class RegistrationController {
     private final RegistrationService registrationService;
-    private final UtilsRepository utilsRepository;
 
-    public RegistrationController(RegistrationService registrationService, UtilsRepository utilsRepository) {
+    public RegistrationController(RegistrationService registrationService) {
         this.registrationService = registrationService;
-        this.utilsRepository = utilsRepository;
     }
 
     @GetMapping("/registration")
     public String registration(Model model) {
-        if (!model.containsAttribute("citiesList"))
-            model.addAttribute("citiesList", utilsRepository.findAllCities());
+        registrationService.fillingCities(model);
         return "registration";
     }
-
-    /*@GetMapping("/personal-data")
-    public String qwe(Model model) {
-        if (!model.containsAttribute("citiesList"))
-            model.addAttribute("citiesList", utilsRepository.findAllCities());
-        return "registration";
-    }*/
 
     @PostMapping(value = "/registration", params = "continue")
     public String personalData(@Valid User user,
@@ -49,9 +39,12 @@ public class RegistrationController {
         boolean isCity = ModelUtils.isEmpty(user.getCity(), model, "cityError", "Выберите город");
         boolean isDateBirth = ModelUtils.isEmpty(user.getDateBirth(), model, "dateBirthError", "Заполните дату рождения");
 
+        model.addAttribute("dateBirth", user.getDateBirth());
+
         if (isFirstName || isLastName || isCity || isDateBirth || bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
+            registrationService.fillingCities(model);
         } else {
             model.addAttribute("nextRegistrationStep", "true");
         }

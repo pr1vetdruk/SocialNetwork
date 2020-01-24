@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "cities_dbt")
-public class Cities {
+public class City {
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

@@ -1,13 +1,12 @@
 package ru.privetdruk.socialnetwork.service;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import ru.privetdruk.socialnetwork.domain.Cities;
+import ru.privetdruk.socialnetwork.domain.City;
 import ru.privetdruk.socialnetwork.domain.Role;
 import ru.privetdruk.socialnetwork.domain.User;
+import ru.privetdruk.socialnetwork.repository.CityRepository;
 import ru.privetdruk.socialnetwork.repository.UserRepository;
 
 import java.util.Collections;
@@ -17,10 +16,12 @@ import java.util.UUID;
 @Service
 public class RegistrationService {
     private final UserRepository userRepository;
+    private final CityRepository cityRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public RegistrationService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public RegistrationService(UserRepository userRepository, CityRepository cityRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.cityRepository = cityRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -35,5 +36,10 @@ public class RegistrationService {
         user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+    }
+
+    public void fillingCities(Model model) {
+        if (!model.containsAttribute("citiesList"))
+            model.addAttribute("citiesList", cityRepository.findAll());
     }
 }

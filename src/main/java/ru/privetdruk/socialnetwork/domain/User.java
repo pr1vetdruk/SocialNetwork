@@ -1,6 +1,6 @@
 package ru.privetdruk.socialnetwork.domain;
 
-import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,6 +25,7 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     private Integer city;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dateBirth;
 
     public boolean isAdmin() {
