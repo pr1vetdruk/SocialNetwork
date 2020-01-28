@@ -1,10 +1,12 @@
 <#import "parts/common.ftl" as common>
+<#import "parts/registration.ftl" as registration>
+
 <#include "parts/security.ftl">
 
 <@common.page>
     <div class="container mx-auto border" style="width: 300px; padding: 25px; background: #fff;">
         <#if !nextRegistrationStep??>
-            <#include "parts/personal-data.ftl">
+            <@registration.inputPesonalData/>
         <#else>
             <div class="row mb-2">
                 <div class="col text-center">

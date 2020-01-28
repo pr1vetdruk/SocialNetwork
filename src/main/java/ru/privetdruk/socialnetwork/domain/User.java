@@ -24,7 +24,8 @@ public class User implements UserDetails {
     private Set<Role> roles;
     private String firstName;
     private String lastName;
-    private Integer city;
+    private Integer cityId;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dateBirth;
 
@@ -104,12 +105,12 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
-    public Integer getCity() {
-        return city;
+    public Integer getCityId() {
+        return cityId;
     }
 
-    public void setCity(Integer city) {
-        this.city = city;
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
     }
 
     public Date getDateBirth() {

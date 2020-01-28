@@ -1,14 +1,13 @@
 package ru.privetdruk.socialnetwork.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "cities_dbt")
-public class City {
+@Table(name = "city_dbt")
+public class City implements Serializable {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
 
