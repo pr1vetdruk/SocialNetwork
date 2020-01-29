@@ -4,10 +4,10 @@
 <#include "parts/security.ftl">
 
 <@common.page>
-    <div class="container mx-auto border" style="width: 300px; padding: 25px; background: #fff;">
-        <#if !nextRegistrationStep??>
-            <@registration.personalDataFillingForm/>
-        <#else>
+    <#if !nextRegistrationStep??>
+        <@registration.personalDataFillingForm false/>
+    <#else>
+        <div class="container mx-auto border" style="width: 300px; padding: 25px; background: #fff;">
             <div class="row mb-2">
                 <div class="col text-center">
                     <h5>Учетные данные</h5>
@@ -41,7 +41,8 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm">
-                        <input type="password" name="passwordConfirmation" placeholder="Повторите пароль" autocomplete="off" required
+                        <input type="password" name="passwordConfirmation" placeholder="Повторите пароль"
+                               autocomplete="off" required
                                class="form-control ${(passwordConfirmationError??)?string('is-invalid', '')}"/>
                         <#if passwordConfirmation??>
                             <div class="invalid-feedback">
@@ -67,6 +68,6 @@
                     Зарегистрироваться
                 </button>
             </form>
-        </#if>
-    </div>
+        </div>
+    </#if>
 </@common.page>

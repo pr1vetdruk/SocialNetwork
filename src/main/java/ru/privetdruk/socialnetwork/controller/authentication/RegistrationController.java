@@ -4,9 +4,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.privetdruk.socialnetwork.domain.User;
-import ru.privetdruk.socialnetwork.service.authentication.RegistrationService;
+import ru.privetdruk.socialnetwork.service.authentication.RegistrationServiceImpl;
+import ru.privetdruk.socialnetwork.service.authentication.SecurityService;
 import ru.privetdruk.socialnetwork.utils.ControllerUtils;
 import ru.privetdruk.socialnetwork.utils.ModelUtils;
 
@@ -17,10 +20,12 @@ import java.util.Objects;
 
 @Controller
 public class RegistrationController {
-    private final RegistrationService registrationService;
+    private final RegistrationServiceImpl registrationService;
+    private final SecurityService securityService;
 
-    public RegistrationController(RegistrationService registrationService) {
+    public RegistrationController(RegistrationServiceImpl registrationService, SecurityService securityService) {
         this.registrationService = registrationService;
+        this.securityService = securityService;
     }
 
     @GetMapping("/registration")
@@ -28,7 +33,7 @@ public class RegistrationController {
         if (user != null)
             return "redirect:/";
 
-        registrationService.fillingCities(model);
+        registrationService.fillingCity(model);
         return "registration";
     }
 
@@ -47,7 +52,7 @@ public class RegistrationController {
                 model.addAttribute("city", registrationService.findCity(user.getCityId()));
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
-            registrationService.fillingCities(model);
+            registrationService.fillingCity(model);
         } else {
             request.getSession().setAttribute("personalData", user);
             model.addAttribute("nextRegistrationStep", "true");
@@ -75,6 +80,7 @@ public class RegistrationController {
         } else {
             registrationService.addNewUser(user, (User) Objects.requireNonNull(request.getSession().getAttribute("personalData")));
             request.getSession().removeAttribute("personalData");
+            securityService.autoLogin(user.getLogin(), user.getPassword());
             return "redirect:/";
         }
 

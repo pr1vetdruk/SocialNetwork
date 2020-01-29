@@ -2,18 +2,26 @@ package ru.privetdruk.socialnetwork.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.privetdruk.socialnetwork.domain.User;
-
-import java.util.Map;
+import ru.privetdruk.socialnetwork.service.authentication.RegistrationServiceImpl;
 
 @Controller
 public class MainController {
+    private final RegistrationServiceImpl registrationService;
+
+    public MainController(RegistrationServiceImpl registrationService) {
+        this.registrationService = registrationService;
+    }
+
     @GetMapping("/")
-    public String index(@AuthenticationPrincipal User currentUser, Map<String, Object> model) {
-        if (currentUser == null)
+    public String index(@AuthenticationPrincipal User currentUser, Model model) {
+        if (currentUser == null) {
+            registrationService.fillingCity(model);
             return "index";
-        else
+        } else {
             return "redirect:/test";
+        }
     }
 }

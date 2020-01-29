@@ -1,5 +1,5 @@
 <#macro authorization>
-    <div class="col-sm-4 border" style="padding: 25px; background: #fff">
+    <div class="container mr-3  mb-3 border" style="width: 300px; padding: 25px; background: #fff">
         <form action="/login" method="post">
             <div class="form-group row">
                 <div class="col-sm" style="width: 270px">

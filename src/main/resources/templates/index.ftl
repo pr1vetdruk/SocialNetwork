@@ -1,5 +1,6 @@
 <#import "parts/common.ftl" as common>
 <#import "parts/login.ftl" as login>
+<#import "parts/registration.ftl" as registration>
 
 <@common.page>
     <div class="row row-cols-2" style="width: 960px;">
@@ -12,5 +13,6 @@
             </div>
         </div>
         <@login.authorization/>
+        <@registration.personalDataFillingForm true/>
     </div>
 </@common.page>
