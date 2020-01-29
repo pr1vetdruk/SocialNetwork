@@ -1,4 +1,4 @@
-<#macro inputPesonalData>
+<#macro personalDataFillingForm>
     <div class="row mb-2">
         <div class="col text-center">
             <h5>Впервые в SocialNetwork?</h5>
@@ -9,7 +9,8 @@
     <form action="/registration" method="post">
         <div class="form-group row">
             <div class="col-sm">
-                <input type="text" name="firstName" placeholder="Ваше имя" value="<#if user??>${user.firstName}</#if>"
+                <input type="text" name="firstName" placeholder="Ваше имя" required
+                       value="<#if user??>${user.firstName}</#if>"
                        class="form-control ${(firstNameError??)?string('is-invalid', '')}"/>
                 <#if firstNameError??>
                     <div class="invalid-feedback">
@@ -20,7 +21,8 @@
         </div>
         <div class="form-group row">
             <div class="col-sm">
-                <input type="text" name="lastName" placeholder="Ваша фамилия" value="<#if user??>${user.lastName}</#if>"
+                <input type="text" name="lastName" placeholder="Ваша фамилия" required
+                       value="<#if user??>${user.lastName}</#if>"
                        class="form-control ${(lastNameError??)?string('is-invalid', '')}"/>
                 <#if lastNameError??>
                     <div class="invalid-feedback">
@@ -32,7 +34,7 @@
 
         <div class="form-group row">
             <div class="col-sm">
-                <select class="custom-select ${(cityError??)?string('is-invalid', '')}" name="cityId">
+                <select class="custom-select ${(cityError??)?string('is-invalid', '')}" name="cityId" required>
                     <#if user?? && user.cityId??>
                         <option value="${city.id}" selected>${city.name}</option>
                     <#else>
@@ -53,13 +55,11 @@
         </div>
         <div class="form-group row">
             <div class="col-sm">
-
-                <label for="dateBirth" class="mb-1" style="font-size: 14px; color: #626d7a; line-height: 20px;">Дата рождения</label>
-                <input type="date" class="form-control ${(dateBirthError??)?string('is-invalid', '')}"
-                       name="dateBirth"
-                       id="dateBirth"
+                <label for="dateBirth" class="mb-1" style="font-size: 14px; color: #626d7a; line-height: 20px;">Дата
+                    рождения</label>
+                <input type="date" name="dateBirth" id="dateBirth" placeholder="Дата рождения" required
                        value="<#if user?? && user.dateBirth??>${user.dateBirth?string("yyyy-MM-dd")}</#if>"
-                       placeholder="Дата рождения"/>
+                       class="form-control ${(dateBirthError??)?string('is-invalid', '')}"/>
                 <#if dateBirthError??>
                     <div class="invalid-feedback">
                         ${dateBirthError}
@@ -69,7 +69,9 @@
         </div>
 
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        <button class="btn" style="background-color: #37b83a; color: #fff" type="submit" name="continue">Продолжить регистрацию</button>
+        <button class="btn" style="background-color: #37b83a; color: #fff" type="submit" name="continue">Продолжить
+            регистрацию
+        </button>
     </form>
 </#macro>
 

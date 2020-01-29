@@ -6,7 +6,7 @@
 <@common.page>
     <div class="container mx-auto border" style="width: 300px; padding: 25px; background: #fff;">
         <#if !nextRegistrationStep??>
-            <@registration.inputPesonalData/>
+            <@registration.personalDataFillingForm/>
         <#else>
             <div class="row mb-2">
                 <div class="col text-center">
@@ -18,8 +18,9 @@
             <form action="/registration" method="post">
                 <div class="form-group row">
                     <div class="col-sm">
-                        <input type="text" name="login" placeholder="Логин"
-                               class="form-control ${(loginError??)?string('is-invalid', '')}"/>
+                        <input type="text" name="login" placeholder="Логин" autocomplete="off" required
+                               class="form-control ${(loginError??)?string('is-invalid', '')}"
+                               value="<#if user?? && user.login??>${user.login}</#if>"/>
                         <#if loginError??>
                             <div class="invalid-feedback">
                                 ${loginError}
@@ -29,7 +30,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm">
-                        <input type="password" name="password" placeholder="Пароль"
+                        <input type="password" name="password" placeholder="Пароль" autocomplete="off" required
                                class="form-control ${(passwordError??)?string('is-invalid', '')}"/>
                         <#if passwordError??>
                             <div class="invalid-feedback">
@@ -40,7 +41,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm">
-                        <input type="password" name="passwordConfirmation" placeholder="Повторите пароль"
+                        <input type="password" name="passwordConfirmation" placeholder="Повторите пароль" autocomplete="off" required
                                class="form-control ${(passwordConfirmationError??)?string('is-invalid', '')}"/>
                         <#if passwordConfirmation??>
                             <div class="invalid-feedback">
@@ -51,8 +52,9 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm">
-                        <input type="email" name="email" placeholder="E-mail"
-                               class="form-control ${(emailError??)?string('is-invalid', '')}"/>
+                        <input type="email" name="email" placeholder="E-mail" autocomplete="off" required
+                               class="form-control ${(emailError??)?string('is-invalid', '')}"
+                               value="<#if user?? && user.email??>${user.email}</#if>"/>
                         <#if emailError??>
                             <div class="invalid-feedback">
                                 ${emailError}
@@ -61,7 +63,9 @@
                     </div>
                 </div>
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                <button class="btn" style="background-color: #5181b8; color: #fff" type="submit" name="registration">Зарегистрироваться</button>
+                <button class="btn" style="background-color: #5181b8; color: #fff" type="submit" name="registration">
+                    Зарегистрироваться
+                </button>
             </form>
         </#if>
     </div>
