@@ -4,6 +4,8 @@
 <#include "parts/security.ftl">
 
 <@common.page>
+
+
     <#if !nextRegistrationStep??>
         <@registration.personalDataFillingForm false/>
     <#else>

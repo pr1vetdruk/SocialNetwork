@@ -1,3 +1,5 @@
+<#import "jsp-form.ftl" as f>
+
 <#macro personalDataFillingForm isIndex>
     <div class="container border <#if isIndex>mr-3</#if>" style="width: 300px; padding: 25px; background: #fff;">
         <div class="row mb-2">
@@ -8,6 +10,7 @@
         </div>
 
         <form action="/registration" method="post">
+            <div><@f.formErrors/></div>
             <div class="form-group row">
                 <div class="col-sm">
                     <input type="text" name="firstName" placeholder="Ваше имя" required

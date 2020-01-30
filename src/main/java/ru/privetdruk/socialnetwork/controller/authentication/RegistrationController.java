@@ -42,11 +42,11 @@ public class RegistrationController {
                                BindingResult bindingResult,
                                Model model,
                                HttpServletRequest request) {
-        boolean isFirstNameEmpty = ModelUtils.isEmpty(user.getFirstName(), model, "firstNameError", "Введите ваше имя");
+        boolean isFirstNameEmpty = false; //ModelUtils.isEmpty(user.getFirstName(), model, "firstNameError", "Введите ваше имя");
         boolean isLastNameEmpty = ModelUtils.isEmpty(user.getLastName(), model, "lastNameError", "Введите вашу фамилию");
         boolean isCityEmpty = ModelUtils.isEmpty(user.getCityId(), model, "cityError", "Выберите город");
         boolean isDateBirthEmpty = ModelUtils.isEmpty(user.getDateBirth(), model, "dateBirthError", "Заполните дату рождения");
-
+        bindingResult.rejectValue("firstName", "global.empty");
         if (isFirstNameEmpty || isLastNameEmpty || isCityEmpty || isDateBirthEmpty || bindingResult.hasErrors()) {
             if (!isCityEmpty)
                 model.addAttribute("city", registrationService.findCity(user.getCityId()));
@@ -62,14 +62,13 @@ public class RegistrationController {
     }
 
     @PostMapping(value = "/registration", params = "registration")
-    public String addUser(@RequestParam("passwordConfirmation") String passwordConfirmation,
-                          @Valid User user,
+    public String addUser(@Valid User user,
                           BindingResult bindingResult,
                           Model model,
                           HttpServletRequest request) {
         boolean isLoginEmpty = ModelUtils.isEmpty(user.getLogin(), model, "loginError", "Введите логин");
         boolean isPasswordEmpty = ModelUtils.isEmpty(user.getPassword(), model, "passwordError", "Введите пароль");
-        boolean isPasswordConfirmEmpty = ModelUtils.isEmpty(passwordConfirmation, model, "passwordConfirmationError", "Повторите пароль");
+        boolean isPasswordConfirmEmpty = ModelUtils.isEmpty(user.getPasswordConfirmation(), model, "passwordConfirmationError", "Повторите пароль");
         boolean isEmailEmpty = ModelUtils.isEmpty(user.getEmail(), model, "emailError", "Введите E-mail");
 
         if (isLoginEmpty || isPasswordEmpty || isPasswordConfirmEmpty || isEmailEmpty || bindingResult.hasErrors()) {
@@ -80,7 +79,7 @@ public class RegistrationController {
         } else {
             registrationService.addUser(user, (User) Objects.requireNonNull(request.getSession().getAttribute("personalData")));
             request.getSession().removeAttribute("personalData");
-            securityService.autoLogin(user.getLogin(), passwordConfirmation/*.getPassword()*/);
+            securityService.autoLogin(user.getLogin(), user.getPasswordConfirmation());
             return "redirect:/";
         }
 

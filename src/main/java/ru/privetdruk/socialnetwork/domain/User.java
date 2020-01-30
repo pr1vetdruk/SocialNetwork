@@ -16,6 +16,8 @@ public class User implements UserDetails {
     private boolean active;
     private String login;
     private String password;
+    @Transient
+    private String passwordConfirmation;
     private String email;
     private String activationCode;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -63,6 +65,14 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirmation() {
+        return passwordConfirmation;
+    }
+
+    public void setPasswordConfirmation(String passwordConfirmation) {
+        this.passwordConfirmation = passwordConfirmation;
     }
 
     public String getEmail() {
