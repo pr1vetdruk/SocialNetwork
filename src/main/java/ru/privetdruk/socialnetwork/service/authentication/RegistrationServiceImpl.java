@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 @Service
-public class RegistrationServiceImpl {
+public class RegistrationServiceImpl implements RegistrationService {
     private final UserRepository userRepository;
     private final CityRepository cityRepository;
     private final PasswordEncoder passwordEncoder;
@@ -24,12 +24,8 @@ public class RegistrationServiceImpl {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public boolean isUserExists(String login) {
-        User user = userRepository.findByLogin(login);
-        return user != null;
-    }
-
-    public void addNewUser(User user, User personalData) {
+    @Override
+    public void addUser(User user, User personalData) {
         user.setFirstName(personalData.getFirstName());
         user.setLastName(personalData.getLastName());
         user.setCityId(personalData.getCityId());
@@ -42,11 +38,18 @@ public class RegistrationServiceImpl {
         userRepository.save(user);
     }
 
+    @Override
+    public boolean isFoundUser(String login) {
+        return userRepository.findByLogin(login) != null;
+    }
+
+    @Override
     public void fillingCity(Model model) {
         if (!model.containsAttribute("citiesList"))
             model.addAttribute("citiesList", cityRepository.findAll());
     }
 
+    @Override
     public City findCity(Integer id) {
         return cityRepository.findById(id);
     }

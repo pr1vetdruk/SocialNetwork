@@ -75,12 +75,12 @@ public class RegistrationController {
         if (isLoginEmpty || isPasswordEmpty || isPasswordConfirmEmpty || isEmailEmpty || bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
-        } else if (registrationService.isUserExists(user.getLogin())) {
+        } else if (registrationService.isFoundUser(user.getLogin())) {
             model.addAttribute("loginError", "Пользователь с таким логином уже существует");
         } else {
-            registrationService.addNewUser(user, (User) Objects.requireNonNull(request.getSession().getAttribute("personalData")));
+            registrationService.addUser(user, (User) Objects.requireNonNull(request.getSession().getAttribute("personalData")));
             request.getSession().removeAttribute("personalData");
-            securityService.autoLogin(user.getLogin(), user.getPassword());
+            securityService.autoLogin(user.getLogin(), passwordConfirmation/*.getPassword()*/);
             return "redirect:/";
         }
 
