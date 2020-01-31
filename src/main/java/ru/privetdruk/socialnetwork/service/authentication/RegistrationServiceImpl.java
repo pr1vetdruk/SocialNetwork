@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import ru.privetdruk.socialnetwork.domain.City;
 import ru.privetdruk.socialnetwork.domain.Role;
 import ru.privetdruk.socialnetwork.domain.User;
+import ru.privetdruk.socialnetwork.domain.UserPersonalData;
 import ru.privetdruk.socialnetwork.repository.CityRepository;
 import ru.privetdruk.socialnetwork.repository.UserRepository;
 
@@ -25,12 +26,8 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public void addUser(User user, User personalData) {
-        user.setFirstName(personalData.getFirstName());
-        user.setLastName(personalData.getLastName());
-        user.setCityId(personalData.getCityId());
-        user.setDateBirth(personalData.getDateBirth());
-
+    public void addUser(User user, UserPersonalData personalData) {
+        user.setPersonalData(personalData);
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());

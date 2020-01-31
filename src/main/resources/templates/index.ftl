@@ -10,6 +10,8 @@
             </div>
             <div style="font-size: 14px; color: #626d7a; line-height: 20px;">
                 Социальная сеть на коленке.
+                ${fields}
+                <p>${test1}</p>
             </div>
         </div>
         <@login.authorization/>

@@ -24,12 +24,9 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role_dbt", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
-    private String firstName;
-    private String lastName;
-    private Integer cityId;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date dateBirth;
+    @OneToOne(mappedBy = "user")
+    private UserPersonalData personalData;
 
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
@@ -99,36 +96,12 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public UserPersonalData getPersonalData() {
+        return personalData;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Integer getCityId() {
-        return cityId;
-    }
-
-    public void setCityId(Integer cityId) {
-        this.cityId = cityId;
-    }
-
-    public Date getDateBirth() {
-        return dateBirth;
-    }
-
-    public void setDateBirth(Date dateBirth) {
-        this.dateBirth = dateBirth;
+    public void setPersonalData(UserPersonalData personalData) {
+        this.personalData = personalData;
     }
 
     @Override

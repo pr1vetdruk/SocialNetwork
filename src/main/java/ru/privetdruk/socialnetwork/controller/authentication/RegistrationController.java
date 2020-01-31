@@ -1,13 +1,14 @@
 package ru.privetdruk.socialnetwork.controller.authentication;
 
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.privetdruk.socialnetwork.domain.User;
+import ru.privetdruk.socialnetwork.domain.UserPersonalData;
 import ru.privetdruk.socialnetwork.service.authentication.RegistrationServiceImpl;
 import ru.privetdruk.socialnetwork.service.authentication.SecurityService;
 import ru.privetdruk.socialnetwork.utils.ControllerUtils;
@@ -42,7 +43,7 @@ public class RegistrationController {
                                BindingResult bindingResult,
                                Model model,
                                HttpServletRequest request) {
-        boolean isFirstNameEmpty = false; //ModelUtils.isEmpty(user.getFirstName(), model, "firstNameError", "Введите ваше имя");
+        /*boolean isFirstNameEmpty = false; //ModelUtils.isEmpty(user.getFirstName(), model, "firstNameError", "Введите ваше имя");
         boolean isLastNameEmpty = ModelUtils.isEmpty(user.getLastName(), model, "lastNameError", "Введите вашу фамилию");
         boolean isCityEmpty = ModelUtils.isEmpty(user.getCityId(), model, "cityError", "Выберите город");
         boolean isDateBirthEmpty = ModelUtils.isEmpty(user.getDateBirth(), model, "dateBirthError", "Заполните дату рождения");
@@ -56,7 +57,7 @@ public class RegistrationController {
         } else {
             request.getSession().setAttribute("personalData", user);
             model.addAttribute("nextRegistrationStep", "true");
-        }
+        }*/
 
         return "registration";
     }
@@ -77,7 +78,7 @@ public class RegistrationController {
         } else if (registrationService.isFoundUser(user.getLogin())) {
             model.addAttribute("loginError", "Пользователь с таким логином уже существует");
         } else {
-            registrationService.addUser(user, (User) Objects.requireNonNull(request.getSession().getAttribute("personalData")));
+            registrationService.addUser(user, (UserPersonalData) Objects.requireNonNull(request.getSession().getAttribute("personalData")));
             request.getSession().removeAttribute("personalData");
             securityService.autoLogin(user.getLogin(), user.getPasswordConfirmation());
             return "redirect:/";

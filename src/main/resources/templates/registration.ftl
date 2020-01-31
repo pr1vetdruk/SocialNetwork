@@ -14,6 +14,7 @@
                 <div class="col text-center">
                     <h5>Учетные данные</h5>
                     <p>Заполните все поля</p>
+
                 </div>
             </div>
 
