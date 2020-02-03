@@ -1,8 +1,8 @@
-package ru.privetdruk.socialnetwork.domain;
+package ru.privetdruk.socialnetwork.domain.user;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.privetdruk.socialnetwork.domain.Role;
 
 import javax.persistence.*;
 import java.util.*;
@@ -13,12 +13,14 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private boolean active;
+
     private String login;
     private String password;
     @Transient
     private String passwordConfirmation;
     private String email;
+
+    private boolean active;
     private String activationCode;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role_dbt", joinColumns = @JoinColumn(name = "user_id"))

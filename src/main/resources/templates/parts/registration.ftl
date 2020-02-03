@@ -4,15 +4,14 @@
             <div class="col text-center">
                 <h5>Впервые в SocialNetwork?</h5>
                 <p>Моментальная регистрация</p>
-                <p>${test1}</p>
             </div>
         </div>
 
         <form action="/registration" method="post">
             <div class="form-group row">
                 <div class="col-sm">
-                    <input type="text" name="firstName" placeholder="Ваше имя" required
-                           value="<#if user??>${user.firstName}</#if>"
+                    <input type="text" name="firstName" placeholder="Ваше имя"
+                           value="<#if personalData??>${personalData.firstName}</#if>"
                            class="form-control ${(firstNameError??)?string('is-invalid', '')}"/>
                     <#if firstNameError??>
                         <div class="invalid-feedback">
@@ -23,7 +22,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-sm">
-                    <input type="text" name="lastName" placeholder="Ваша фамилия" required
+                    <input type="text" name="lastName" placeholder="Ваша фамилия"
                            value="<#if user??>${user.lastName}</#if>"
                            class="form-control ${(lastNameError??)?string('is-invalid', '')}"/>
                     <#if lastNameError??>
@@ -36,7 +35,7 @@
 
             <div class="form-group row">
                 <div class="col-sm">
-                    <select class="custom-select ${(cityError??)?string('is-invalid', '')}" name="cityId" required>
+                    <select class="custom-select ${(cityError??)?string('is-invalid', '')}" name="city" >
                         <#if user?? && user.cityId??>
                             <option value="${city.id}" selected>${city.name}</option>
                         <#else>
@@ -59,7 +58,7 @@
                 <div class="col-sm">
                     <label for="dateBirth" class="mb-1" style="font-size: 14px; color: #626d7a; line-height: 20px;">Дата
                         рождения</label>
-                    <input type="date" name="dateBirth" id="dateBirth" placeholder="Дата рождения" required
+                    <input type="date" name="dateBirth" id="dateBirth" placeholder="Дата рождения"
                            value="<#if user?? && user.dateBirth??>${user.dateBirth?string("yyyy-MM-dd")}</#if>"
                            class="form-control ${(dateBirthError??)?string('is-invalid', '')}"/>
                     <#if dateBirthError??>

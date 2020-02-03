@@ -1,8 +1,11 @@
-package ru.privetdruk.socialnetwork.domain;
+package ru.privetdruk.socialnetwork.domain.user;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+import ru.privetdruk.socialnetwork.domain.City;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity
@@ -11,7 +14,10 @@ public class UserPersonalData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Введите имя")
+    @Length(min = 2, max = 32, message = "Допустимая длина от 2 до 32 символов")
     private String firstName;
+    @NotBlank(message = "Введите фамилию")
     private String lastName;
 
     @OneToOne

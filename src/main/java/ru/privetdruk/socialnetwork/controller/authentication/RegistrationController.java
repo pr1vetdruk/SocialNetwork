@@ -7,12 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import ru.privetdruk.socialnetwork.domain.User;
-import ru.privetdruk.socialnetwork.domain.UserPersonalData;
+import ru.privetdruk.socialnetwork.domain.user.User;
+import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
 import ru.privetdruk.socialnetwork.service.authentication.RegistrationServiceImpl;
 import ru.privetdruk.socialnetwork.service.authentication.SecurityService;
 import ru.privetdruk.socialnetwork.utils.ControllerUtils;
 import ru.privetdruk.socialnetwork.utils.ModelUtils;
+import ru.privetdruk.socialnetwork.validator.registration.PersonalDataValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -23,10 +24,12 @@ import java.util.Objects;
 public class RegistrationController {
     private final RegistrationServiceImpl registrationService;
     private final SecurityService securityService;
+    private final PersonalDataValidator personalDataValidator;
 
-    public RegistrationController(RegistrationServiceImpl registrationService, SecurityService securityService) {
+    public RegistrationController(RegistrationServiceImpl registrationService, SecurityService securityService, PersonalDataValidator personalDataValidator) {
         this.registrationService = registrationService;
         this.securityService = securityService;
+        this.personalDataValidator = personalDataValidator;
     }
 
     @GetMapping("/registration")
@@ -39,7 +42,7 @@ public class RegistrationController {
     }
 
     @PostMapping(value = "/registration", params = "continue")
-    public String personalData(@Valid User user,
+    public String personalData(UserPersonalData personalData,
                                BindingResult bindingResult,
                                Model model,
                                HttpServletRequest request) {
@@ -58,7 +61,7 @@ public class RegistrationController {
             request.getSession().setAttribute("personalData", user);
             model.addAttribute("nextRegistrationStep", "true");
         }*/
-
+        personalDataValidator.validate(personalData, bindingResult);
         return "registration";
     }
 

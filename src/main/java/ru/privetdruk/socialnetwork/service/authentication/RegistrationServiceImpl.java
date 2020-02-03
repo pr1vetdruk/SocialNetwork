@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import ru.privetdruk.socialnetwork.domain.City;
 import ru.privetdruk.socialnetwork.domain.Role;
-import ru.privetdruk.socialnetwork.domain.User;
-import ru.privetdruk.socialnetwork.domain.UserPersonalData;
+import ru.privetdruk.socialnetwork.domain.user.User;
+import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
 import ru.privetdruk.socialnetwork.repository.CityRepository;
 import ru.privetdruk.socialnetwork.repository.UserRepository;
 

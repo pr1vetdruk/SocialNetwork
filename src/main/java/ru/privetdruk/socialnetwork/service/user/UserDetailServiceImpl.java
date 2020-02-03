@@ -1,17 +1,11 @@
 package ru.privetdruk.socialnetwork.service.user;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.privetdruk.socialnetwork.domain.Role;
-import ru.privetdruk.socialnetwork.domain.User;
+import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.repository.UserRepository;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Service("userDetailsService")
 public class UserDetailServiceImpl implements UserDetailsService {
