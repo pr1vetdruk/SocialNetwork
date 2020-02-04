@@ -2,14 +2,16 @@ package ru.privetdruk.socialnetwork.validator;
 
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
 import ru.privetdruk.socialnetwork.service.user.UserService;
 
+import java.util.Objects;
+
 @Component
-public class RegistrationValidator {
+public class RegistrationValidator implements Validator {
     private final Environment environment;
     private final UserService userService;
 
@@ -18,29 +20,16 @@ public class RegistrationValidator {
         this.userService = userService;
     }
 
-    public void personalDataValidate(UserPersonalData personalData, Model model) {
-
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return UserPersonalData.class.equals(aClass);
     }
 
-    public void authorizationDataValidate(User user, Model model) {
-        if (StringUtils.isEmpty(user.getLogin()))
-            model.addAttribute("loginError", environment.getProperty("valid.global.empty"));
-        else if (user.getLogin().length() < 1 || user.getLogin().length() > 32)
-            model.addAttribute("loginError", environment.getProperty("valid.registration.login.size"));
-        else if (userService.findByLogin(user.getLogin()) != null)
-            model.addAttribute("loginError", environment.getProperty("valid.registration.login.duplicate"));
+    @Override
+    public void validate(Object o, Errors errors) {
+        User user = (User) o;
 
-        if (StringUtils.isEmpty(user.getPassword()))
-            model.addAttribute("passwordError", environment.getProperty("valid.global.empty"));
-        else if (user.getPassword().length() < 8 || user.getPassword().length() > 32)
-            model.addAttribute("passwordError", "valid.registration.password.size");
-
-        if (StringUtils.isEmpty(user.getPasswordConfirmation()))
-            model.addAttribute("passwordConfirmationError", environment.getProperty("valid.global.empty"));
-        else if (!user.getPassword().equals(user.getPasswordConfirmation()))
-            model.addAttribute("passwordConfirmationError", environment.getProperty("valid.registration.password.equals"));
-
-        if (StringUtils.isEmpty(user.getEmail()))
-            model.addAttribute("emailError", environment.getProperty("valid.global.empty"));
+        if (userService.findByLogin(user.getLogin()) != null)
+            errors.rejectValue("login", "valid.registration.login.duplicate", Objects.requireNonNull(environment.getProperty("valid.registration.login.duplicate")));
     }
 }

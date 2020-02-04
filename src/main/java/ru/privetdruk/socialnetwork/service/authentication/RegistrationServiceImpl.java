@@ -7,6 +7,7 @@ import ru.privetdruk.socialnetwork.domain.City;
 import ru.privetdruk.socialnetwork.domain.Role;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
+import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
 import ru.privetdruk.socialnetwork.repository.CityRepository;
 import ru.privetdruk.socialnetwork.repository.UserRepository;
 
@@ -26,7 +27,10 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public void addUser(User user, UserPersonalData personalData) {
+    public void addUser(User user, UserPersonalDataDto personalDataDto) {
+        UserPersonalData personalData = new UserPersonalData();
+        personalData.setFirstName(personalData.getFirstName());
+        // personalData.set ... и так далее
         user.setPersonalData(personalData);
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));

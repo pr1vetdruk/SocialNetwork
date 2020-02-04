@@ -6,6 +6,7 @@ import ru.privetdruk.socialnetwork.domain.City;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -14,22 +15,23 @@ public class UserPersonalData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "Введите имя")
-    @Length(min = 2, max = 32, message = "Допустимая длина от 2 до 32 символов")
-    private String firstName;
-    @NotBlank(message = "Введите фамилию")
-    private String lastName;
-
-    @OneToOne
-    @JoinColumn(name = "city_id")
-    private City city;
-
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date dateBirth;
-
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @NotBlank(message = "{valid.global.empty}")
+    @Length(min = 2, max = 32, message = "{valid.registration.firstName.size}")
+    private String firstName;
+    @NotBlank(message = "{valid.global.empty}")
+    @Length(min = 2, max = 32, message = "{valid.registration.lastName.size}")
+    private String lastName;
+    @OneToOne
+    @JoinColumn(name = "city_id")
+    @NotNull(message = "{valid.global.empty}")
+    private City city;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @NotNull(message = "{valid.global.empty}")
+    private Date dateBirth;
 
     public Long getId() {
         return id;

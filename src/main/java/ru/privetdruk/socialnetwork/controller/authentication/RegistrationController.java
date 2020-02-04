@@ -7,13 +7,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
+import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
 import ru.privetdruk.socialnetwork.service.authentication.RegistrationServiceImpl;
 import ru.privetdruk.socialnetwork.service.authentication.SecurityService;
 import ru.privetdruk.socialnetwork.utils.ControllerUtils;
 import ru.privetdruk.socialnetwork.utils.ModelUtils;
-import ru.privetdruk.socialnetwork.validator.registration.PersonalDataValidator;
+import ru.privetdruk.socialnetwork.validator.RegistrationValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -24,12 +26,17 @@ import java.util.Objects;
 public class RegistrationController {
     private final RegistrationServiceImpl registrationService;
     private final SecurityService securityService;
-    private final PersonalDataValidator personalDataValidator;
+    private final RegistrationValidator registrationValidator;
 
-    public RegistrationController(RegistrationServiceImpl registrationService, SecurityService securityService, PersonalDataValidator personalDataValidator) {
+    /*@InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(personalDataValidator);
+    }*/
+
+    public RegistrationController(RegistrationServiceImpl registrationService, SecurityService securityService, RegistrationValidator registrationValidator) {
         this.registrationService = registrationService;
         this.securityService = securityService;
-        this.personalDataValidator = personalDataValidator;
+        this.registrationValidator = registrationValidator;
     }
 
     @GetMapping("/registration")
@@ -42,10 +49,18 @@ public class RegistrationController {
     }
 
     @PostMapping(value = "/registration", params = "continue")
-    public String personalData(UserPersonalData personalData,
+    public String personalData(UserPersonalDataDto personalData,
                                BindingResult bindingResult,
                                Model model,
                                HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            if (!bindingResult.hasFieldErrors("city")) {
+                //model.addAttribute("city", registrationService.findCity(personalData.getCity().getId()));
+            }
+        } else {
+            request.getSession().setAttribute("personalData", personalData);
+            //model.addAttribute("nextRegistrationStep", "true");
+        }
         /*boolean isFirstNameEmpty = false; //ModelUtils.isEmpty(user.getFirstName(), model, "firstNameError", "Введите ваше имя");
         boolean isLastNameEmpty = ModelUtils.isEmpty(user.getLastName(), model, "lastNameError", "Введите вашу фамилию");
         boolean isCityEmpty = ModelUtils.isEmpty(user.getCityId(), model, "cityError", "Выберите город");
@@ -61,7 +76,7 @@ public class RegistrationController {
             request.getSession().setAttribute("personalData", user);
             model.addAttribute("nextRegistrationStep", "true");
         }*/
-        personalDataValidator.validate(personalData, bindingResult);
+
         return "registration";
     }
 

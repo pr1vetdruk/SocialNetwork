@@ -35,8 +35,8 @@
 
             <div class="form-group row">
                 <div class="col-sm">
-                    <select class="custom-select ${(cityError??)?string('is-invalid', '')}" name="city" >
-                        <#if user?? && user.cityId??>
+                    <select class="custom-select ${(cityError??)?string('is-invalid', '')}" name="cityId" >
+                        <#if personalData?? && personalData.city??>
                             <option value="${city.id}" selected>${city.name}</option>
                         <#else>
                             <option value="" selected>Город</option>
