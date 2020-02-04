@@ -1,3 +1,4 @@
+
 <#macro personalDataFillingForm isIndex>
     <div class="container border <#if isIndex>mr-3</#if>" style="width: 300px; padding: 25px; background: #fff;">
         <div class="row mb-2">
@@ -36,8 +37,8 @@
             <div class="form-group row">
                 <div class="col-sm">
                     <select class="custom-select ${(cityError??)?string('is-invalid', '')}" name="cityId" >
-                        <#if personalData?? && personalData.city??>
-                            <option value="${city.id}" selected>${city.name}</option>
+                        <#if selectedCity??>
+                            <option value="${selectedCity.id}" selected>${selectedCity.name}</option>
                         <#else>
                             <option value="" selected>Город</option>
                         </#if>

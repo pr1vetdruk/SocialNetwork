@@ -8,17 +8,25 @@ import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
 import ru.privetdruk.socialnetwork.service.authentication.RegistrationService;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Date;
 
 public class UserPersonalDataDto implements Serializable {
     private Long id;
-    private String firstName;
+    @NotNull
+    @NotBlank(message = "{validation.global.not-empty}")
+    @Length(min = 2, max = 32, message = "{validation.registration.firstName.size}")
+    @Pattern(regexp = "^[A-zА-я]*$", message = "{validation.global.only-char}")
+    private String firstName = null;
+    @NotBlank(message = "{validation.global.not-empty}")
+    @Pattern(regexp = "^[A-zА-я]*$", message = "{validation.global.only-char}")
+    @Length(min = 2, max = 32, message = "{validation.registration.lastName.size}")
     private String lastName;
+    @NotNull(message = "{validation.global.not-empty}")
     private Integer cityId;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    //@NotBlank(message = "{validation.global.not-empty}")
     private Date dateBirth;
 
     public UserPersonalData convert(RegistrationService registrationService) {

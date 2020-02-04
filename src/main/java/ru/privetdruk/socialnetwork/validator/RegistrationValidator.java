@@ -3,33 +3,32 @@ package ru.privetdruk.socialnetwork.validator;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 import ru.privetdruk.socialnetwork.domain.user.User;
-import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
+import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
+import ru.privetdruk.socialnetwork.service.authentication.RegistrationService;
 import ru.privetdruk.socialnetwork.service.user.UserService;
 
 import java.util.Objects;
 
 @Component
-public class RegistrationValidator implements Validator {
+public class RegistrationValidator {
     private final Environment environment;
-    private final UserService userService;
+    private final RegistrationService registrationService;
 
-    public RegistrationValidator(Environment environment, UserService userService) {
+    public RegistrationValidator(Environment environment, RegistrationService registrationService) {
         this.environment = environment;
-        this.userService = userService;
+        this.registrationService = registrationService;
     }
 
-    @Override
-    public boolean supports(Class<?> aClass) {
-        return UserPersonalData.class.equals(aClass);
+    public void validatePersonalData(UserPersonalDataDto personalDataDto, Errors errors) {
+        if (!errors.hasFieldErrors("cityId") && registrationService.findCity(personalDataDto.getCityId()) == null) {
+            errors.rejectValue("cityId", "validation.registration.cityId.none", Objects.requireNonNull(environment.getProperty("validation.registration.cityId.none")));
+        }
     }
 
-    @Override
-    public void validate(Object o, Errors errors) {
-        User user = (User) o;
-
-        if (userService.findByLogin(user.getLogin()) != null)
-            errors.rejectValue("login", "valid.registration.login.duplicate", Objects.requireNonNull(environment.getProperty("valid.registration.login.duplicate")));
+    public void validateAuthorizationData(User user, Errors errors) {
+        if (registrationService.isFoundUser(user.getLogin())) {
+            errors.rejectValue("login", "validation.registration.login.duplicate", Objects.requireNonNull(environment.getProperty("validation.registration.login.duplicate")));
+        }
     }
 }

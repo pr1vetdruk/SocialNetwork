@@ -1,6 +1,5 @@
 package ru.privetdruk.socialnetwork.controller;
 
-import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,16 +10,13 @@ import ru.privetdruk.socialnetwork.service.authentication.RegistrationServiceImp
 @Controller
 public class MainController {
     private final RegistrationServiceImpl registrationService;
-    private final Environment environment;
 
-    public MainController(RegistrationServiceImpl registrationService, Environment environment) {
+    public MainController(RegistrationServiceImpl registrationService) {
         this.registrationService = registrationService;
-        this.environment = environment;
     }
 
     @GetMapping("/")
     public String index(@AuthenticationPrincipal User currentUser, Model model) {
-        model.addAttribute("test1", environment.getProperty("valid.global.empty"));
         if (currentUser == null) {
             registrationService.fillingCity(model);
             return "index";

@@ -49,16 +49,20 @@ public class RegistrationController {
     }
 
     @PostMapping(value = "/registration", params = "continue")
-    public String personalData(UserPersonalDataDto personalData,
+    public String personalData(@Valid UserPersonalDataDto personalDataDto,
                                BindingResult bindingResult,
                                Model model,
                                HttpServletRequest request) {
+        registrationValidator.validatePersonalData(personalDataDto, bindingResult);
         if (bindingResult.hasErrors()) {
             if (!bindingResult.hasFieldErrors("city")) {
-                //model.addAttribute("city", registrationService.findCity(personalData.getCity().getId()));
+                model.addAttribute("selectedCity", registrationService.findCity(personalDataDto.getCityId()));
             }
+            Map <String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.addAttribute(errors);
+            registrationService.fillingCity(model);
         } else {
-            request.getSession().setAttribute("personalData", personalData);
+            request.getSession().setAttribute("personalDataDto", personalDataDto);
             //model.addAttribute("nextRegistrationStep", "true");
         }
         /*boolean isFirstNameEmpty = false; //ModelUtils.isEmpty(user.getFirstName(), model, "firstNameError", "Введите ваше имя");
@@ -96,7 +100,7 @@ public class RegistrationController {
         } else if (registrationService.isFoundUser(user.getLogin())) {
             model.addAttribute("loginError", "Пользователь с таким логином уже существует");
         } else {
-            registrationService.addUser(user, (UserPersonalData) Objects.requireNonNull(request.getSession().getAttribute("personalData")));
+            registrationService.addUser(user, (UserPersonalDataDto) Objects.requireNonNull(request.getSession().getAttribute("personalData")));
             request.getSession().removeAttribute("personalData");
             securityService.autoLogin(user.getLogin(), user.getPasswordConfirmation());
             return "redirect:/";

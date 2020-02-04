@@ -18,19 +18,18 @@ public class UserPersonalData {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @NotBlank(message = "{valid.global.empty}")
-    @Length(min = 2, max = 32, message = "{valid.registration.firstName.size}")
+    @NotBlank(message = "{validation.global.empty}")
     private String firstName;
-    @NotBlank(message = "{valid.global.empty}")
+    @NotBlank(message = "{validation.global.empty}")
     @Length(min = 2, max = 32, message = "{valid.registration.lastName.size}")
     private String lastName;
     @OneToOne
     @JoinColumn(name = "city_id")
-    @NotNull(message = "{valid.global.empty}")
+    @NotNull(message = "{validation.global.empty}")
     private City city;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @NotNull(message = "{valid.global.empty}")
+    @NotNull(message = "{validation.global.empty}")
     private Date dateBirth;
 
     public Long getId() {
