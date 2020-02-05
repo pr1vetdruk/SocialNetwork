@@ -7,19 +7,16 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import ru.privetdruk.socialnetwork.domain.user.User;
-import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
+import ru.privetdruk.socialnetwork.domain.user.dto.UserDto;
 import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
 import ru.privetdruk.socialnetwork.service.authentication.RegistrationServiceImpl;
 import ru.privetdruk.socialnetwork.service.authentication.SecurityService;
 import ru.privetdruk.socialnetwork.utils.ControllerUtils;
-import ru.privetdruk.socialnetwork.utils.ModelUtils;
 import ru.privetdruk.socialnetwork.validator.RegistrationValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Map;
 import java.util.Objects;
 
 @Controller
@@ -55,58 +52,44 @@ public class RegistrationController {
                                HttpServletRequest request) {
         registrationValidator.validatePersonalData(personalDataDto, bindingResult);
         if (bindingResult.hasErrors()) {
-            if (!bindingResult.hasFieldErrors("city")) {
+            if (!bindingResult.hasFieldErrors("cityId")) {
                 model.addAttribute("selectedCity", registrationService.findCity(personalDataDto.getCityId()));
             }
-            Map <String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.addAttribute(errors);
+            model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
             registrationService.fillingCity(model);
         } else {
             request.getSession().setAttribute("personalDataDto", personalDataDto);
-            //model.addAttribute("nextRegistrationStep", "true");
-        }
-        /*boolean isFirstNameEmpty = false; //ModelUtils.isEmpty(user.getFirstName(), model, "firstNameError", "Введите ваше имя");
-        boolean isLastNameEmpty = ModelUtils.isEmpty(user.getLastName(), model, "lastNameError", "Введите вашу фамилию");
-        boolean isCityEmpty = ModelUtils.isEmpty(user.getCityId(), model, "cityError", "Выберите город");
-        boolean isDateBirthEmpty = ModelUtils.isEmpty(user.getDateBirth(), model, "dateBirthError", "Заполните дату рождения");
-        bindingResult.rejectValue("firstName", "global.empty");
-        if (isFirstNameEmpty || isLastNameEmpty || isCityEmpty || isDateBirthEmpty || bindingResult.hasErrors()) {
-            if (!isCityEmpty)
-                model.addAttribute("city", registrationService.findCity(user.getCityId()));
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
-            registrationService.fillingCity(model);
-        } else {
-            request.getSession().setAttribute("personalData", user);
             model.addAttribute("nextRegistrationStep", "true");
-        }*/
+        }
 
         return "registration";
     }
 
     @PostMapping(value = "/registration", params = "registration")
-    public String addUser(@Valid User user,
+    public String addUser(@Valid UserDto userDto,
                           BindingResult bindingResult,
                           Model model,
                           HttpServletRequest request) {
-        boolean isLoginEmpty = ModelUtils.isEmpty(user.getLogin(), model, "loginError", "Введите логин");
-        boolean isPasswordEmpty = ModelUtils.isEmpty(user.getPassword(), model, "passwordError", "Введите пароль");
-        boolean isPasswordConfirmEmpty = ModelUtils.isEmpty(user.getPasswordConfirmation(), model, "passwordConfirmationError", "Повторите пароль");
-        boolean isEmailEmpty = ModelUtils.isEmpty(user.getEmail(), model, "emailError", "Введите E-mail");
-
-        if (isLoginEmpty || isPasswordEmpty || isPasswordConfirmEmpty || isEmailEmpty || bindingResult.hasErrors()) {
+        registrationValidator.validateAuthorizationData(userDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
+            model.addAttribute("nextRegistrationStep", "true");
+            return "registration";
+        } else {
+            registrationService.addUser(userDto, (UserPersonalDataDto) Objects.requireNonNull(request.getSession().getAttribute("personalData")));
+            request.getSession().removeAttribute("personalData");
+            securityService.autoLogin(userDto.getLogin(), userDto.getPasswordConfirmation());
+            return "redirect:/";
+        }
+        /*if (isLoginEmpty || isPasswordEmpty || isPasswordConfirmEmpty || isEmailEmpty || bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
         } else if (registrationService.isFoundUser(user.getLogin())) {
             model.addAttribute("loginError", "Пользователь с таким логином уже существует");
         } else {
-            registrationService.addUser(user, (UserPersonalDataDto) Objects.requireNonNull(request.getSession().getAttribute("personalData")));
-            request.getSession().removeAttribute("personalData");
-            securityService.autoLogin(user.getLogin(), user.getPasswordConfirmation());
-            return "redirect:/";
-        }
 
-        model.addAttribute("nextRegistrationStep", "true");
-        return "registration";
+        }*/
+
+
     }
 }

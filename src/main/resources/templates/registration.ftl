@@ -21,9 +21,9 @@
             <form action="/registration" method="post">
                 <div class="form-group row">
                     <div class="col-sm">
-                        <input type="text" name="login" placeholder="Логин" autocomplete="off" required
+                        <input type="text" name="login" placeholder="Логин" autocomplete="off"
                                class="form-control ${(loginError??)?string('is-invalid', '')}"
-                               value="<#if user?? && user.login??>${user.login}</#if>"/>
+                               value="<#if userDto?? && userDto.login??>${userDto.login}</#if>"/>
                         <#if loginError??>
                             <div class="invalid-feedback">
                                 ${loginError}
@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm">
-                        <input type="password" name="password" placeholder="Пароль" autocomplete="off" required
+                        <input type="password" name="password" placeholder="Пароль" autocomplete="off"
                                class="form-control ${(passwordError??)?string('is-invalid', '')}"/>
                         <#if passwordError??>
                             <div class="invalid-feedback">
@@ -45,9 +45,9 @@
                 <div class="form-group row">
                     <div class="col-sm">
                         <input type="password" name="passwordConfirmation" placeholder="Повторите пароль"
-                               autocomplete="off" required
+                               autocomplete="off"
                                class="form-control ${(passwordConfirmationError??)?string('is-invalid', '')}"/>
-                        <#if passwordConfirmation??>
+                        <#if passwordConfirmationError??>
                             <div class="invalid-feedback">
                                 ${passwordConfirmationError}
                             </div>
@@ -56,9 +56,9 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm">
-                        <input type="email" name="email" placeholder="E-mail" autocomplete="off" required
+                        <input type="email" name="email" placeholder="E-mail" autocomplete="off"
                                class="form-control ${(emailError??)?string('is-invalid', '')}"
-                               value="<#if user?? && user.email??>${user.email}</#if>"/>
+                               value="<#if userDto?? && userDto.email??>${userDto.email}</#if>"/>
                         <#if emailError??>
                             <div class="invalid-feedback">
                                 ${emailError}

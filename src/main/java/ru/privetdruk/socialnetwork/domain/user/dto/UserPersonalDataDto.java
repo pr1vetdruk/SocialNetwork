@@ -1,32 +1,35 @@
 package ru.privetdruk.socialnetwork.domain.user.dto;
 
-import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
-import ru.privetdruk.socialnetwork.domain.City;
-import ru.privetdruk.socialnetwork.domain.user.User;
+import org.springframework.util.StringUtils;
 import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
 import ru.privetdruk.socialnetwork.service.authentication.RegistrationService;
+import ru.privetdruk.socialnetwork.validator.annotation.DateBirth;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
 public class UserPersonalDataDto implements Serializable {
-    private Long id;
-    @NotNull
-    @NotBlank(message = "{validation.global.not-empty}")
-    @Length(min = 2, max = 32, message = "{validation.registration.firstName.size}")
-    @Pattern(regexp = "^[A-zА-я]*$", message = "{validation.global.only-char}")
-    private String firstName = null;
-    @NotBlank(message = "{validation.global.not-empty}")
-    @Pattern(regexp = "^[A-zА-я]*$", message = "{validation.global.only-char}")
-    @Length(min = 2, max = 32, message = "{validation.registration.lastName.size}")
+    @NotBlank(message = "{validation.global.notEmpty}")
+    @Size(min = 2, max = 32, message = "{validation.registration.firstName.size}")
+    @Pattern(regexp = "^[A-zА-я]*$", message = "{validation.global.onlyChar}")
+    private String firstName;
+
+    @NotBlank(message = "{validation.global.notEmpty}")
+    @Size(min = 2, max = 32, message = "{validation.registration.lastName.size}")
+    @Pattern(regexp = "^[A-zА-я]*$", message = "{validation.global.onlyChar}")
     private String lastName;
-    @NotNull(message = "{validation.global.not-empty}")
+
+    @NotNull(message = "{validation.global.notEmpty}")
     private Integer cityId;
+
+    @NotNull(message = "{validation.global.notEmpty}")
+    @DateBirth
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    //@NotBlank(message = "{validation.global.not-empty}")
     private Date dateBirth;
 
     public UserPersonalData convert(RegistrationService registrationService) {
@@ -38,25 +41,11 @@ public class UserPersonalDataDto implements Serializable {
         return personalData;
     }
 
-    public UserPersonalDataDto() {
-    }
-
-    public UserPersonalDataDto(Long id, String firstName, String lastName, Integer cityId, Date dateBirth) {
-        this.id = id;
+    public UserPersonalDataDto(String firstName, String lastName, Integer cityId, Date dateBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.cityId = cityId;
         this.dateBirth = dateBirth;
-    }
-
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -64,7 +53,7 @@ public class UserPersonalDataDto implements Serializable {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstName = StringUtils.isEmpty(firstName) ? null : firstName;
     }
 
     public String getLastName() {
@@ -72,7 +61,7 @@ public class UserPersonalDataDto implements Serializable {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = StringUtils.isEmpty(lastName) ? null : lastName;
     }
 
     public Integer getCityId() {

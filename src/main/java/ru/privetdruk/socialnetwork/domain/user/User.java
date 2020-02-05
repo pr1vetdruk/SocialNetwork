@@ -5,7 +5,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import ru.privetdruk.socialnetwork.domain.Role;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "user_dbt")
@@ -16,12 +18,10 @@ public class User implements UserDetails {
 
     private String login;
     private String password;
-    @Transient
-    private String passwordConfirmation;
     private String email;
-
     private boolean active;
     private String activationCode;
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role_dbt", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
@@ -64,14 +64,6 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getPasswordConfirmation() {
-        return passwordConfirmation;
-    }
-
-    public void setPasswordConfirmation(String passwordConfirmation) {
-        this.passwordConfirmation = passwordConfirmation;
     }
 
     public String getEmail() {
