@@ -2,6 +2,7 @@ package ru.privetdruk.socialnetwork.domain.user.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.StringUtils;
+import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
 import ru.privetdruk.socialnetwork.service.authentication.RegistrationService;
 import ru.privetdruk.socialnetwork.validator.annotation.DateBirth;
@@ -25,7 +26,7 @@ public class UserPersonalDataDto implements Serializable {
     private String lastName;
 
     @NotNull(message = "{validation.global.notEmpty}")
-    private Integer cityId;
+    private Short cityId;
 
     @NotNull(message = "{validation.global.notEmpty}")
     @DateBirth
@@ -41,7 +42,7 @@ public class UserPersonalDataDto implements Serializable {
         return personalData;
     }
 
-    public UserPersonalDataDto(String firstName, String lastName, Integer cityId, Date dateBirth) {
+    public UserPersonalDataDto(String firstName, String lastName, Short cityId, Date dateBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.cityId = cityId;
@@ -64,11 +65,11 @@ public class UserPersonalDataDto implements Serializable {
         this.lastName = StringUtils.isEmpty(lastName) ? null : lastName;
     }
 
-    public Integer getCityId() {
+    public Short getCityId() {
         return cityId;
     }
 
-    public void setCityId(Integer cityId) {
+    public void setCityId(Short cityId) {
         this.cityId = cityId;
     }
 
