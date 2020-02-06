@@ -9,5 +9,5 @@ public interface RegistrationService {
     void addUser(UserDto userDto, UserPersonalDataDto personalDataDto);
     boolean isFoundUser(String login);
     void fillingCity(Model model);
-    City findCity(Integer id);
+    City findCity(Short id);
 }

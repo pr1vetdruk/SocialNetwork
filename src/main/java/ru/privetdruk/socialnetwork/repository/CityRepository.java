@@ -9,5 +9,5 @@ import java.util.Set;
 @Repository
 public interface CityRepository extends CrudRepository<City, Long> {
     Set<City> findAll();
-    City findById(Integer id);
+    City findById(Short id);
 }

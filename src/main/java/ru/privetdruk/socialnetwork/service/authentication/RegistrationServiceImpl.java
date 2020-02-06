@@ -6,9 +6,11 @@ import org.springframework.ui.Model;
 import ru.privetdruk.socialnetwork.domain.City;
 import ru.privetdruk.socialnetwork.domain.Role;
 import ru.privetdruk.socialnetwork.domain.user.User;
+import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
 import ru.privetdruk.socialnetwork.domain.user.dto.UserDto;
 import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
 import ru.privetdruk.socialnetwork.repository.CityRepository;
+import ru.privetdruk.socialnetwork.repository.UserPersonalDataRepository;
 import ru.privetdruk.socialnetwork.repository.UserRepository;
 
 import java.util.Collections;
@@ -17,11 +19,13 @@ import java.util.UUID;
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
     private final UserRepository userRepository;
+    private final UserPersonalDataRepository personalDataRepository;
     private final CityRepository cityRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public RegistrationServiceImpl(UserRepository userRepository, CityRepository cityRepository, PasswordEncoder passwordEncoder) {
+    public RegistrationServiceImpl(UserRepository userRepository, UserPersonalDataRepository personalDataRepository, CityRepository cityRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.personalDataRepository = personalDataRepository;
         this.cityRepository = cityRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -29,12 +33,19 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public void addUser(UserDto userDto, UserPersonalDataDto personalDataDto) {
         User user = userDto.convert();
-        user.setPersonalData(personalDataDto.convert(this));
+        UserPersonalData personalData = personalDataDto.convert(this);
+        personalData.setUser(user);
+        //user.setPersonalData(personalData);
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+
+        user = userRepository.findByLogin(user.getLogin());
+        personalData.setUser(user);
+        personalDataRepository.save(personalData);
+
     }
 
     @Override
@@ -49,7 +60,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public City findCity(Integer id) {
+    public City findCity(Short id) {
         return cityRepository.findById(id);
     }
 }

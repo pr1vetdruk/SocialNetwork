@@ -76,7 +76,7 @@ public class RegistrationController {
             model.addAttribute("nextRegistrationStep", "true");
             return "registration";
         } else {
-            registrationService.addUser(userDto, (UserPersonalDataDto) Objects.requireNonNull(request.getSession().getAttribute("personalData")));
+            registrationService.addUser(userDto, (UserPersonalDataDto) Objects.requireNonNull(request.getSession().getAttribute("personalDataDto")));
             request.getSession().removeAttribute("personalData");
             securityService.autoLogin(userDto.getLogin(), userDto.getPasswordConfirmation());
             return "redirect:/";
