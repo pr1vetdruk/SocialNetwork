@@ -4,7 +4,7 @@
 
 <@common.page>
     <div class="row justify-content-center">
-        <div class="col-8 border">
+        <div class="col-8">
             <div>
                 <h2>Social network</h2>
             </div>
@@ -13,7 +13,7 @@
                 <img src="../static/img/phone.jpg"/>
             </div>
         </div>
-        <div class="col-4 border">
+        <div class="col-4">
             <div class="row">
                 <div class="col p-4 border" style="background: #fff">
                     <@login.authorization/>

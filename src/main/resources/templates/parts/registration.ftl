@@ -1,7 +1,6 @@
 
 <#macro personalDataFillingForm isIndex>
     <!-- <div class="container border <#if isIndex>mr-3</#if>" style="width: 300px; padding: 25px; background: #fff;"> -->
-
         <div class="row mb-2">
             <div class="col text-center">
                 <h5>Впервые в SocialNetwork?</h5>
@@ -72,7 +71,7 @@
             </div>
 
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-            <button class="btn" style="background-color: #37b83a; color: #fff" type="submit" name="continue">Продолжить
+            <button class="btn" style="width: 100%; background-color: #37b83a; color: #fff" type="submit" name="continue">Продолжить
                 регистрацию
             </button>
         </form>

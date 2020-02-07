@@ -10,7 +10,7 @@ import ru.privetdruk.socialnetwork.domain.user.User;
 @Controller
 public class ProfileController {
     @GetMapping("/id{id}")
-    public String profile(@AuthenticationPrincipal User authorizedUser, @PathVariable Long id, Model model) {
+    public String showProfile(@AuthenticationPrincipal User authorizedUser, @PathVariable Long id, Model model) {
         //test
         return "profile";
     }

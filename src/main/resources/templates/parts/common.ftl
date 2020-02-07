@@ -16,7 +16,7 @@
     <body style="background: #edeef0">
 
     <#include "navbar.ftl">
-    <div class="container mt-4 border" style="max-width: 960px;">
+    <div class="container mt-4" style="max-width: 960px;">
         <#nested >
     </div>
 
