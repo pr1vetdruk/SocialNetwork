@@ -1,8 +1,8 @@
 <#macro authorization>
-    <div class="container mr-3  mb-3 border" style="width: 300px; padding: 25px; background: #fff">
+    <!--class="container mr-3  mb-3 border"-->
         <form action="/login" method="post">
             <div class="form-group row">
-                <div class="col-sm" style="width: 270px">
+                <div class="col">
                     <input type="text" name="username" placeholder="Логин"
                            class="form-control ${(loginError??)?string('is-invalid', '')}"/>
                     <#if loginError??>
@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-sm" style="width: 270px">
+                <div class="col">
                     <input type="password" name="password" placeholder="Пароль"
                            class="form-control ${(passwordError??)?string('is-invalid', '')}"/>
                     <#if passwordError??>
@@ -29,7 +29,6 @@
             </button>
             <div class="forgot"><a href="">Забыли пароль?</a></div>
         </form>
-    </div>
 </#macro>
 
 <#macro logout>

@@ -1,6 +1,7 @@
 
 <#macro personalDataFillingForm isIndex>
-    <div class="container border <#if isIndex>mr-3</#if>" style="width: 300px; padding: 25px; background: #fff;">
+    <!-- <div class="container border <#if isIndex>mr-3</#if>" style="width: 300px; padding: 25px; background: #fff;"> -->
+
         <div class="row mb-2">
             <div class="col text-center">
                 <h5>Впервые в SocialNetwork?</h5>
@@ -10,7 +11,7 @@
 
         <form action="/registration" method="post">
             <div class="form-group row">
-                <div class="col-sm">
+                <div class="col">
                     <input type="text" name="firstName" placeholder="Ваше имя"
                            value="<#if userPersonalDataDto?? && userPersonalDataDto.firstName??>${userPersonalDataDto.firstName}</#if>"
                            class="form-control ${(firstNameError??)?string('is-invalid', '')}"/>
@@ -22,7 +23,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-sm">
+                <div class="col">
                     <input type="text" name="lastName" placeholder="Ваша фамилия"
                            value="<#if userPersonalDataDto?? && userPersonalDataDto.lastName??>${userPersonalDataDto.lastName}</#if>"
                            class="form-control ${(lastNameError??)?string('is-invalid', '')}"/>
@@ -35,7 +36,7 @@
             </div>
 
             <div class="form-group row">
-                <div class="col-sm">
+                <div class="col">
                     <select class="custom-select ${(cityIdError??)?string('is-invalid', '')}" name="cityId" >
                         <#if selectedCity??>
                             <option value="${selectedCity.id}" selected>${selectedCity.name}</option>
@@ -56,7 +57,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-sm">
+                <div class="col">
                     <label for="dateBirth" class="mb-1" style="font-size: 14px; color: #626d7a; line-height: 20px;">Дата
                         рождения</label>
                     <input type="date" name="dateBirth" id="dateBirth" placeholder="Дата рождения"
@@ -75,7 +76,7 @@
                 регистрацию
             </button>
         </form>
-    </div>
+
 </#macro>
 
 
