@@ -15,13 +15,13 @@
         </div>
         <div class="col-4">
             <div class="row">
-                <div class="col p-4 border" style="background: #fff">
+                <div class="col p-4 bg-white border rounded">
                     <@login.authorization/>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col mt-4 p-4 border" style="background: #fff">
+                <div class="col mt-4 p-4 bg-white border rounded">
                     <@registration.personalDataFillingForm true/>
                 </div>
             </div>

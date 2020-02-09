@@ -33,19 +33,17 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public void addUser(UserDto userDto, UserPersonalDataDto personalDataDto) {
         User user = userDto.convert();
-        UserPersonalData personalData = personalDataDto.convert(this);
-        personalData.setUser(user);
-        //user.setPersonalData(personalData);
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
-        user = userRepository.findByLogin(user.getLogin());
+        UserPersonalData personalData = personalDataDto.convert(this);
         personalData.setUser(user);
         personalDataRepository.save(personalData);
 
+        user.setPersonalData(personalData);
     }
 
     @Override

@@ -4,7 +4,7 @@
 
 <@common.page>
     <div class="row justify-content-center">
-        <div class="col-4 p-4 border" style="background: #fff">
+        <div class="col-4 p-4 bg-white border rounded">
             <#if !nextRegistrationStep??>
                 <@registration.personalDataFillingForm false/>
             <#else>

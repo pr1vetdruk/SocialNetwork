@@ -1,6 +1,5 @@
 
 <#macro personalDataFillingForm isIndex>
-    <!-- <div class="container border <#if isIndex>mr-3</#if>" style="width: 300px; padding: 25px; background: #fff;"> -->
         <div class="row mb-2">
             <div class="col text-center">
                 <h5>Впервые в SocialNetwork?</h5>

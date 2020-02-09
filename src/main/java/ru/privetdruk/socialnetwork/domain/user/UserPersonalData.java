@@ -7,29 +7,25 @@ import ru.privetdruk.socialnetwork.domain.City;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "user_personal_data_dbt")
-public class UserPersonalData {
+public class UserPersonalData implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @NotBlank(message = "{validation.global.empty}")
     private String firstName;
-    @NotBlank(message = "{validation.global.empty}")
-    @Length(min = 2, max = 32, message = "{valid.registration.lastName.size}")
     private String lastName;
     @OneToOne
     @JoinColumn(name = "city_id")
-    @NotNull(message = "{validation.global.empty}")
     private City city;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @NotNull(message = "{validation.global.empty}")
     private Date dateBirth;
 
     public Long getId() {

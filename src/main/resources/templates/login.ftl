@@ -3,7 +3,7 @@
 
 <@common.page>
     <div class="row justify-content-center">
-        <div class="col-4 border" style="background: #fff">
+        <div class="col-4 bg-white border rounded">
             <div class="row">
                 <div class="col pt-3 text-center">
                     <h5>Вход в SocialNetwork</h5>
