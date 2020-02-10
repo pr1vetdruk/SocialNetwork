@@ -18,7 +18,16 @@ public class ProfileController {
 
     @GetMapping("/id{id}")
     public String showProfile(@AuthenticationPrincipal User authorizedUser, @PathVariable Long id, Model model) {
-        //User user = userService.
+        if (authorizedUser.getId().equals(id)) {
+            model.addAttribute("user", authorizedUser);
+        } else {
+            User user = userService.findById(id);
+            if (user == null) {
+                return "/error/4xx/404";
+            }
+
+        }
+
         return "profile";
     }
 }

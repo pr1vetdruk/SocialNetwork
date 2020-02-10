@@ -36,12 +36,24 @@
 
 
         </div>
-        <div class="col-5">
+        <div class="col-7">
             <div class="row">
                 <div class="col bg-white border rounded">
                     <h5>${personalData.lastName} ${personalData.firstName}</h5>
+                    <p>123</p>
+                    <p>123</p>
+                    <p>123</p>
+                    <p>123</p>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col bg-white mt-3 border rounded">
+                    <#include "parts/message/message-edit.ftl"/>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </@common.page>

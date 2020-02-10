@@ -1,5 +1,4 @@
 <#macro authorization>
-    <!--class="container mr-3  mb-3 border"-->
         <form action="/login" method="post">
             <div class="form-group row">
                 <div class="col">
