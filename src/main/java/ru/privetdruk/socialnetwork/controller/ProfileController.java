@@ -25,7 +25,7 @@ public class ProfileController {
             if (user == null) {
                 return "/error/4xx/404";
             }
-
+            model.addAttribute("user", user);
         }
 
         return "profile";

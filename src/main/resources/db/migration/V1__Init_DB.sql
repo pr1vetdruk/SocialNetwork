@@ -35,3 +35,15 @@ create table user_personal_data_dbt
     date_birth timestamp without time zone not null,
     primary key (id)
 );
+
+create table publication_dbt
+(
+    id            BIGSERIAL,
+    user_id       int8                        not null references user_dbt,
+    text          varchar(2048)               not null,
+    tag           varchar(255),
+    file_name      varchar(255),
+    date_creation timestamp without time zone not null,
+    date_change   timestamp without time zone,
+    primary key (id)
+);

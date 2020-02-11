@@ -2,6 +2,7 @@ package ru.privetdruk.socialnetwork.domain.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.privetdruk.socialnetwork.domain.Publication;
 import ru.privetdruk.socialnetwork.domain.Role;
 
 import javax.persistence.*;
@@ -29,6 +30,9 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private UserPersonalData personalData;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Publication> messages;
 
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);

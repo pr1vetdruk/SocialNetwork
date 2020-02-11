@@ -1,5 +1,3 @@
-
-
 <form method="post" enctype="multipart/form-data">
     <div class="form-group mt-3">
         <input type="text" name="text" placeholder="Что у вас нового?"
@@ -12,34 +10,34 @@
             </div>
         </#if>
     </div>
-    <div class="collapse <#if message??>show</#if>" id="addNewMessage">
-        <div class="form-group">
-            <input type="text" name="tag" placeholder="Тэг"
-                   class="form-control form-control-sm ${(tagError??)?string('is-invalid', '')}"
-                   value="<#if message??>${message.tag}</#if>"/>
-            <#if tagError??>
-                <div class="invalid-feedback">
-                    ${tagError}
-                </div>
-            </#if>
-        </div>
+    <div class="collapse" id="addNewMessage">
         <div class="form-row">
-            <div class="col-8">
+            <div class="col-2">
+                <input type="text" name="tag" placeholder="Тэг"
+                       class="form-control ${(tagError??)?string('is-invalid', '')}"
+                       value="<#if message??>${message.tag}</#if>"/>
+                <#if tagError??>
+                    <div class="invalid-feedback">
+                        ${tagError}
+                    </div>
+                </#if>
+            </div>
+            <div class="col">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="myInput" aria-describedby="myInput">
-                    <label class="custom-file-label" for="myInput">Загрузить изображение</label>
+                    <input type="file" class="custom-file-input" id="downloadImg" aria-describedby="downloadImg">
+                    <label class="custom-file-label" for="downloadImg">Изображение</label>
                 </div>
 
                 <script>
-                    document.querySelector('.custom-file-input').addEventListener('change',function(e){
-                        var fileName = document.getElementById("myInput").files[0].name;
-                        var nextSibling = e.target.nextElementSibling
-                        nextSibling.innerText = fileName
+                    document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+                        var fileName = document.getElementById("downloadImg").files[0].name;
+                        var nextSibling = e.target.nextElementSibling;
+                        nextSibling.innerText = fileName;
                     })
                 </script>
             </div>
 
-            <div class="col">
+            <div class="col-4">
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                 <input type="hidden" name="id" value="<#if message??>${message.id}</#if>"/>
                 <div class="form-group">
@@ -47,6 +45,5 @@
                 </div>
             </div>
         </div>
-
     </div>
 </form>

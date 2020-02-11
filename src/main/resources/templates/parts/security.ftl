@@ -2,7 +2,7 @@
 
 <#if know>
     <#assign
-    user = Session.SPRING_SECURITY_CONTEXT.authentication.principal,
-    personalData = user.getPersonalData()
+    authorizedUser = Session.SPRING_SECURITY_CONTEXT.authentication.principal,
+    personalData = authorizedUser.getPersonalData()
     >
 </#if>
