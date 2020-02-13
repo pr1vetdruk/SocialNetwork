@@ -15,7 +15,6 @@
             <div class="col-2">
                 <input type="text" name="tag" placeholder="Тэг"
                        class="form-control ${(tagError??)?string('is-invalid', '')}"
-                       value="<#if message??>${message.tag}</#if>"/>
                 <#if tagError??>
                     <div class="invalid-feedback">
                         ${tagError}

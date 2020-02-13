@@ -4,7 +4,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import ru.privetdruk.socialnetwork.utils.SessionUtils;
+import ru.privetdruk.socialnetwork.util.SessionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 

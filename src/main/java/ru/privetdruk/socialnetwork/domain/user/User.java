@@ -32,7 +32,7 @@ public class User implements UserDetails {
     private UserPersonalData personalData;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Publication> messages;
+    private Set<Publication> publications;
 
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
@@ -100,6 +100,14 @@ public class User implements UserDetails {
 
     public void setPersonalData(UserPersonalData personalData) {
         this.personalData = personalData;
+    }
+
+    public Set<Publication> getPublications() {
+        return publications;
+    }
+
+    public void setPublications(Set<Publication> publications) {
+        this.publications = publications;
     }
 
     @Override

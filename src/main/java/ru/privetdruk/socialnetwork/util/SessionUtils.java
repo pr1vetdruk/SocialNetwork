@@ -1,4 +1,4 @@
-package ru.privetdruk.socialnetwork.utils;
+package ru.privetdruk.socialnetwork.util;
 
 import javax.servlet.http.HttpSession;
 

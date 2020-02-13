@@ -21,14 +21,16 @@
         </div>
         <div class="col-3">
             <div class="card p-2">
-                <img src="../static/img/avatar/photo_2019-11-06_16-22-22.jpg" class="card-img-top" alt="...">
+                <img src="/img/photo_2019-11-06_16-22-22.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-9 p-0 mr-2">
-                            <a href="#" class="btn pt-1" style="width: 100%; font-size: 12.5px; height: 30px; background-color: #e5ebf1; color: #55677d;">Редактировать</a>
+                            <a href="#" class="btn pt-1"
+                               style="width: 100%; font-size: 12.5px; height: 30px; background-color: #e5ebf1; color: #55677d;">Редактировать</a>
                         </div>
                         <div class="col-2 p-0">
-                            <a href="#" class="btn pt-0" style="height: 30px; background-color: #e5ebf1; color: #55677d;">...</a>
+                            <a href="#" class="btn pt-0"
+                               style="height: 30px; background-color: #e5ebf1; color: #55677d;">...</a>
                         </div>
                     </div>
                 </div>
@@ -39,21 +41,35 @@
         <div class="col-7">
             <div class="row">
                 <div class="col bg-white border rounded">
-                    <h5>${personalData.lastName} ${personalData.firstName}</h5>
+                    <h5>${authorizedUser.personalData.lastName} ${authorizedUser.personalData.firstName}</h5>
                     <p>123</p>
                     <p>123</p>
                     <p>123</p>
                     <p>123</p>
                 </div>
             </div>
+
+            <#if authorizedUser.id == user.id>
+                <div class="row">
+                    <div class="col bg-white mt-3 border rounded">
+                        <#include "parts/message/message-edit.ftl"/>
+                    </div>
+                </div>
+            </#if>
 
             <div class="row">
                 <div class="col bg-white mt-3 border rounded">
-                    <#include "parts/message/message-edit.ftl"/>
+
+                        <div class="card my-3">
+                            <div class="m-2">
+                                ${publication.text}
+                            </div>
+
+                            <img src="/img/${publication.fileName}" class="card-img-top"/>
+                        </div>
+                    </#list>
                 </div>
             </div>
-
-
         </div>
     </div>
 </@common.page>

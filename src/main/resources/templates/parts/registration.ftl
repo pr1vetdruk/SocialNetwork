@@ -10,7 +10,7 @@
         <form action="/registration" method="post">
             <div class="form-group row">
                 <div class="col">
-                    <input type="text" name="firstName" placeholder="Ваше имя"
+                    <input type="text" name="firstName" placeholder="Ваше имя" autocomplete="off"
                            value="<#if userPersonalDataDto?? && userPersonalDataDto.firstName??>${userPersonalDataDto.firstName}</#if>"
                            class="form-control ${(firstNameError??)?string('is-invalid', '')}"/>
                     <#if firstNameError??>
@@ -22,7 +22,7 @@
             </div>
             <div class="form-group row">
                 <div class="col">
-                    <input type="text" name="lastName" placeholder="Ваша фамилия"
+                    <input type="text" name="lastName" placeholder="Ваша фамилия" autocomplete="off"
                            value="<#if userPersonalDataDto?? && userPersonalDataDto.lastName??>${userPersonalDataDto.lastName}</#if>"
                            class="form-control ${(lastNameError??)?string('is-invalid', '')}"/>
                     <#if lastNameError??>

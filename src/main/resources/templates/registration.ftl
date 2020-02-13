@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col">
-                            <input type="password" name="password" placeholder="Пароль" autocomplete="off"
+                            <input type="password" name="password" placeholder="Пароль"
                                    class="form-control ${(passwordError??)?string('is-invalid', '')}"/>
                             <#if passwordError??>
                                 <div class="invalid-feedback">

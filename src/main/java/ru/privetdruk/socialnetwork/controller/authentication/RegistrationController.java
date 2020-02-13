@@ -12,10 +12,9 @@ import ru.privetdruk.socialnetwork.domain.user.dto.UserDto;
 import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
 import ru.privetdruk.socialnetwork.service.authentication.RegistrationServiceImpl;
 import ru.privetdruk.socialnetwork.service.authentication.SecurityService;
-import ru.privetdruk.socialnetwork.utils.ControllerUtils;
+import ru.privetdruk.socialnetwork.util.ControllerUtils;
 import ru.privetdruk.socialnetwork.validator.RegistrationValidator;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Objects;
