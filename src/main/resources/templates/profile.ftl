@@ -57,19 +57,18 @@
                 </div>
             </#if>
 
-            <div class="row">
-                <div class="col bg-white mt-3 border rounded">
-
+            <#list publications as publication>
+                <div class="row">
+                    <div class="col bg-white mt-3 border rounded">
                         <div class="card my-3">
                             <div class="m-2">
                                 ${publication.text}
                             </div>
-
                             <img src="/img/${publication.fileName}" class="card-img-top"/>
                         </div>
-                    </#list>
+                    </div>
                 </div>
-            </div>
+            </#list>
         </div>
     </div>
 </@common.page>

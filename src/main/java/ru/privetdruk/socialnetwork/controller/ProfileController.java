@@ -4,14 +4,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import ru.privetdruk.socialnetwork.domain.PublicationDto;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.service.user.UserService;
 import ru.privetdruk.socialnetwork.util.ResponseStatusUtils;
+
+import javax.validation.Valid;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("/id{user}")
@@ -33,7 +36,11 @@ public class ProfileController {
     }
 
     @PostMapping
-    public String addPublication(@AuthenticationPrincipal User authorizedUser, Model model) {
+    public String addPublication(@AuthenticationPrincipal User authorizedUser,
+                                 @Valid PublicationDto publicationDto,
+                                 BindingResult bindingResult,
+                                 Model model) {
+
         return "profile";
     }
 }

@@ -41,7 +41,7 @@ create table publication_dbt
     id            BIGSERIAL,
     user_id       int8                        not null references user_dbt,
     text          varchar(2048)               not null,
-    tag           varchar(255),
+    tag           varchar(32),
     file_name      varchar(255),
     date_creation timestamp without time zone not null,
     date_change   timestamp without time zone,

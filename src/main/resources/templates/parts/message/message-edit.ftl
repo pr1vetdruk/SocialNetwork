@@ -14,7 +14,7 @@
         <div class="form-row">
             <div class="col-2">
                 <input type="text" name="tag" placeholder="Тэг"
-                       class="form-control ${(tagError??)?string('is-invalid', '')}"
+                       class="form-control ${(tagError??)?string('is-invalid', '')}"/>
                 <#if tagError??>
                     <div class="invalid-feedback">
                         ${tagError}
