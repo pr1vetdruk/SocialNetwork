@@ -23,13 +23,13 @@
             </div>
             <div class="col">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="downloadImg" aria-describedby="downloadImg">
-                    <label class="custom-file-label" for="downloadImg">Изображение</label>
+                    <input type="file" class="custom-file-input" name="image" id="image" aria-describedby="image">
+                    <label class="custom-file-label" for="image">Изображение</label>
                 </div>
 
                 <script>
                     document.querySelector('.custom-file-input').addEventListener('change', function (e) {
-                        var fileName = document.getElementById("downloadImg").files[0].name;
+                        var fileName = document.getElementById("image").files[0].name;
                         var nextSibling = e.target.nextElementSibling;
                         nextSibling.innerText = fileName;
                     })

@@ -1,4 +1,4 @@
-package ru.privetdruk.socialnetwork.service.authentication;
+package ru.privetdruk.socialnetwork.service.authentication.impl;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,7 @@ import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
 import ru.privetdruk.socialnetwork.repository.CityRepository;
 import ru.privetdruk.socialnetwork.repository.UserPersonalDataRepository;
 import ru.privetdruk.socialnetwork.repository.UserRepository;
+import ru.privetdruk.socialnetwork.service.authentication.RegistrationService;
 
 import java.util.Collections;
 import java.util.UUID;

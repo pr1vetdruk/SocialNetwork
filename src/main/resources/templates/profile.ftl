@@ -6,7 +6,7 @@
         <div class="col-2">
             <ul class="nav flex-column" style="font-size: 14px">
                 <li class="nav-item">
-                    <a class="nav-link p-1" href="/id${user.id}">Моя страница</a>
+                    <a class="nav-link p-1" href="/id${pageOwner.id}">Моя страница</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link p-1" href="#">Новости</a>
@@ -41,7 +41,7 @@
         <div class="col-7">
             <div class="row">
                 <div class="col bg-white border rounded">
-                    <h5>${authorizedUser.personalData.lastName} ${authorizedUser.personalData.firstName}</h5>
+                    <h5>${pageOwner.personalData.lastName} ${pageOwner.personalData.firstName}</h5>
                     <p>123</p>
                     <p>123</p>
                     <p>123</p>
@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            <#if authorizedUser.id == user.id>
+            <#if authorizedUser.id == pageOwner.id>
                 <div class="row">
                     <div class="col bg-white mt-3 border rounded">
                         <#include "parts/message/message-edit.ftl"/>
@@ -64,7 +64,10 @@
                             <div class="m-2">
                                 ${publication.text}
                             </div>
-                            <img src="/img/${publication.fileName}" class="card-img-top"/>
+                            <#if publication.fileName?has_content>
+                                <img src="/img/${publication.fileName}" class="card-img-top"/>
+                            </#if>
+
                         </div>
                     </div>
                 </div>

@@ -32,6 +32,7 @@ public class User implements UserDetails {
     private UserPersonalData personalData;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy("id desc")
     private Set<Publication> publications;
 
     public boolean isAdmin() {
