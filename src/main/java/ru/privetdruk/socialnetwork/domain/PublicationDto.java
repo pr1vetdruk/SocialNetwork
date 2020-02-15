@@ -1,6 +1,7 @@
 package ru.privetdruk.socialnetwork.domain;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -30,7 +31,7 @@ public class PublicationDto {
     }
 
     public void setText(String text) {
-        this.text = text;
+        this.text = StringUtils.isEmpty(text) ? null : text;
     }
 
     public String getTag() {

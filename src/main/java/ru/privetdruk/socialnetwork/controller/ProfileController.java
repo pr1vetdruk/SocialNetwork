@@ -45,6 +45,7 @@ public class ProfileController {
             profileService.savePublication(authorizedUser, publicationDto, image);
         }
 
+        model.addAttribute("publications", user.getPublications());
         model.addAttribute("pageOwner", user);
 
         return "profile";

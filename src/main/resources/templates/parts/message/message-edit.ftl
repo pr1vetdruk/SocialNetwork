@@ -3,7 +3,7 @@
         <input type="text" name="text" placeholder="Что у вас нового?"
                autocomplete="off" role="button" data-toggle="collapse" aria-expanded="false"
                aria-controls="collapseExample" href="#addNewMessage"
-               class="form-control form-control-sm border-0 ${(textError??)?string('is-invalid', '')}"/>
+               class="form-control form-control-sm ${(textError??)?string('', 'border-0')} ${(textError??)?string('is-invalid', '')}"/>
         <#if textError??>
             <div class="invalid-feedback">
                 ${textError}
