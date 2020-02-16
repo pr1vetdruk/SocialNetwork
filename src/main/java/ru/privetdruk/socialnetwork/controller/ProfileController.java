@@ -41,13 +41,12 @@ public class ProfileController {
                                  @RequestParam("image") MultipartFile image) {
         if (bindingResult.hasErrors()) {
             model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
+            model.addAttribute("publications", user.getPublications());
+            model.addAttribute("pageOwner", user);
+            return "profile";
         } else {
             profileService.savePublication(authorizedUser, publicationDto, image);
+            return "redirect:/id" + user.getId();
         }
-
-        model.addAttribute("publications", user.getPublications());
-        model.addAttribute("pageOwner", user);
-
-        return "profile";
     }
 }

@@ -40,7 +40,7 @@
         </div>
         <div class="col-7">
             <div class="row">
-                <div class="col bg-white border rounded">
+                <div class="col p-3 bg-white border rounded">
                     <h5>${pageOwner.personalData.lastName} ${pageOwner.personalData.firstName}</h5>
                     <p>123</p>
                     <p>123</p>
