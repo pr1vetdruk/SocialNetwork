@@ -1,9 +1,36 @@
-.forgot {
-    display: inline-block;
-}
-
+/*
+ * Глобальные
+ */
 a {
     color: #2a5885;
     text-decoration: none;
     cursor: pointer;
+}
+
+p {
+    font-size: 14px;
+    color: #626d7a;
+    line-height: 20px;
+}
+
+/*
+ * Основное меню
+ */
+.main-menu {
+    font-size: 14px;
+    padding: 5px;
+}
+
+.main-menu:hover {
+    background-color: #e2e6ec;
+}
+
+.main-menu:hover a {
+    color: #2a5885;
+    text-decoration: none;
+}
+
+
+.forgot {
+    display: inline-block;
 }

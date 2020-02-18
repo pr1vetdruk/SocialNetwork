@@ -8,7 +8,7 @@
             <div>
                 <h2>Social network</h2>
             </div>
-            <div style="font-size: 14px; color: #626d7a; line-height: 20px;">
+            <div>
                 <p>Социальная сеть на коленке.</p>
                 <img src="../static/img/phone.jpg"/>
             </div>

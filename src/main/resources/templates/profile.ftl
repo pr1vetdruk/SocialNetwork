@@ -3,41 +3,77 @@
 
 <@common.page>
     <div class="row justify-content-center">
-        <div class="col-2 m-0 p-0">
-            <ul class="nav flex-column m-0 p-0" style="font-size: 14px">
-                <li class="nav-item">
-                    <a class="nav-link p-1" href="/id${pageOwner.id}">
-                        <span class="float-left mr-1"><img src="../static/img/menu/main.png" width="20" height="20"></span>
-                        <span>Моя страница</span>
-                        <span class="badge badge-primary badge-pill float-right"></span>
+        <div class="col-2 pr-2 pl-2">
+            <div class="row main-menu">
+                <div class="col">
+                    <a href="/id${pageOwner.id}">
+                        <div class="row">
+                            <div class="col-2 p-0">
+                                <img src="../static/img/menu/main.png" width="15" height="15">
+                            </div>
+                            <div class="col p-0">
+                                Моя страница
+                            </div>
+                        </div>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link p-1" href="#">
-                        <span class="float-left mr-1"><img src="../static/img/menu/news.png" width="20" height="20"></span>
-                        <span>Новости</span>
-                        <span class="badge badge-primary badge-pill float-right"></span>
+                </div>
+            </div>
+
+            <div class="row main-menu">
+                <div class="col">
+                    <a href="#">
+                        <div class="row">
+                            <div class="col-2 p-0">
+                                <img src="../static/img/menu/news.png" width="15" height="15">
+                            </div>
+                            <div class="col p-0">
+                                Новости
+                            </div>
+                        </div>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link  p-1" href="#">
-                        <span class=" mr-1"><img src="../static/img/menu/messages.png" width="20" height="20"></span>
-                        <span class="">Сообщения</span>
-                        <span class="badge badge-primary badge-pill float-right">6</span>
+                </div>
+            </div>
+
+            <div class="row main-menu">
+                <div class="col">
+                    <a href="#">
+                        <div class="row">
+                            <div class="col-2 p-0">
+                                <img src="../static/img/menu/messages.png" width="15" height="15">
+                            </div>
+                            <div class="col p-0">
+                                Сообщения
+                            </div>
+                            <div class="col-2 p-0">
+                                <span class="badge badge-primary badge-pill">6</span>
+                            </div>
+                        </div>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link p-1" href="#">
-                        <span class="float-left mr-1"><img src="../static/img/menu/contacts.png" width="20" height="20"></span>
-                        <span>Друзья</span>
-                        <span class="badge badge-primary badge-pill float-right">1</span>
+                </div>
+            </div>
+
+            <div class="row main-menu">
+                <div class="col">
+                    <a href="#">
+                        <div class="row">
+                            <div class="col-2 p-0">
+                                <img src="../static/img/menu/contacts.png" width="15" height="15">
+                            </div>
+                            <div class="col p-0">
+                                Друзья
+                            </div>
+                            <div class="col-2 p-0">
+                                <span class="badge badge-primary badge-pill">1</span>
+                            </div>
+                        </div>
                     </a>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
-        <div class="col-3 border">
+
+        <div class="col-3">
             <div class="card p-2">
-                <img src="/img/photo_2019-11-06_16-22-22.jpg" class="card-img-top" alt="...">
+                <img src="/img/photo_2019-11-06_16-22-22.jpg" class="card-img-top" alt="avatar">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-9 p-0 mr-2">
@@ -57,7 +93,7 @@
         <div class="col">
             <div class="row">
                 <div class="col p-3 bg-white border rounded">
-                    <h5>${pageOwner.personalData.lastName} ${pageOwner.personalData.firstName}</h5>
+                    <h5>${pageOwner.personalData.firstName} ${pageOwner.personalData.lastName}</h5>
                     <div class="dropdown-divider"></div>
                     <p>123</p>
                     <p>123</p>
@@ -78,6 +114,21 @@
                 <div class="row">
                     <div class="col bg-white mt-3 border rounded">
                         <div class="card border-0">
+                            <div class="row pt-3">
+                                <div class="col-2">
+                                    <img src="/img/photo_2019-11-06_16-22-22.jpg" class="card-img-top rounded-circle"
+                                         alt="avatar">
+                                </div>
+                                <div class="col pl-0">
+                                    <a href="/id${pageOwner.id}">
+                                        ${pageOwner.personalData.firstName} ${pageOwner.personalData.lastName}
+                                    </a>
+                                    <p>${publication.dateCreation?date}</p>
+                                </div>
+                                <div class="col-1">
+                                    v
+                                </div>
+                            </div>
                             <div class="m-2">
                                 ${publication.text}
                             </div>
