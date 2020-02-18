@@ -27,4 +27,9 @@ public class ProfileServiceImpl implements ProfileService {
         publication.setAuthor(author);
         publicationRepository.save(publication);
     }
+
+    @Override
+    public void deletePublication(Publication publication) {
+        publicationRepository.delete(publication);
+    }
 }

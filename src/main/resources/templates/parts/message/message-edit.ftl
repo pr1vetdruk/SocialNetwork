@@ -38,7 +38,7 @@
 
             <div class="col-4">
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                <input type="hidden" name="id" value="<#if message??>${message.id}</#if>"/>
+                <input type="hidden" name="id" value="<#if publication??>${publication.id}</#if>"/>
                 <div class="form-group">
                     <button type="submit" class="btn" style="width: 100%">Опубликовать</button>
                 </div>

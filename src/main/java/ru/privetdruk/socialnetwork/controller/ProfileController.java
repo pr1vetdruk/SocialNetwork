@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.privetdruk.socialnetwork.domain.Publication;
 import ru.privetdruk.socialnetwork.domain.PublicationDto;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.service.ProfileService;
@@ -30,6 +31,13 @@ public class ProfileController {
         model.addAttribute("publications", user.getPublications());
         model.addAttribute("pageOwner", user);
         return "profile";
+    }
+
+    @GetMapping("/publications/")
+    public String deletePublication(@AuthenticationPrincipal User authorizedUser, @RequestParam Publication publication) {
+        if (authorizedUser.equals(publication.getAuthor()))
+            profileService.deletePublication(publication);
+        return "redirect:/id" + publication.getAuthor().getId();
     }
 
     @PostMapping

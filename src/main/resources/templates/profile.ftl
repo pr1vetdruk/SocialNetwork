@@ -126,19 +126,40 @@
                                     <p>${publication.dateCreation?date}</p>
                                 </div>
                                 <div class="col-1">
-                                    v
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item" href="/id${publication.author.id}/publications/?publication=${publication.id}">Удалить запись</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="m-2">
-                                ${publication.text}
+                            <div class="row pt-2">
+                                <div class="col">
+                                    ${publication.text}
+                                </div>
                             </div>
 
                             <#if publication.fileName?has_content>
-                                <div class="mb-3">
+                                <div class="mb-1">
                                     <img src="/img/${publication.fileName}" class="card-img-top"/>
                                 </div>
                             </#if>
 
+                            <div class="dropdown-divider"></div>
+
+                            <div class="row pb-2">
+                                <div class="col-1">
+                                    L
+                                </div>
+                                <div class="col-2">
+                                    123
+                                </div>
+                                <div class="col">
+                                    Repost
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
