@@ -3,7 +3,7 @@
 <#import "parts/registration.ftl" as registration>
 
 <@common.page>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-5">
         <div class="col-8">
             <div>
                 <h2>Social network</h2>

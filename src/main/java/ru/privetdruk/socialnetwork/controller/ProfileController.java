@@ -26,7 +26,7 @@ public class ProfileController {
     }
 
     @GetMapping
-    public String showProfile(@PathVariable User user, Model model) {
+    public String showProfile(@AuthenticationPrincipal User authorizedUser, @PathVariable User user, Model model) {
         ResponseStatusUtils.pageExistenceForObject(user);
         model.addAttribute("publications", user.getPublications());
         model.addAttribute("pageOwner", user);

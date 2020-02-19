@@ -6,6 +6,8 @@ import ru.privetdruk.socialnetwork.domain.user.User;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "publication_dbt")
@@ -25,6 +27,14 @@ public class Publication implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
+
+    @OneToMany
+    @JoinTable(
+            name = "publication_likes_dbt",
+            joinColumns = { @JoinColumn(name = "publication_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+    private Set<User> likes = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -80,5 +90,13 @@ public class Publication implements Serializable {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Set<User> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<User> likes) {
+        this.likes = likes;
     }
 }

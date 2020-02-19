@@ -23,11 +23,22 @@ p {
 
 .main-menu:hover {
     background-color: #e2e6ec;
+    color: #2a5885;
+    text-decoration: none;
 }
 
 .main-menu:hover a {
     color: #2a5885;
-    text-decoration: none;
+}
+
+.main-menu-img {
+    padding-left: 5px;
+    padding-top: 3px;
+    margin-bottom: 5px;
+}
+
+.main-menu-text {
+    padding: 0;
 }
 
 

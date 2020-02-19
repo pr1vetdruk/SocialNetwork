@@ -4,71 +4,56 @@
 <@common.page>
     <div class="row justify-content-center">
         <div class="col-2 pr-2 pl-2">
-            <div class="row main-menu">
-                <div class="col">
-                    <a href="/id${pageOwner.id}">
-                        <div class="row">
-                            <div class="col-2 p-0">
-                                <img src="../static/img/menu/main.png" width="15" height="15">
-                            </div>
-                            <div class="col p-0">
-                                Моя страница
-                            </div>
-                        </div>
-                    </a>
+            <a class="row main-menu" href="/id${pageOwner.id}">
+                <div class="col-2 p-0">
+                    <img class="main-menu-img" src="../static/img/icon/home.png">
                 </div>
-            </div>
+                <div class="col main-menu-text">
+                    Моя страница
+                </div>
+            </a>
 
-            <div class="row main-menu">
-                <div class="col">
-                    <a href="#">
-                        <div class="row">
-                            <div class="col-2 p-0">
-                                <img src="../static/img/menu/news.png" width="15" height="15">
-                            </div>
-                            <div class="col p-0">
-                                Новости
-                            </div>
-                        </div>
-                    </a>
+            <a class="row main-menu" href="#">
+                <div class="col-2 p-0">
+                    <img class="main-menu-img" src="../static/img/icon/news.png">
                 </div>
-            </div>
+                <div class="col main-menu-text">
+                    Новости
+                </div>
+            </a>
 
-            <div class="row main-menu">
-                <div class="col">
-                    <a href="#">
-                        <div class="row">
-                            <div class="col-2 p-0">
-                                <img src="../static/img/menu/messages.png" width="15" height="15">
-                            </div>
-                            <div class="col p-0">
-                                Сообщения
-                            </div>
-                            <div class="col-2 p-0">
-                                <span class="badge badge-primary badge-pill">6</span>
-                            </div>
-                        </div>
-                    </a>
+            <a class="row main-menu" href="#">
+                <div class="col-2 p-0">
+                    <img class="main-menu-img" src="../static/img/icon/messages.png">
                 </div>
-            </div>
+                <div class="col main-menu-text">
+                    Сообщения
+                </div>
+                <div class="col-2 p-0">
+                    <span class="badge badge-primary badge-pill">6</span>
+                </div>
+            </a>
 
-            <div class="row main-menu">
-                <div class="col">
-                    <a href="#">
-                        <div class="row">
-                            <div class="col-2 p-0">
-                                <img src="../static/img/menu/contacts.png" width="15" height="15">
-                            </div>
-                            <div class="col p-0">
-                                Друзья
-                            </div>
-                            <div class="col-2 p-0">
-                                <span class="badge badge-primary badge-pill">1</span>
-                            </div>
-                        </div>
-                    </a>
+            <a class="row main-menu" href="#">
+                <div class="col-2 p-0">
+                    <img class="main-menu-img" src="../static/img/icon/friends.png">
                 </div>
-            </div>
+                <div class="col main-menu-text">
+                    Друзья
+                </div>
+                <div class="col-2 p-0">
+                    <span class="badge badge-primary badge-pill">1</span>
+                </div>
+            </a>
+
+            <a class="row main-menu" href="#">
+                <div class="col-2 p-0">
+                    <img class="main-menu-img" src="../static/img/icon/photo.png">
+                </div>
+                <div class="col main-menu-text">
+                    Фотографии
+                </div>
+            </a>
         </div>
 
         <div class="col-3">
@@ -127,10 +112,13 @@
                                 </div>
                                 <div class="col-1">
                                     <div class="dropdown">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
 
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item" href="/id${publication.author.id}/publications/?publication=${publication.id}">Удалить запись</a>
+                                            <a class="dropdown-item"
+                                               href="/id${publication.author.id}/publications/?publication=${publication.id}">Удалить
+                                                запись</a>
                                         </div>
                                     </div>
                                 </div>
@@ -143,21 +131,23 @@
 
                             <#if publication.fileName?has_content>
                                 <div class="mb-1">
-                                    <img src="/img/${publication.fileName}" class="card-img-top"/>
+                                    <img src="/img/${publication.fileName}" class="card-img-top" alt="mini-avatar"/>
                                 </div>
                             </#if>
 
                             <div class="dropdown-divider"></div>
 
                             <div class="row pb-2">
-                                <div class="col-1">
-                                    L
-                                </div>
                                 <div class="col-2">
-                                    123
+                                    <#if publication.isLikedAuthorizedUser>
+                                        <img class="main-menu-img" src="../static/img/icon/like.png" alt="like"> ${publication.numberLikes}
+                                    <#else>
+                                        <img class="main-menu-img" src="../static/img/icon/none-like.png" alt="none like"> 0
+                                    </#if>
+
                                 </div>
                                 <div class="col">
-                                    Repost
+                                    <img class="main-menu-img" src="../static/img/icon/repost.png" alt="repost">
                                 </div>
                             </div>
                         </div>
