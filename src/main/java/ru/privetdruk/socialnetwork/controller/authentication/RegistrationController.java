@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.domain.user.dto.UserDto;
 import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
-import ru.privetdruk.socialnetwork.service.authentication.impl.RegistrationServiceImpl;
 import ru.privetdruk.socialnetwork.service.authentication.SecurityService;
+import ru.privetdruk.socialnetwork.service.authentication.impl.RegistrationServiceImpl;
 import ru.privetdruk.socialnetwork.util.ControllerUtils;
 import ru.privetdruk.socialnetwork.validator.RegistrationValidator;
 

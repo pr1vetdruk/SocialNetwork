@@ -1,4 +1,5 @@
 <#import "parts/common.ftl" as common>
+<#import "parts/pager.ftl" as p>
 <#include "parts/security.ftl">
 
 <@common.page>
@@ -95,7 +96,19 @@
                 </div>
             </#if>
 
-            <#list publications as publication>
+            <div class="row">
+                <form method="get" action="/id${pageOwner.id}" class="form-inline">
+                    <input type="text" name="filter" value="${filter?ifExists}" placeholder="Search by tag"
+                           class="form-control"/>
+                    <button type="submit" class="btn btn-primary ml-2">Search</button>
+                </form>
+            </div>
+
+            <div class="row">
+                <@p.pager url pagePublications/>
+            </div>
+
+            <#list pagePublications.content as publication>
                 <div class="row">
                     <div class="col bg-white mt-3 border rounded">
                         <div class="card border-0">
@@ -129,7 +142,7 @@
                                 </div>
                             </div>
 
-                            <#if publication.fileName?has_content>
+                            <#if publication.fileName?hasContent>
                                 <div class="mb-1">
                                     <img src="/img/${publication.fileName}" class="card-img-top" alt="mini-avatar"/>
                                 </div>
