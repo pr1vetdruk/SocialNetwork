@@ -2,7 +2,6 @@ package ru.privetdruk.socialnetwork.domain.user.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.StringUtils;
-import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
 import ru.privetdruk.socialnetwork.service.authentication.RegistrationService;
 import ru.privetdruk.socialnetwork.validator.annotation.DateBirth;

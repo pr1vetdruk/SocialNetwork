@@ -6,6 +6,7 @@ import ru.privetdruk.socialnetwork.domain.user.User;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 public class UserDto {
     @NotBlank(message = "{validation.global.notEmpty}")
@@ -32,6 +33,7 @@ public class UserDto {
         user.setLogin(this.login);
         user.setPassword(this.password);
         user.setEmail(this.email);
+        user.setDateCreation(new Date());
         return user;
     }
 

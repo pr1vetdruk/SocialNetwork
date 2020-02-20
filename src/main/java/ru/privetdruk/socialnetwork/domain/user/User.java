@@ -1,5 +1,6 @@
 package ru.privetdruk.socialnetwork.domain.user;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.privetdruk.socialnetwork.domain.Publication;
@@ -7,6 +8,7 @@ import ru.privetdruk.socialnetwork.domain.Role;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -35,9 +37,10 @@ public class User implements UserDetails {
     @OrderBy("id desc")
     private Set<Publication> publications;
 
-    public boolean isAdmin() {
-        return roles.contains(Role.ADMIN);
-    }
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date dateCreation;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date dateChange;
 
     public Long getId() {
         return id;
@@ -109,6 +112,22 @@ public class User implements UserDetails {
 
     public void setPublications(Set<Publication> publications) {
         this.publications = publications;
+    }
+
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    public Date getDateChange() {
+        return dateChange;
+    }
+
+    public void setDateChange(Date dateChange) {
+        this.dateChange = dateChange;
     }
 
     @Override

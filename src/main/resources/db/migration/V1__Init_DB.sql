@@ -15,6 +15,8 @@ create table user_dbt
     active          boolean      not null,
     activation_code varchar(255) not null,
     email           varchar(255) not null,
+    date_creation timestamp without time zone not null,
+    date_change   timestamp without time zone,
     primary key (id)
 );
 
@@ -33,6 +35,8 @@ create table user_personal_data_dbt
     last_name  varchar(255)                not null,
     city_id    int2 references city_dbt    not null,
     date_birth timestamp without time zone not null,
+    date_creation timestamp without time zone not null,
+    date_change   timestamp without time zone,
     primary key (id)
 );
 
@@ -45,5 +49,14 @@ create table publication_dbt
     file_name      varchar(255),
     date_creation timestamp without time zone not null,
     date_change   timestamp without time zone,
+    primary key (id)
+);
+
+create table publication_likes_dbt
+(
+    id            BIGSERIAL,
+    publication_id bigint not null references publication_dbt,
+    user_id        bigint not null references user_dbt,
+    date_creation timestamp without time zone not null,
     primary key (id)
 );

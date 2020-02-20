@@ -1,12 +1,9 @@
 package ru.privetdruk.socialnetwork.domain.user;
 
-import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.privetdruk.socialnetwork.domain.City;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
