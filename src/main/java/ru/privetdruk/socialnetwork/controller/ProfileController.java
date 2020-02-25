@@ -11,6 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 import ru.privetdruk.socialnetwork.domain.Publication;
 import ru.privetdruk.socialnetwork.domain.PublicationDto;
 import ru.privetdruk.socialnetwork.domain.user.User;
@@ -18,8 +21,10 @@ import ru.privetdruk.socialnetwork.repository.PublicationRepository;
 import ru.privetdruk.socialnetwork.service.ProfileService;
 import ru.privetdruk.socialnetwork.util.ControllerUtils;
 import ru.privetdruk.socialnetwork.util.ResponseStatusUtils;
+import ru.privetdruk.socialnetwork.util.UriUtils;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/id{user}")
@@ -41,16 +46,8 @@ public class ProfileController {
                               @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         ResponseStatusUtils.pageExistenceForObject(user);
 
-        Page<Publication> pagePublications;
-
-        if (filter != null && !filter.isEmpty()) {
-            pagePublications = publicationRepository.findByAuthorAndTag(user, filter, pageable);
-        } else {
-            pagePublications = publicationRepository.findByAuthor(user, pageable);
-        }
-
         model.addAttribute("url", "/id" + user.getId());
-        model.addAttribute("pagePublications", pagePublications);
+        model.addAttribute("pagePublications", profileService.userPublicationList(user, pageable, filter));
         model.addAttribute("pageOwner", user);
         return "profile";
     }
@@ -60,6 +57,18 @@ public class ProfileController {
         if (authorizedUser.equals(publication.getAuthor()))
             profileService.deletePublication(publication);
         return "redirect:/id" + publication.getAuthor().getId();
+    }
+
+    @GetMapping("/publications/{publication}/like")
+    public String like(
+            @AuthenticationPrincipal User authorizedUser,
+            @PathVariable Publication publication,
+            RedirectAttributes redirectAttributes,
+            @RequestHeader(required = false) String referer
+    ) {
+        profileService.likePublication(authorizedUser, publication);
+
+        return "redirect:" + UriUtils.previousAddress(redirectAttributes, referer);
     }
 
     @PostMapping

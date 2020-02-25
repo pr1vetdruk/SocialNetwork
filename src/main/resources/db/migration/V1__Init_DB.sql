@@ -57,6 +57,6 @@ create table publication_likes_dbt
     id            BIGSERIAL,
     publication_id bigint not null references publication_dbt,
     user_id        bigint not null references user_dbt,
-    date_creation timestamp without time zone not null,
+    date_creation timestamp without time zone default CURRENT_DATE,
     primary key (id)
 );

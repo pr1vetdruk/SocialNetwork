@@ -151,14 +151,15 @@
                             <div class="dropdown-divider"></div>
 
                             <div class="row pb-2">
-                                <div class="col-2">
-                                    <#if publication.isLikedAuthorizedUser>
-                                        <img class="main-menu-img" src="../static/img/icon/like.png" alt="like"> ${publication.numberLikes}
-                                    <#else>
-                                        <img class="main-menu-img" src="../static/img/icon/none-like.png" alt="none like"> 0
-                                    </#if>
-
-                                </div>
+                                <a class="col-2" href="/id${pageOwner.id}/publications/${publication.id}/like">
+                                        <#if publication.getLikedAuthorizedUser()>
+                                            <img class="main-menu-img" src="../static/img/icon/like.png"
+                                                 alt="like"> ${publication.numberLikes}
+                                        <#else>
+                                            <img class="main-menu-img" src="../static/img/icon/none-like.png"
+                                                 alt="none like"> ${publication.numberLikes}
+                                        </#if>
+                                </a>
                                 <div class="col">
                                     <img class="main-menu-img" src="../static/img/icon/repost.png" alt="repost">
                                 </div>

@@ -28,7 +28,7 @@ public class Publication implements Serializable {
     @JoinColumn(name = "user_id")
     private User author;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name = "publication_likes_dbt",
             joinColumns = { @JoinColumn(name = "publication_id")},

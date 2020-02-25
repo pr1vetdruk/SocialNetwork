@@ -1,6 +1,9 @@
 package ru.privetdruk.socialnetwork.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.privetdruk.socialnetwork.domain.Publication;
@@ -8,6 +11,9 @@ import ru.privetdruk.socialnetwork.domain.PublicationDto;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.repository.PublicationRepository;
 import ru.privetdruk.socialnetwork.util.FileUtils;
+
+import javax.persistence.EntityManager;
+import java.util.Set;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
@@ -31,5 +37,22 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public void deletePublication(Publication publication) {
         publicationRepository.delete(publication);
+    }
+
+    @Override
+    public Page<PublicationDto> userPublicationList(User user, Pageable pageable, String filter) {
+        return filter != null && !filter.isEmpty() ?
+                publicationRepository.findByAuthorAndTag(user, filter, pageable) : publicationRepository.findByAuthor(user, pageable);
+    }
+
+    @Override
+    public void likePublication(User user, Publication publication) {
+        Set<User> likes = publication.getLikes();
+
+        if (likes.contains(user)) {
+            likes.remove(user);
+        } else {
+            likes.add(user);
+        }
     }
 }
