@@ -15,6 +15,7 @@ import ru.privetdruk.socialnetwork.repository.UserRepository;
 import ru.privetdruk.socialnetwork.service.authentication.RegistrationService;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.UUID;
 
 @Service

@@ -32,6 +32,9 @@ public class UserPersonalDataDto implements Serializable {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dateBirth;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date dateChange;
+
     public UserPersonalData convert(RegistrationService registrationService) {
         UserPersonalData personalData = new UserPersonalData();
         personalData.setFirstName(this.firstName);
@@ -42,8 +45,8 @@ public class UserPersonalDataDto implements Serializable {
     }
 
     public UserPersonalDataDto(String firstName, String lastName, Short cityId, Date dateBirth) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstName = StringUtils.isEmpty(firstName) ? null : firstName;
+        this.lastName = StringUtils.isEmpty(lastName) ? null : lastName;
         this.cityId = cityId;
         this.dateBirth = dateBirth;
     }
@@ -52,31 +55,19 @@ public class UserPersonalDataDto implements Serializable {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = StringUtils.isEmpty(firstName) ? null : firstName;
-    }
-
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = StringUtils.isEmpty(lastName) ? null : lastName;
     }
 
     public Short getCityId() {
         return cityId;
     }
 
-    public void setCityId(Short cityId) {
-        this.cityId = cityId;
-    }
-
     public Date getDateBirth() {
         return dateBirth;
     }
 
-    public void setDateBirth(Date dateBirth) {
-        this.dateBirth = dateBirth;
+    public Date getDateChange() {
+        return dateChange;
     }
 }

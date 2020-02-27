@@ -25,6 +25,9 @@ public class UserPersonalData implements Serializable {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dateBirth;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date dateChange;
+
     public Long getId() {
         return id;
     }
@@ -71,5 +74,13 @@ public class UserPersonalData implements Serializable {
 
     public void setDateBirth(Date dateBirth) {
         this.dateBirth = dateBirth;
+    }
+
+    public Date getDateChange() {
+        return dateChange;
+    }
+
+    public void setDateChange(Date dateChange) {
+        this.dateChange = dateChange;
     }
 }
