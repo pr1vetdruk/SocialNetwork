@@ -7,10 +7,7 @@ import ru.privetdruk.socialnetwork.domain.Publication;
 import ru.privetdruk.socialnetwork.domain.Role;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "user_dbt")
@@ -35,7 +32,7 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy("id desc")
-    private Set<Publication> publications;
+    private Set<Publication> publications = new HashSet<>();
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dateCreation;

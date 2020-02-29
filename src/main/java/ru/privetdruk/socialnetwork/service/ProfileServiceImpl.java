@@ -40,9 +40,10 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Page<PublicationDto> userPublicationList(User user, Pageable pageable, String filter) {
+    public Page<PublicationDto> userPublicationList(User author, User authorizedUser, Pageable pageable, String filter) {
         return filter != null && !filter.isEmpty() ?
-                publicationRepository.findByAuthorAndTag(user, filter, pageable) : publicationRepository.findByAuthor(user, pageable);
+                publicationRepository.findByAuthorAndTag(author, authorizedUser, filter, pageable) :
+                publicationRepository.findByAuthor(author, authorizedUser, pageable);
     }
 
     @Override

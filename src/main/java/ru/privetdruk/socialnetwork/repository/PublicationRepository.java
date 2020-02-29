@@ -11,16 +11,17 @@ import ru.privetdruk.socialnetwork.domain.user.User;
 
 public interface PublicationRepository extends CrudRepository<Publication, Long> {
     @Query("SELECT new ru.privetdruk.socialnetwork.domain.PublicationDto(publ, count(publ_likes), " +
-            "sum(case when publ_likes = :author then 1 else 0 end) > 0) " +
+            "sum(case when publ_likes = :authorizedUser then 1 else 0 end) > 0) " +
             "FROM Publication publ left join publ.likes publ_likes " +
             "WHERE publ.author = :author " +
             "GROUP BY publ")
-    Page<PublicationDto> findByAuthor(@Param("author") User author, Pageable pageable);
+    Page<PublicationDto> findByAuthor(@Param("author") User author, @Param("authorizedUser") User authorizedUser, Pageable pageable);
 
     @Query("SELECT new ru.privetdruk.socialnetwork.domain.PublicationDto(publ, count(publ_likes), " +
-            "sum(case when publ_likes = :author then 1 else 0 end) > 0) " +
+            "sum(case when publ_likes = :authorizedUser then 1 else 0 end) > 0) " +
             "FROM Publication publ left join publ.likes publ_likes " +
-            "WHERE publ.tag = :tag " +
+            "WHERE publ.author = :author " +
+            "AND publ.tag = :tag " +
             "GROUP BY publ")
-    Page<PublicationDto> findByAuthorAndTag(@Param("author") User author, @Param("tag") String tag, Pageable pageable);
+    Page<PublicationDto> findByAuthorAndTag(@Param("author") User author, @Param("authorizedUser") User authorizedUser, @Param("tag") String tag, Pageable pageable);
 }

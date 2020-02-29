@@ -47,7 +47,7 @@ public class ProfileController {
         ResponseStatusUtils.pageExistenceForObject(user);
 
         model.addAttribute("url", "/id" + user.getId());
-        model.addAttribute("pagePublications", profileService.userPublicationList(user, pageable, filter));
+        model.addAttribute("pagePublications", profileService.userPublicationList(user, authorizedUser, pageable, filter));
         model.addAttribute("pageOwner", user);
         return "profile";
     }
