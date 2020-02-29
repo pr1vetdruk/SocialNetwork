@@ -114,7 +114,7 @@
                         <div class="card border-0">
                             <div class="row pt-3">
                                 <div class="col-2">
-                                    <img src="/img/photo_2019-11-06_16-22-22.jpg" class="card-img-top rounded-circle"
+                                    <img src="/img/photo_2019-11-06_16-22-22.jpg" class="card-img-top rounded-circle" style="width: 60px"
                                          alt="avatar">
                                 </div>
                                 <div class="col pl-0">

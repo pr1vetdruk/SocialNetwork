@@ -29,12 +29,3 @@
             <div class="forgot"><a href="">Забыли пароль?</a></div>
         </form>
 </#macro>
-
-<#macro logout>
-    <div>
-        <form action="/logout" method="post">
-            <button class="btn btn-primary" type="submit"><#if user??>Sign Out<#else>Log in</#if></button>
-            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        </form>
-    </div>
-</#macro>

@@ -1,3 +1,4 @@
+<#include "security.ftl">
 <#macro page>
     <!DOCTYPE html>
     <html>
