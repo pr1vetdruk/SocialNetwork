@@ -10,7 +10,7 @@ import ru.privetdruk.socialnetwork.domain.user.User;
 public interface ProfileService {
     void savePublication(User author, PublicationDto publicationDto, MultipartFile image);
     void deletePublication(Publication publication);
-    Page<PublicationDto> userPublicationList(User author, User authorizedUser, Pageable pageable, String filter);
+    Page<PublicationDto> userPublicationList(Long authorId, Long authorizedUserId, String tag, Pageable pageable);
 
     void likePublication(User user, Publication publication);
 }

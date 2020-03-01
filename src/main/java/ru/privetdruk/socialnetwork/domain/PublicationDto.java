@@ -20,10 +20,10 @@ public class PublicationDto {
     private Date dateCreation = new Date();
     private Date dateChange;
     private User author;
-    private Long numberLikes;
+    private Long likes;
     private Boolean isLikedAuthorizedUser;
 
-    public PublicationDto(Publication publication, Long numberLikes, Boolean isLikedAuthorizedUser) {
+    public PublicationDto(Publication publication, Long likes, Boolean isLikedAuthorizedUser) {
         this.id = publication.getId();
         this.text = StringUtils.isEmpty(publication.getText()) ? null : publication.getText();
         this.tag = publication.getTag();
@@ -31,7 +31,7 @@ public class PublicationDto {
         this.dateCreation = publication.getDateCreation();
         this.dateChange = publication.getDateChange();
         this.author = publication.getAuthor();
-        this.numberLikes = numberLikes;
+        this.likes = likes;
         this.isLikedAuthorizedUser = isLikedAuthorizedUser;
     }
 
@@ -72,8 +72,8 @@ public class PublicationDto {
         return author;
     }
 
-    public Long getNumberLikes() {
-        return numberLikes;
+    public Long getLikes() {
+        return likes;
     }
 
     public Boolean getLikedAuthorizedUser() {
@@ -85,7 +85,7 @@ public class PublicationDto {
         return "PublicationDto{" +
                 "id=" + id +
                 ", author=" + author +
-                ", numberLikes=" + numberLikes +
+                ", numberLikes=" + likes +
                 ", isLikedAuthorizedUser=" + isLikedAuthorizedUser +
                 '}';
     }

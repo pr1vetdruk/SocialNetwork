@@ -40,14 +40,15 @@ public class ProfileController {
 
     @GetMapping
     public String showProfile(@AuthenticationPrincipal User authorizedUser,
-                              @RequestParam(required = false, defaultValue = "") String filter,
+                              @RequestParam(required = false, defaultValue = "") String tag,
                               @PathVariable User user,
                               Model model,
                               @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         ResponseStatusUtils.pageExistenceForObject(user);
 
         model.addAttribute("url", "/id" + user.getId());
-        model.addAttribute("pagePublications", profileService.userPublicationList(user, authorizedUser, pageable, filter));
+        model.addAttribute("filter", tag);
+        model.addAttribute("pagePublications", profileService.userPublicationList(user.getId(), authorizedUser.getId(), tag, pageable));
         model.addAttribute("pageOwner", user);
         return "profile";
     }

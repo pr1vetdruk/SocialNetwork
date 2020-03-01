@@ -10,18 +10,19 @@ import ru.privetdruk.socialnetwork.domain.PublicationDto;
 import ru.privetdruk.socialnetwork.domain.user.User;
 
 public interface PublicationRepository extends CrudRepository<Publication, Long> {
-    @Query("SELECT new ru.privetdruk.socialnetwork.domain.PublicationDto(publ, count(publ_likes), " +
-            "sum(case when publ_likes = :authorizedUser then 1 else 0 end) > 0) " +
-            "FROM Publication publ left join publ.likes publ_likes " +
-            "WHERE publ.author = :author " +
-            "GROUP BY publ")
-    Page<PublicationDto> findByAuthor(@Param("author") User author, @Param("authorizedUser") User authorizedUser, Pageable pageable);
+    @Query("SELECT new ru.privetdruk.socialnetwork.domain.PublicationDto(p, count(pl), " +
+            "sum(case when pl.id = :authorizedUserId then 1 else 0 end) > 0) " +
+            "FROM Publication p left join p.likes pl " +
+            "WHERE p.author.id = :authorId " +
+            "AND p.author.id <> :authorizedUserId " +
+            "GROUP BY p")
+    Page<PublicationDto> findByAuthor(Long authorId, Long authorizedUserId, Pageable pageable);
 
-    @Query("SELECT new ru.privetdruk.socialnetwork.domain.PublicationDto(publ, count(publ_likes), " +
-            "sum(case when publ_likes = :authorizedUser then 1 else 0 end) > 0) " +
-            "FROM Publication publ left join publ.likes publ_likes " +
-            "WHERE publ.author = :author " +
-            "AND publ.tag = :tag " +
-            "GROUP BY publ")
-    Page<PublicationDto> findByAuthorAndTag(@Param("author") User author, @Param("authorizedUser") User authorizedUser, @Param("tag") String tag, Pageable pageable);
+    @Query("SELECT new ru.privetdruk.socialnetwork.domain.PublicationDto(p, count(pl), " +
+            "sum(case when pl.id = :authorizedUserId then 1 else 0 end) > 0) " +
+            "FROM Publication p left join p.likes pl " +
+            "WHERE p.author.id = :authorId " +
+            "AND p.tag = :tag " +
+            "GROUP BY p")
+    Page<PublicationDto> findByAuthorAndTag(Long authorId, Long authorizedUserId, String tag, Pageable pageable);
 }

@@ -98,7 +98,7 @@
 
             <div class="row">
                 <form method="get" action="/id${pageOwner.id}" class="form-inline">
-                    <input type="text" name="filter" value="${filter?ifExists}" placeholder="Search by tag"
+                    <input type="text" name="tag" value="${filter?ifExists}" placeholder="Search by tag"
                            class="form-control"/>
                     <button type="submit" class="btn btn-primary ml-2">Search</button>
                 </form>
@@ -154,10 +154,10 @@
                                 <a class="col-2" href="/id${pageOwner.id}/publications/${publication.id}/like">
                                         <#if publication.getLikedAuthorizedUser()>
                                             <img class="main-menu-img" src="../static/img/icon/like.png"
-                                                 alt="like"> ${publication.numberLikes}
+                                                 alt="like"> ${publication.likes}
                                         <#else>
                                             <img class="main-menu-img" src="../static/img/icon/none-like.png"
-                                                 alt="none like"> ${publication.numberLikes}
+                                                 alt="none like"> ${publication.likes}
                                         </#if>
                                 </a>
                                 <div class="col">

@@ -1,6 +1,5 @@
 package ru.privetdruk.socialnetwork.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +11,6 @@ import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.repository.PublicationRepository;
 import ru.privetdruk.socialnetwork.util.FileUtils;
 
-import javax.persistence.EntityManager;
 import java.util.Set;
 
 @Service
@@ -40,10 +38,10 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Page<PublicationDto> userPublicationList(User author, User authorizedUser, Pageable pageable, String filter) {
-        return filter != null && !filter.isEmpty() ?
-                publicationRepository.findByAuthorAndTag(author, authorizedUser, filter, pageable) :
-                publicationRepository.findByAuthor(author, authorizedUser, pageable);
+    public Page<PublicationDto> userPublicationList(Long authorId, Long authorizedUserId, String tag, Pageable pageable) {
+        return tag != null && !tag.isEmpty() ?
+                publicationRepository.findByAuthorAndTag(authorId, authorizedUserId, tag, pageable) :
+                publicationRepository.findByAuthor(authorId, authorizedUserId, pageable);
     }
 
     @Override
