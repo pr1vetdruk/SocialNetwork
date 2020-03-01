@@ -14,7 +14,7 @@ public interface PublicationRepository extends CrudRepository<Publication, Long>
             "sum(case when pl.id = :authorizedUserId then 1 else 0 end) > 0) " +
             "FROM Publication p left join p.likes pl " +
             "WHERE p.author.id = :authorId " +
-            "AND p.author.id <> :authorizedUserId " +
+            "AND (p.author.id <> :authorizedUserId OR :authorizedUserId = :authorId) " +
             "GROUP BY p")
     Page<PublicationDto> findByAuthor(Long authorId, Long authorizedUserId, Pageable pageable);
 
