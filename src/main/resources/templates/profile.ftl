@@ -77,7 +77,7 @@
 
         </div>
         <div class="col">
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col p-3 bg-white border rounded">
                     <h5>${pageOwner.personalData.firstName} ${pageOwner.personalData.lastName}</h5>
                     <div class="dropdown-divider"></div>
@@ -89,32 +89,35 @@
             </div>
 
             <#if authorizedUser.id == pageOwner.id>
-                <div class="row">
-                    <div class="col bg-white mt-3 border rounded">
+                <div class="row mb-3">
+                    <div class="col bg-white border rounded">
                         <#include "parts/message/message-edit.ftl"/>
                     </div>
                 </div>
             </#if>
 
-            <div class="row">
-                <form method="get" action="/id${pageOwner.id}" class="form-inline">
-                    <input type="text" name="tag" value="${filter?ifExists}" placeholder="Search by tag"
-                           class="form-control"/>
-                    <button type="submit" class="btn btn-primary ml-2">Search</button>
-                </form>
-            </div>
+            <#if pagePublications.content??>
+                <div class="row">
+                    <div class="col bg-white border rounded">
+                        <form method="get" action="/id${pageOwner.id}" class="form-inline">
+                            <img src="../static/img/icon/search.png" alt="search"/>
 
-            <div class="row">
-                <@p.pager url pagePublications/>
-            </div>
+                            <input type="text" name="tag" autocomplete="off" value="${filter?ifExists}"
+                                   placeholder="Введите тэг"
+                                   class="form-control form-control-sm border-0" style="width: 95%; box-shadow: none"/>
+                        </form>
+                    </div>
+                </div>
+            </#if>
 
             <#list pagePublications.content as publication>
-                <div class="row">
-                    <div class="col bg-white mt-3 border rounded">
+                <div class="row mb-3">
+                    <div class="col bg-white border rounded">
                         <div class="card border-0">
                             <div class="row pt-3">
                                 <div class="col-2">
-                                    <img src="/img/photo_2019-11-06_16-22-22.jpg" class="card-img-top rounded-circle" style="width: 60px"
+                                    <img src="/img/photo_2019-11-06_16-22-22.jpg" class="card-img-top rounded-circle"
+                                         style="width: 60px"
                                          alt="avatar">
                                 </div>
                                 <div class="col pl-0">
@@ -129,9 +132,11 @@
                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
 
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item"
-                                               href="/id${publication.author.id}/publications/?publication=${publication.id}">Удалить
-                                                запись</a>
+                                            <form action="/id${publication.author.id}/publication/delete/" method="post">
+                                                <input type="submit" class="dropdown-item" value="Удалить запись"/>
+                                                <input type="hidden" name="id" value="${publication.id}"/>
+                                                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -148,17 +153,23 @@
                                 </div>
                             </#if>
 
+                            <#if publication.tag?hasContent>
+                                <div class="mb-1">
+                                    #${publication.tag}
+                                </div>
+                            </#if>
+
                             <div class="dropdown-divider"></div>
 
                             <div class="row pb-2">
                                 <a class="col-2" href="/id${pageOwner.id}/publications/${publication.id}/like">
-                                        <#if publication.getLikedAuthorizedUser()>
-                                            <img class="main-menu-img" src="../static/img/icon/like.png"
-                                                 alt="like"> ${publication.likes}
-                                        <#else>
-                                            <img class="main-menu-img" src="../static/img/icon/none-like.png"
-                                                 alt="none like"> ${publication.likes}
-                                        </#if>
+                                    <#if publication.getLikedAuthorizedUser()>
+                                        <img class="main-menu-img" src="../static/img/icon/like.png"
+                                             alt="like"> ${publication.numberLikes}
+                                    <#else>
+                                        <img class="main-menu-img" src="../static/img/icon/none-like.png"
+                                             alt="none like"> ${publication.numberLikes}
+                                    </#if>
                                 </a>
                                 <div class="col">
                                     <img class="main-menu-img" src="../static/img/icon/repost.png" alt="repost">
@@ -168,6 +179,12 @@
                     </div>
                 </div>
             </#list>
+
+            <#if pagePublications.content??>
+                <div class="row mb-3">
+                    <@p.pager url pagePublications/>
+                </div>
+            </#if>
         </div>
     </div>
 </@common.page>

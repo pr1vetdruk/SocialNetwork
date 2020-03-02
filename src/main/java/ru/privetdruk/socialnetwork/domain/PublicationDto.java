@@ -20,19 +20,21 @@ public class PublicationDto {
     private Date dateCreation = new Date();
     private Date dateChange;
     private User author;
-    private Long likes;
+    private Long numberLikes;
     private Boolean isLikedAuthorizedUser;
 
-    public PublicationDto(Publication publication, Long likes, Boolean isLikedAuthorizedUser) {
-        this.id = publication.getId();
-        this.text = StringUtils.isEmpty(publication.getText()) ? null : publication.getText();
-        this.tag = publication.getTag();
-        this.fileName = publication.getFileName();
-        this.dateCreation = publication.getDateCreation();
-        this.dateChange = publication.getDateChange();
-        this.author = publication.getAuthor();
-        this.likes = likes;
-        this.isLikedAuthorizedUser = isLikedAuthorizedUser;
+    public PublicationDto(Publication publication, Long numberLikes, Boolean isLikedAuthorizedUser) {
+        if (publication != null) {
+            this.id = publication.getId();
+            setText(publication.getText());
+            this.tag = publication.getTag();
+            this.fileName = publication.getFileName();
+            this.dateCreation = publication.getDateCreation();
+            this.dateChange = publication.getDateChange();
+            this.author = publication.getAuthor();
+            this.numberLikes = numberLikes;
+            this.isLikedAuthorizedUser = isLikedAuthorizedUser;
+        }
     }
 
     public Publication convert() {
@@ -42,6 +44,42 @@ public class PublicationDto {
         publication.setFileName(this.fileName);
         publication.setDateCreation(this.dateCreation);
         return publication;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setText(String text) {
+        this.text = StringUtils.isEmpty(text) ? null : text;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    public void setDateChange(Date dateChange) {
+        this.dateChange = dateChange;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public void setNumberLikes(Long numberLikes) {
+        this.numberLikes = numberLikes;
+    }
+
+    public void setLikedAuthorizedUser(Boolean likedAuthorizedUser) {
+        isLikedAuthorizedUser = likedAuthorizedUser;
     }
 
     public Long getId() {
@@ -72,8 +110,8 @@ public class PublicationDto {
         return author;
     }
 
-    public Long getLikes() {
-        return likes;
+    public Long getNumberLikes() {
+        return numberLikes;
     }
 
     public Boolean getLikedAuthorizedUser() {
@@ -85,7 +123,7 @@ public class PublicationDto {
         return "PublicationDto{" +
                 "id=" + id +
                 ", author=" + author +
-                ", numberLikes=" + likes +
+                ", numberLikes=" + numberLikes +
                 ", isLikedAuthorizedUser=" + isLikedAuthorizedUser +
                 '}';
     }

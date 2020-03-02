@@ -13,7 +13,7 @@
         <#assign body = 1..page.getTotalPages()>
     </#if>
 
-    <div class="col bg-white pt-3 mt-3 border rounded">
+    <div class="col bg-white pt-3 border rounded">
         <div class="row">
             <div class="col">
                 <ul class="pagination">
@@ -23,7 +23,7 @@
                     <#list body as number>
                         <#if (number - 1) == page.getNumber()>
                             <li class="page-item active">
-                                <a class="page-link" href="#" tabindex="-1">${number}</a>
+                                <a class="page-link" href="#" tabindex="-1" style="background-color: #2a6996; border-color: #2a6592;">${number}</a>
                             </li>
                         <#elseif number == -1>
                             <li class="page-item disabled">
@@ -31,7 +31,7 @@
                             </li>
                         <#else>
                             <li class="page-item">
-                                <a class="page-link" href="${url}?page=${number - 1}&size=${page.getSize()}" tabindex="-1">${number}</a>
+                                <a class="page-link" href="${url}?page=${number - 1}&size=${page.getSize()}" tabindex="-1" style="color: #2a6592">${number}</a>
                             </li>
                         </#if>
                     </#list>
@@ -46,11 +46,11 @@
                     <#list [5, 10, 25, 50] as size>
                         <#if size == page.getSize()>
                             <li class="page-item active">
-                                <a class="page-link" href="#" tabindex="-1">${size}</a>
+                                <a class="page-link" href="#" tabindex="-1" style="background-color: #2a6996; border-color: #2a6592;">${size}</a>
                             </li>
                         <#else>
                             <li class="page-item">
-                                <a class="page-link" href="${url}?page=${page.getNumber()}&size=${size}" tabindex="-1">${size}</a>
+                                <a class="page-link" href="${url}?page=${page.getNumber()}&size=${size}" tabindex="-1" style="color: #2a6592">${size}</a>
                             </li>
                         </#if>
                     </#list>

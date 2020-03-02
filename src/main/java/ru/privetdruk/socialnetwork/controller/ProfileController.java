@@ -31,9 +31,6 @@ import java.util.Set;
 public class ProfileController {
     private final ProfileService profileService;
 
-    @Autowired
-    private PublicationRepository publicationRepository;
-
     public ProfileController(ProfileService profileService) {
         this.profileService = profileService;
     }
@@ -53,8 +50,8 @@ public class ProfileController {
         return "profile";
     }
 
-    @GetMapping("/publications/")
-    public String deletePublication(@AuthenticationPrincipal User authorizedUser, @RequestParam Publication publication) {
+    @PostMapping("/publication/delete/")
+    public String deletePublication(@AuthenticationPrincipal User authorizedUser, @RequestParam("id") Publication publication) {
         if (authorizedUser.equals(publication.getAuthor()))
             profileService.deletePublication(publication);
         return "redirect:/id" + publication.getAuthor().getId();
@@ -78,10 +75,12 @@ public class ProfileController {
                                  @Valid PublicationDto publicationDto,
                                  BindingResult bindingResult,
                                  Model model,
-                                 @RequestParam("image") MultipartFile image) {
+                                 @RequestParam("image") MultipartFile image,
+                                 @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         if (bindingResult.hasErrors()) {
             model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
-            model.addAttribute("publications", user.getPublications());
+            model.addAttribute("url", "/id" + user.getId());
+            model.addAttribute("pagePublications", profileService.userPublicationList(user.getId(), authorizedUser.getId(), null, pageable));
             model.addAttribute("pageOwner", user);
             return "profile";
         } else {
