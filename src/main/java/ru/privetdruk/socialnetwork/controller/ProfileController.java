@@ -1,7 +1,5 @@
 package ru.privetdruk.socialnetwork.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -12,19 +10,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 import ru.privetdruk.socialnetwork.domain.Publication;
 import ru.privetdruk.socialnetwork.domain.PublicationDto;
 import ru.privetdruk.socialnetwork.domain.user.User;
-import ru.privetdruk.socialnetwork.repository.PublicationRepository;
 import ru.privetdruk.socialnetwork.service.ProfileService;
 import ru.privetdruk.socialnetwork.util.ControllerUtils;
 import ru.privetdruk.socialnetwork.util.ResponseStatusUtils;
 import ru.privetdruk.socialnetwork.util.UriUtils;
 
 import javax.validation.Valid;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/id{user}")
@@ -47,6 +41,8 @@ public class ProfileController {
         model.addAttribute("filter", tag);
         model.addAttribute("pagePublications", profileService.userPublicationList(user.getId(), authorizedUser.getId(), tag, pageable));
         model.addAttribute("pageOwner", user);
+        model.addAttribute("isPageOwnerOnline", profileService.isUserOnline(user.getLogin()));
+
         return "profile";
     }
 

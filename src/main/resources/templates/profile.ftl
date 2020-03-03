@@ -78,8 +78,21 @@
         </div>
         <div class="col">
             <div class="row mb-3">
-                <div class="col p-3 bg-white border rounded">
-                    <h5>${pageOwner.personalData.firstName} ${pageOwner.personalData.lastName}</h5>
+                <div class="col pl-3 pt-2 bg-white border rounded">
+                    <div class="row">
+                        <div class="col">
+                            <h5>${pageOwner.personalData.firstName} ${pageOwner.personalData.lastName}</h5>
+                        </div>
+                        <div class="col d-flex justify-content-end">
+                            <#if isPageOwnerOnline>
+                                Online
+                            <#else>
+                                Offline
+                            </#if>
+
+                        </div>
+                    </div>
+
                     <div class="dropdown-divider"></div>
                     <p>123</p>
                     <p>123</p>
@@ -132,7 +145,8 @@
                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
 
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <form action="/id${publication.author.id}/publication/delete/" method="post">
+                                            <form action="/id${publication.author.id}/publication/delete/"
+                                                  method="post">
                                                 <input type="submit" class="dropdown-item" value="Удалить запись"/>
                                                 <input type="hidden" name="id" value="${publication.id}"/>
                                                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>

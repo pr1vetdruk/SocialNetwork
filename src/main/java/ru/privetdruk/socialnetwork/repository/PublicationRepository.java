@@ -4,10 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import ru.privetdruk.socialnetwork.domain.Publication;
 import ru.privetdruk.socialnetwork.domain.PublicationDto;
-import ru.privetdruk.socialnetwork.domain.user.User;
 
 public interface PublicationRepository extends CrudRepository<Publication, Long> {
     @Query("SELECT new ru.privetdruk.socialnetwork.domain.PublicationDto(p, count(pl), " +

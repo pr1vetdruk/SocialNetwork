@@ -3,6 +3,8 @@ package ru.privetdruk.socialnetwork.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.session.FindByIndexNameSessionRepository;
+import org.springframework.session.Session;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.privetdruk.socialnetwork.domain.Publication;
@@ -16,12 +18,14 @@ import java.util.Set;
 @Service
 public class ProfileServiceImpl implements ProfileService {
     private final PublicationRepository publicationRepository;
+    private final FindByIndexNameSessionRepository<? extends Session> sessionRepository;
 
     @Value("${upload.path}")
     private String uploadPath;
 
-    public ProfileServiceImpl(PublicationRepository publicationRepository) {
+    public ProfileServiceImpl(PublicationRepository publicationRepository, FindByIndexNameSessionRepository<? extends Session> sessionRepository) {
         this.publicationRepository = publicationRepository;
+        this.sessionRepository = sessionRepository;
     }
 
     @Override
@@ -53,5 +57,10 @@ public class ProfileServiceImpl implements ProfileService {
         } else {
             likes.add(user);
         }
+    }
+
+    @Override
+    public boolean isUserOnline(String login) {
+        return sessionRepository.findByPrincipalName(login) != null && sessionRepository.findByPrincipalName(login).size() != 0;
     }
 }
