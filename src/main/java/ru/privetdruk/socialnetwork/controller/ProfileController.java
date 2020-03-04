@@ -37,11 +37,8 @@ public class ProfileController {
                               @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         ResponseStatusUtils.pageExistenceForObject(user);
 
-        model.addAttribute("url", "/id" + user.getId());
         model.addAttribute("filter", tag);
-        model.addAttribute("pagePublications", profileService.userPublicationList(user.getId(), authorizedUser.getId(), tag, pageable));
-        model.addAttribute("pageOwner", user);
-        model.addAttribute("isPageOwnerOnline", profileService.isUserOnline(user.getLogin()));
+        fillingModelDataForProfileDisplay(authorizedUser, user, tag, pageable, model);
 
         return "profile";
     }
@@ -74,13 +71,19 @@ public class ProfileController {
                                  @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         if (bindingResult.hasErrors()) {
             model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
-            model.addAttribute("url", "/id" + user.getId());
-            model.addAttribute("pagePublications", profileService.userPublicationList(user.getId(), authorizedUser.getId(), null, pageable));
-            model.addAttribute("pageOwner", user);
+            fillingModelDataForProfileDisplay(authorizedUser, user, null, pageable, model);
             return "profile";
         } else {
             profileService.savePublication(authorizedUser, publicationDto, image);
             return "redirect:/id" + user.getId();
         }
+    }
+
+    private void fillingModelDataForProfileDisplay(User authorizedUser, User user, String tag, Pageable pageable, Model model) {
+        model.addAttribute("url", "/id" + user.getId());
+        model.addAttribute("pagePublications", profileService.userPublicationList(user.getId(), authorizedUser.getId(), tag, pageable));
+        model.addAttribute("pageOwner", user);
+        model.addAttribute("isPageOwnerOnline", profileService.isUserOnline(user.getLogin()));
+        model.addAttribute("lastUploadedImagesUser", profileService.lastUploadedImagesUser(user));
     }
 }

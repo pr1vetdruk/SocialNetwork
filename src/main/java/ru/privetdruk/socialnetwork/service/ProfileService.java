@@ -7,10 +7,13 @@ import ru.privetdruk.socialnetwork.domain.Publication;
 import ru.privetdruk.socialnetwork.domain.PublicationDto;
 import ru.privetdruk.socialnetwork.domain.user.User;
 
+import java.util.List;
+
 public interface ProfileService {
     void savePublication(User author, PublicationDto publicationDto, MultipartFile image);
     void deletePublication(Publication publication);
     Page<PublicationDto> userPublicationList(Long authorId, Long authorizedUserId, String tag, Pageable pageable);
     void likePublication(User user, Publication publication);
     boolean isUserOnline(String login);
+    List<String> lastUploadedImagesUser(User user);
 }
