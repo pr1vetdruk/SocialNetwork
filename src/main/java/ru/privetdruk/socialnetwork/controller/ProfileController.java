@@ -58,8 +58,7 @@ public class ProfileController {
             @AuthenticationPrincipal User authorizedUser,
             @PathVariable Publication publication,
             RedirectAttributes redirectAttributes,
-            @RequestHeader(required = false) String referer
-    ) {
+            @RequestHeader(required = false) String referer) {
         profileService.likePublication(authorizedUser, publication);
 
         return "redirect:" + UriUtils.previousAddress(redirectAttributes, referer);

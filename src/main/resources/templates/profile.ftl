@@ -73,34 +73,123 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
+
         <div class="col">
+            <#-- Информационный блок -->
             <div class="row mb-3">
                 <div class="col pl-3 pt-2 bg-white border rounded">
+                    <#-- ФИ + статус Online/Offline -->
                     <div class="row">
                         <div class="col">
                             <h5>${pageOwner.personalData.firstName} ${pageOwner.personalData.lastName}</h5>
                         </div>
                         <div class="col d-flex justify-content-end">
-                            <#if isPageOwnerOnline>
-                                Online
-                            <#else>
-                                Offline
-                            </#if>
-
+                            <p>
+                                <#if isPageOwnerOnline>
+                                    Online
+                                <#else>
+                                    Offline
+                                </#if>
+                            </p>
                         </div>
                     </div>
 
                     <div class="dropdown-divider"></div>
-                    <p>123</p>
-                    <p>123</p>
-                    <p>123</p>
-                    <p>123</p>
+
+                    <#-- День рождения -->
+                    <div class="row">
+                        <div class="col-4">
+                            <p class="mb-1">День рождения:</p>
+                        </div>
+                        <div class="col">
+                            <p class="mb-1">${pageOwner.personalData.dateBirth?date}</p>
+                        </div>
+                    </div>
+
+                    <#-- Город -->
+                    <div class="row">
+                        <div class="col-4">
+                            <p class="">Город:</p>
+                        </div>
+                        <div class="col">
+                            <p class="">${pageOwner.personalData.city.name}</p>
+                        </div>
+                    </div>
+
+                    <#-- Подробная информация -->
+                    <div class="row accordion" id="accordionInfo">
+                        <div class="col-4"></div>
+                        <div class="col">
+                            <div id="heading">
+                                <button class="btn btn-link collapsed pl-0" type="button" data-toggle="collapse"
+                                        data-target="#collapse" aria-expanded="false"
+                                        aria-controls="collapse" style="color: #2a6592; text-decoration: none; font-size: 14px">
+                                    Показать подробную информацию
+                                </button>
+                            </div>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col">
+                            <div id="collapse" class="collapse" aria-labelledby="heading"
+                                 data-parent="#accordionInfo">
+                                <p>Пока ничего не реализовано</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown-divider"></div>
+
+                    <#-- Счетчики по категориям -->
+                    <div class="row mx-3  justify-content-center">
+                        <div class="col px-0 pb-2">
+                            <a class="row" href="#" style="text-decoration: none">
+                                <div class="col d-flex justify-content-center">77</div>
+                                <div class="w-100"></div>
+                                <div class="col d-flex justify-content-center"><p>друга</p></div>
+                            </a>
+                        </div>
+                        <div class="col px-0 pb-2">
+                            <a class="row" href="#" style="text-decoration: none">
+                                <div class="col d-flex justify-content-center">38</div>
+                                <div class="w-100"></div>
+                                <div class="col d-flex justify-content-center"><p>фотографий</p></div>
+                            </a>
+                        </div>
+                        <div class="col px-0 pb-2">
+                            <a class="row" href="#" style="text-decoration: none">
+                                <div class="col d-flex justify-content-center">11</div>
+                                <div class="w-100"></div>
+                                <div class="col d-flex justify-content-center"><p>отметок</p></div>
+                            </a>
+                        </div>
+                        <div class="col px-0 pb-2">
+                            <a class="row" href="#" style="text-decoration: none">
+                                <div class="col d-flex justify-content-center">6</div>
+                                <div class="w-100"></div>
+                                <div class="col d-flex justify-content-center"><p>видеозаписей</p></div>
+                            </a>
+                        </div>
+                        <div class="col px-0 pb-2">
+                            <a class="row" href="#" style="text-decoration: none">
+                                <div class="col d-flex justify-content-center">7</div>
+                                <div class="w-100"></div>
+                                <div class="col d-flex justify-content-center"><p>аудиозаписей</p></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <#-- Конец информационного блока -->
+
+            <#-- Фото из галереи -->
+            <div class="row mb-3">
+                <div class="col bg-white border rounded">
+
                 </div>
             </div>
 
+            <#-- Добавление публикации -->
             <#if authorizedUser.id == pageOwner.id>
                 <div class="row mb-3">
                     <div class="col bg-white border rounded">
@@ -108,6 +197,7 @@
                     </div>
                 </div>
             </#if>
+            <#-- Конец добавления публикации -->
 
             <#if pagePublications.content??>
                 <div class="row">

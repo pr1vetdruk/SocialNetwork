@@ -7,6 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import ru.privetdruk.socialnetwork.domain.Publication;
 import ru.privetdruk.socialnetwork.domain.PublicationDto;
 
+import java.util.List;
+
 public interface PublicationRepository extends CrudRepository<Publication, Long> {
     @Query("SELECT new ru.privetdruk.socialnetwork.domain.PublicationDto(p, count(pl), " +
             "sum(case when pl.id = :authorizedUserId then 1 else 0 end) > 0) " +
@@ -23,4 +25,6 @@ public interface PublicationRepository extends CrudRepository<Publication, Long>
             "AND p.tag = :tag " +
             "GROUP BY p")
     Page<PublicationDto> findByAuthorAndTag(Long authorId, Long authorizedUserId, String tag, Pageable pageable);
+
+    List<String> findAllByAuthorAAndFileNameNotNull();
 }
