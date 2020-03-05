@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public abstract class FileUtils {
     public static String saveFile(String uploadPath, MultipartFile file) {
-        String resultFileName = "";
+        String resultFileName = null;
         if (file != null && !file.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
