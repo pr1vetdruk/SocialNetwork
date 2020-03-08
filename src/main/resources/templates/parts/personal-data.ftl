@@ -1,0 +1,86 @@
+<#macro filling isIndex>
+    <#if isIndex>
+        <div class="row mb-2">
+            <div class="col text-center">
+                <h5>Впервые в SocialNetwork?</h5>
+                <p>Моментальная регистрация</p>
+            </div>
+        </div>
+    <#else>
+        <div class="row mb-3 bg-light border-bottom">
+            <div class="col pl-3 pt-3 pb-2">
+                <h6>Основное</h6>
+            </div>
+        </div>
+    </#if>
+    <form action="/registration" method="post" class="mb-3">
+        <div class="form-group row">
+            <div class="col">
+                <input type="text" name="firstName" placeholder="Ваше имя" autocomplete="off"
+                       value="<#if userPersonalDataDto?? && userPersonalDataDto.firstName??>${userPersonalDataDto.firstName}</#if>"
+                       class="form-control ${(firstNameError??)?string('is-invalid', '')}"/>
+                <#if firstNameError??>
+                    <div class="invalid-feedback">
+                        ${firstNameError}
+                    </div>
+                </#if>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col">
+                <input type="text" name="lastName" placeholder="Ваша фамилия" autocomplete="off"
+                       value="<#if userPersonalDataDto?? && userPersonalDataDto.lastName??>${userPersonalDataDto.lastName}</#if>"
+                       class="form-control ${(lastNameError??)?string('is-invalid', '')}"/>
+                <#if lastNameError??>
+                    <div class="invalid-feedback">
+                        ${lastNameError}
+                    </div>
+                </#if>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
+                <select class="custom-select ${(cityIdError??)?string('is-invalid', '')}" name="cityId">
+                    <#if selectedCity??>
+                        <option value="${selectedCity.id}" selected>${selectedCity.name}</option>
+                    <#else>
+                        <option value="" selected>Город</option>
+                    </#if>
+                    <#if citiesList??>
+                        <#list citiesList as city>
+                            <option value="${city.id}">${city.name}</option>
+                        </#list>
+                    </#if>
+                </select>
+                <#if cityIdError??>
+                    <div class="invalid-feedback">
+                        ${cityIdError}
+                    </div>
+                </#if>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col">
+                <label for="dateBirth" class="mb-1" style="font-size: 14px; color: #626d7a; line-height: 20px;">Дата
+                    рождения</label>
+                <input type="date" name="dateBirth" id="dateBirth" placeholder="Дата рождения"
+                       value="<#if userPersonalDataDto?? && userPersonalDataDto.dateBirth??>${userPersonalDataDto.dateBirth?string("yyyy-MM-dd")}</#if>"
+                       class="form-control ${(dateBirthError??)?string('is-invalid', '')}"/>
+                <#if dateBirthError??>
+                    <div class="invalid-feedback">
+                        ${dateBirthError}
+                    </div>
+                </#if>
+            </div>
+        </div>
+
+        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        <button class="btn" style="width: 100%; background-color: #37b83a; color: #fff" type="submit" name="continue">
+            Продолжить
+            регистрацию
+        </button>
+    </form>
+</#macro>
+
+

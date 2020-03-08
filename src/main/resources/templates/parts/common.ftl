@@ -1,4 +1,3 @@
-<#include "security.ftl">
 <#macro page>
     <!DOCTYPE html>
     <html>
@@ -18,7 +17,9 @@
 
     <#include "navbar.ftl">
     <div class="container mt-4" style="width: 960px;">
-        <#nested >
+        <div class="row">
+            <#nested >
+        </div>
     </div>
 
     <!-- Optional JavaScript -->

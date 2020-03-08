@@ -40,25 +40,13 @@ public class ProfileController {
         model.addAttribute("filter", tag);
         fillingModelDataForProfileDisplay(authorizedUser, user, tag, pageable, model);
 
-        return "profile";
+        return "/profile/profile";
     }
 
-    @PostMapping("/publication/delete/")
-    public String deletePublication(@AuthenticationPrincipal User authorizedUser, @RequestParam("id") Publication publication) {
-        if (authorizedUser.equals(publication.getAuthor()))
-            profileService.deletePublication(publication);
-        return "redirect:/id" + publication.getAuthor().getId();
-    }
+    @GetMapping("/edit/")
+    public String editProfile(@AuthenticationPrincipal User authorizedUser, Model model) {
 
-    @GetMapping("/publications/{publication}/like")
-    public String like(
-            @AuthenticationPrincipal User authorizedUser,
-            @PathVariable Publication publication,
-            RedirectAttributes redirectAttributes,
-            @RequestHeader(required = false) String referer) {
-        profileService.likePublication(authorizedUser, publication);
-
-        return "redirect:" + UriUtils.previousAddress(redirectAttributes, referer);
+        return "/profile/profile-edit";
     }
 
     @PostMapping
@@ -72,11 +60,28 @@ public class ProfileController {
         if (bindingResult.hasErrors()) {
             model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
             fillingModelDataForProfileDisplay(authorizedUser, user, null, pageable, model);
-            return "profile";
+            return "/profile/profile";
         } else {
             profileService.savePublication(authorizedUser, publicationDto, image);
             return "redirect:/id" + user.getId();
         }
+    }
+
+    @PostMapping("/publication/delete/")
+    public String deletePublication(@AuthenticationPrincipal User authorizedUser, @RequestParam("id") Publication publication) {
+        if (authorizedUser.equals(publication.getAuthor()))
+            profileService.deletePublication(publication);
+        return "redirect:/id" + publication.getAuthor().getId();
+    }
+
+    @GetMapping("/publication/{publication}/like")
+    public String like(@AuthenticationPrincipal User authorizedUser,
+                       @PathVariable Publication publication,
+                       RedirectAttributes redirectAttributes,
+                       @RequestHeader(required = false) String referer) {
+        profileService.likePublication(authorizedUser, publication);
+
+        return "redirect:" + UriUtils.previousAddress(redirectAttributes, referer);
     }
 
     private void fillingModelDataForProfileDisplay(User authorizedUser, User user, String tag, Pageable pageable, Model model) {
