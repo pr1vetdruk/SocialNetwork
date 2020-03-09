@@ -13,7 +13,53 @@
             </div>
         </div>
     </#if>
-    <form action="/registration" method="post" class="mb-3">
+    <form action="<#if isIndex>/registration<#else>/id${userPersonalDataDto.user.id}</#if>" method="post" class="mb-3">
+        <#if !isIndex>
+            <div class="form-group row">
+                <div class="col d-flex justify-content-center">
+                    <div class="row align-center" style="max-width: 200px">
+                        <img class="col " id="previewImg" alt="avatar"
+                             src=<#if userPersonalDataDto?? && userPersonalDataDto.avatarFileName??>"/img/${userPersonalDataDto.avatarFileName}"
+                        <#else>"../../static/img/profile/none_avatar.png"</#if>/>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="avatarFileName" id="avatarFileName"
+                               aria-describedby="avatarFileName"
+                               onchange="this.value">
+                        <label class="custom-file-label" for="avatarFileName">Ваша фотография</label>
+                    </div>
+
+                    <script>
+                        if (window.File && window.FileReader && window.FileList && window.Blob) {
+                            document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+                                var
+                                    f = e.target.files[0],
+                                    reader = new FileReader,
+                                    place = document.getElementById("previewImg")
+                                ;
+                                reader.readAsDataURL(f);
+                                reader.onload = function (e) {
+                                    place.src = e.target.result;
+                                }
+                                var fileName = document.getElementById("avatarFileName").files[0].name;
+                                var nextSibling = e.target.nextElementSibling;
+                                nextSibling.innerText = fileName;
+                            });
+                        } else {
+                            console.warn("Ваш браузер не поддерживает FileAPI")
+                        }
+                        ;
+                    </script>
+                </div>
+            </div>
+        </#if>
+
         <div class="form-group row">
             <div class="col">
                 <input type="text" name="firstName" placeholder="Ваше имя" autocomplete="off"
@@ -77,8 +123,7 @@
 
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button class="btn" style="width: 100%; background-color: #37b83a; color: #fff" type="submit" name="continue">
-            Продолжить
-            регистрацию
+            <#if isIndex>Продолжить регистрацию<#else>Сохранить изменения</#if>
         </button>
     </form>
 </#macro>

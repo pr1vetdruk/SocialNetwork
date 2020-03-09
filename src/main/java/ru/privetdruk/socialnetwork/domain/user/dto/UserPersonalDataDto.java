@@ -2,6 +2,7 @@ package ru.privetdruk.socialnetwork.domain.user.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.StringUtils;
+import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
 import ru.privetdruk.socialnetwork.service.authentication.RegistrationService;
 import ru.privetdruk.socialnetwork.validator.annotation.DateBirth;
@@ -14,6 +15,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class UserPersonalDataDto implements Serializable {
+    private Long id;
+    private User user;
     @NotBlank(message = "{validation.global.notEmpty}")
     @Size(min = 2, max = 32, message = "{validation.registration.firstName.size}")
     @Pattern(regexp = "^[A-zА-я]*$", message = "{validation.global.onlyChar}")
@@ -23,6 +26,8 @@ public class UserPersonalDataDto implements Serializable {
     @Size(min = 2, max = 32, message = "{validation.registration.lastName.size}")
     @Pattern(regexp = "^[A-zА-я]*$", message = "{validation.global.onlyChar}")
     private String lastName;
+
+    private String avatarFileName;
 
     @NotNull(message = "{validation.global.notEmpty}")
     private Short cityId;
@@ -39,16 +44,36 @@ public class UserPersonalDataDto implements Serializable {
         UserPersonalData personalData = new UserPersonalData();
         personalData.setFirstName(this.firstName);
         personalData.setLastName(this.lastName);
+        personalData.setAvatarFileName(this.avatarFileName);
         personalData.setCity(registrationService.findCity(this.cityId));
         personalData.setDateBirth(this.dateBirth);
         return personalData;
     }
 
-    public UserPersonalDataDto(String firstName, String lastName, Short cityId, Date dateBirth) {
+    public UserPersonalDataDto(User user) {
+        this.id = user.getPersonalData().getId();
+        this.user = user;
+        this.firstName = user.getPersonalData().getFirstName();
+        this.lastName = user.getPersonalData().getLastName();
+        this.avatarFileName = user.getPersonalData().getAvatarFileName();
+        this.cityId = user.getPersonalData().getCity().getId();
+        this.dateBirth = user.getPersonalData().getDateBirth();
+    }
+
+    public UserPersonalDataDto(String firstName, String lastName, String avatarFileName, Short cityId, Date dateBirth) {
         this.firstName = StringUtils.isEmpty(firstName) ? null : firstName;
         this.lastName = StringUtils.isEmpty(lastName) ? null : lastName;
+        this.avatarFileName = StringUtils.isEmpty(avatarFileName) ? null : avatarFileName;
         this.cityId = cityId;
         this.dateBirth = dateBirth;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public String getFirstName() {
@@ -57,6 +82,10 @@ public class UserPersonalDataDto implements Serializable {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getAvatarFileName() {
+        return avatarFileName;
     }
 
     public Short getCityId() {

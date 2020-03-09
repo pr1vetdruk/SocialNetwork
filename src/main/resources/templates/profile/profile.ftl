@@ -6,18 +6,32 @@
     <#include "../parts/main-menu.ftl"/>
 
     <div class="col-3">
-        <div class="card p-2">
+        <div class="card pt-2 pb-0 px-2">
             <img src="../../static/img/icon/camera_200.png" class="card-img-top" alt="avatar">
             <div class="card-body">
+                <#if authorizedUser.id != pageOwner.id>
+                    <div class="row mb-2">
+                        <a href="/id${pageOwner.id}/edit/" class="col btn pt-1"
+                           style="font-size: 12.5px; height: 30px; background-color: #5181b8; color: #fff;">Написать
+                            сообщение</a>
+                    </div>
+                </#if>
+
                 <div class="row">
-                    <div class="col-9 p-0 mr-2">
-                        <a href="#" class="btn pt-1"
-                           style="width: 100%; font-size: 12.5px; height: 30px; background-color: #e5ebf1; color: #55677d;">Редактировать</a>
-                    </div>
-                    <div class="col-2 p-0">
-                        <a href="#" class="btn pt-0"
-                           style="height: 30px; background-color: #e5ebf1; color: #55677d;">...</a>
-                    </div>
+                    <#if authorizedUser.id == pageOwner.id>
+                        <a href="/id${pageOwner.id}/edit/" class="col-9 btn pt-1 mr-2"
+                           style="font-size: 12.5px; height: 30px; background-color: #e5ebf1; color: #55677d;">Редактировать</a>
+                    <#else>
+                        <form action="/id${pageOwner.id}/add-friend/" method="post">
+                            <button type="submit" class="col btn pt-1 mr-2"
+                                    style="font-size: 13px; height: 30px;  background-color: #5181b8; color: #fff">
+                                Добавить в друзья
+                            </button>
+                        </form>
+                    </#if>
+
+
+                    <a href="#" class="btn col-2 ml-1 p-0" style="height: 30px; background-color: #e5ebf1; color: #55677d;">...</a>
                 </div>
             </div>
         </div>
@@ -58,10 +72,10 @@
                 <#-- Город -->
                 <div class="row">
                     <div class="col-4">
-                        <p class="">Город:</p>
+                        <p>Город:</p>
                     </div>
                     <div class="col">
-                        <p class="">${pageOwner.personalData.city.name}</p>
+                        <p>${pageOwner.personalData.city.name}</p>
                     </div>
                 </div>
 
@@ -273,10 +287,12 @@
         </#if>
         <#-- Конец блока с публикациями -->
 
+        <#-- Пагинация -->
         <#if pagePublications.content?hasContent>
             <div class="row mb-3">
                 <@p.pager url pagePublications/>
             </div>
         </#if>
+        <#-- Конец пагинации -->
     </div>
 </@common.page>

@@ -18,6 +18,8 @@ public class UserPersonalData implements Serializable {
     private User user;
     private String firstName;
     private String lastName;
+    private String avatarFileName;
+
     @OneToOne
     @JoinColumn(name = "city_id")
     private City city;
@@ -58,6 +60,14 @@ public class UserPersonalData implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getAvatarFileName() {
+        return avatarFileName;
+    }
+
+    public void setAvatarFileName(String avatarFileName) {
+        this.avatarFileName = avatarFileName;
     }
 
     public City getCity() {
