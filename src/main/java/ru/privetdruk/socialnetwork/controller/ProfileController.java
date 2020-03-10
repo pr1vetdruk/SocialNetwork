@@ -49,7 +49,7 @@ public class ProfileController {
 
     @GetMapping("/edit/")
     public String editProfile(@AuthenticationPrincipal User authorizedUser, Model model) {
-        //model.addAttribute("userPersonalDataDto", new UserPersonalDataDto(authorizedUser));
+        model.addAttribute("userPersonalDataDto", authorizedUser.getPersonalData().convert());
         model.addAttribute("selectedCity", generalService.findCity(authorizedUser.getPersonalData().getCity().getId()));
         generalService.fillingCity(model);
         return "/profile/profile-edit";

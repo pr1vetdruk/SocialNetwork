@@ -2,6 +2,7 @@ package ru.privetdruk.socialnetwork.domain.user;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.privetdruk.socialnetwork.domain.City;
+import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -29,6 +30,11 @@ public class UserPersonalData implements Serializable {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dateChange;
+
+    @Transient
+    public UserPersonalDataDto convert() {
+        return new UserPersonalDataDto(id, user, firstName, lastName, avatarFileName, city != null ? city.getId() : 0, dateBirth, dateChange);
+    }
 
     public Long getId() {
         return id;
