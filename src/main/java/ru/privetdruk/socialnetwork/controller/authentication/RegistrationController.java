@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.domain.user.dto.UserDto;
 import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
+import ru.privetdruk.socialnetwork.service.GeneralService;
 import ru.privetdruk.socialnetwork.service.authentication.SecurityService;
 import ru.privetdruk.socialnetwork.service.authentication.impl.RegistrationServiceImpl;
 import ru.privetdruk.socialnetwork.util.ControllerUtils;
-import ru.privetdruk.socialnetwork.validator.RegistrationValidator;
+import ru.privetdruk.socialnetwork.validator.UserDataValidator;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -22,16 +23,18 @@ import java.util.Objects;
 @Controller
 public class RegistrationController {
     private final RegistrationServiceImpl registrationService;
+    private final GeneralService generalService;
     private final SecurityService securityService;
-    private final RegistrationValidator registrationValidator;
+    private final UserDataValidator registrationValidator;
 
     /*@InitBinder
     protected void initBinder(WebDataBinder binder) {
         binder.setValidator(personalDataValidator);
     }*/
 
-    public RegistrationController(RegistrationServiceImpl registrationService, SecurityService securityService, RegistrationValidator registrationValidator) {
+    public RegistrationController(RegistrationServiceImpl registrationService, GeneralService generalService, SecurityService securityService, UserDataValidator registrationValidator) {
         this.registrationService = registrationService;
+        this.generalService = generalService;
         this.securityService = securityService;
         this.registrationValidator = registrationValidator;
     }
@@ -41,7 +44,7 @@ public class RegistrationController {
         if (user != null)
             return "redirect:/";
 
-        registrationService.fillingCity(model);
+        generalService.fillingCity(model);
         return "registration";
     }
 
@@ -53,10 +56,10 @@ public class RegistrationController {
         registrationValidator.validatePersonalData(personalDataDto, bindingResult);
         if (bindingResult.hasErrors()) {
             if (!bindingResult.hasFieldErrors("cityId")) {
-                model.addAttribute("selectedCity", registrationService.findCity(personalDataDto.getCityId()));
+                model.addAttribute("selectedCity", generalService.findCity(personalDataDto.getCityId()));
             }
             model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
-            registrationService.fillingCity(model);
+            generalService.fillingCity(model);
         } else {
             session.setAttribute("personalDataDto", personalDataDto);
             model.addAttribute("nextRegistrationStep", "true");

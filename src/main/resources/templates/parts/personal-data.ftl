@@ -121,6 +121,9 @@
             </div>
         </div>
 
+
+
+
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button class="btn" style="width: 100%; background-color: #37b83a; color: #fff" type="submit" name="continue">
             <#if isIndex>Продолжить регистрацию<#else>Сохранить изменения</#if>

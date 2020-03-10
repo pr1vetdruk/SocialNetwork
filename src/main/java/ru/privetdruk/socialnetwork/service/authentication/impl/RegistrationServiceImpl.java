@@ -2,16 +2,14 @@ package ru.privetdruk.socialnetwork.service.authentication.impl;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import ru.privetdruk.socialnetwork.domain.City;
 import ru.privetdruk.socialnetwork.domain.Role;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
 import ru.privetdruk.socialnetwork.domain.user.dto.UserDto;
 import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
-import ru.privetdruk.socialnetwork.repository.CityRepository;
 import ru.privetdruk.socialnetwork.repository.UserPersonalDataRepository;
 import ru.privetdruk.socialnetwork.repository.UserRepository;
+import ru.privetdruk.socialnetwork.service.GeneralService;
 import ru.privetdruk.socialnetwork.service.authentication.RegistrationService;
 
 import java.util.Collections;
@@ -21,14 +19,14 @@ import java.util.UUID;
 public class RegistrationServiceImpl implements RegistrationService {
     private final UserRepository userRepository;
     private final UserPersonalDataRepository personalDataRepository;
-    private final CityRepository cityRepository;
     private final PasswordEncoder passwordEncoder;
+    private final GeneralService generalService;
 
-    public RegistrationServiceImpl(UserRepository userRepository, UserPersonalDataRepository personalDataRepository, CityRepository cityRepository, PasswordEncoder passwordEncoder) {
+    public RegistrationServiceImpl(UserRepository userRepository, UserPersonalDataRepository personalDataRepository, PasswordEncoder passwordEncoder, GeneralService generalService) {
         this.userRepository = userRepository;
         this.personalDataRepository = personalDataRepository;
-        this.cityRepository = cityRepository;
         this.passwordEncoder = passwordEncoder;
+        this.generalService = generalService;
     }
 
     @Override
@@ -40,26 +38,10 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
-        UserPersonalData personalData = personalDataDto.convert(this);
+        UserPersonalData personalData = personalDataDto.convert(generalService);
         personalData.setUser(user);
         personalDataRepository.save(personalData);
 
         user.setPersonalData(personalData);
-    }
-
-    @Override
-    public boolean isFoundUser(String login) {
-        return userRepository.findByLogin(login) != null;
-    }
-
-    @Override
-    public void fillingCity(Model model) {
-        if (!model.containsAttribute("citiesList"))
-            model.addAttribute("citiesList", cityRepository.findAll());
-    }
-
-    @Override
-    public City findCity(Short id) {
-        return cityRepository.findById(id);
     }
 }

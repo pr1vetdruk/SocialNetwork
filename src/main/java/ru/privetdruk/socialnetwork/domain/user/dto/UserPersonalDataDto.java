@@ -4,7 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.StringUtils;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
-import ru.privetdruk.socialnetwork.service.authentication.RegistrationService;
+import ru.privetdruk.socialnetwork.service.GeneralService;
 import ru.privetdruk.socialnetwork.validator.annotation.DateBirth;
 
 import javax.validation.constraints.NotBlank;
@@ -40,32 +40,25 @@ public class UserPersonalDataDto implements Serializable {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dateChange;
 
-    public UserPersonalData convert(RegistrationService registrationService) {
+    public UserPersonalData convert(GeneralService generalService) {
         UserPersonalData personalData = new UserPersonalData();
         personalData.setFirstName(this.firstName);
         personalData.setLastName(this.lastName);
         personalData.setAvatarFileName(this.avatarFileName);
-        personalData.setCity(registrationService.findCity(this.cityId));
+        personalData.setCity(generalService.findCity(this.cityId));
         personalData.setDateBirth(this.dateBirth);
         return personalData;
     }
 
-    public UserPersonalDataDto(User user) {
-        this.id = user.getPersonalData().getId();
+    public UserPersonalDataDto(Long id, User user, String firstName, String lastName, String avatarFileName, Short cityId, Date dateBirth, Date dateChange) {
+        this.id = id;
         this.user = user;
-        this.firstName = user.getPersonalData().getFirstName();
-        this.lastName = user.getPersonalData().getLastName();
-        this.avatarFileName = user.getPersonalData().getAvatarFileName();
-        this.cityId = user.getPersonalData().getCity().getId();
-        this.dateBirth = user.getPersonalData().getDateBirth();
-    }
-
-    public UserPersonalDataDto(String firstName, String lastName, String avatarFileName, Short cityId, Date dateBirth) {
         this.firstName = StringUtils.isEmpty(firstName) ? null : firstName;
         this.lastName = StringUtils.isEmpty(lastName) ? null : lastName;
         this.avatarFileName = StringUtils.isEmpty(avatarFileName) ? null : avatarFileName;
         this.cityId = cityId;
         this.dateBirth = dateBirth;
+        this.dateChange = dateChange;
     }
 
     public Long getId() {

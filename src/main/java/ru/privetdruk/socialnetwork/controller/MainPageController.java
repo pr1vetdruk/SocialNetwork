@@ -5,20 +5,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.privetdruk.socialnetwork.domain.user.User;
-import ru.privetdruk.socialnetwork.service.authentication.RegistrationService;
+import ru.privetdruk.socialnetwork.service.GeneralService;
 
 @Controller
 public class MainPageController {
-    private final RegistrationService registrationService;
+    private final GeneralService generalService;
 
-    public MainPageController(RegistrationService registrationService) {
-        this.registrationService = registrationService;
+    public MainPageController(GeneralService generalService) {
+        this.generalService = generalService;
     }
 
     @GetMapping("/")
     public String index(@AuthenticationPrincipal User authorizedUser, Model model) {
         if (authorizedUser == null) {
-            registrationService.fillingCity(model);
+            generalService.fillingCity(model);
             return "index";
         } else {
             return "redirect:/id" + authorizedUser.getId();

@@ -7,7 +7,7 @@
         <div class="row justify-content-center">
             <div class="col-4 p-4 bg-white border rounded">
                 <#if !nextRegistrationStep??>
-                    <@registration.filling false/>
+                    <@registration.filling true/>
                 <#else>
                     <div class="row mb-2">
                         <div class="col text-center">

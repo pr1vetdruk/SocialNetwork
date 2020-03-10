@@ -14,8 +14,8 @@ import ru.privetdruk.socialnetwork.domain.Publication;
 import ru.privetdruk.socialnetwork.domain.PublicationDto;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
+import ru.privetdruk.socialnetwork.service.GeneralService;
 import ru.privetdruk.socialnetwork.service.ProfileService;
-import ru.privetdruk.socialnetwork.service.authentication.RegistrationService;
 import ru.privetdruk.socialnetwork.util.ControllerUtils;
 import ru.privetdruk.socialnetwork.util.ResponseStatusUtils;
 import ru.privetdruk.socialnetwork.util.UriUtils;
@@ -26,11 +26,11 @@ import javax.validation.Valid;
 @RequestMapping("/id{user}")
 public class ProfileController {
     private final ProfileService profileService;
-    private final RegistrationService registrationService;
+    private final GeneralService generalService;
 
-    public ProfileController(ProfileService profileService, RegistrationService registrationService) {
+    public ProfileController(ProfileService profileService, GeneralService generalService) {
         this.profileService = profileService;
-        this.registrationService = registrationService;
+        this.generalService = generalService;
     }
 
     @GetMapping
@@ -49,9 +49,9 @@ public class ProfileController {
 
     @GetMapping("/edit/")
     public String editProfile(@AuthenticationPrincipal User authorizedUser, Model model) {
-        model.addAttribute("userPersonalDataDto", new UserPersonalDataDto(authorizedUser));
-        model.addAttribute("selectedCity", registrationService.findCity(authorizedUser.getPersonalData().getCity().getId()));
-        registrationService.fillingCity(model);
+        //model.addAttribute("userPersonalDataDto", new UserPersonalDataDto(authorizedUser));
+        model.addAttribute("selectedCity", generalService.findCity(authorizedUser.getPersonalData().getCity().getId()));
+        generalService.fillingCity(model);
         return "/profile/profile-edit";
     }
 
@@ -60,11 +60,12 @@ public class ProfileController {
                               @PathVariable User user,
                               @Valid UserPersonalDataDto personalDataDto,
                               @RequestParam("image") MultipartFile image,
+
                               BindingResult bindingResult,
                               Model model) {
         if (bindingResult.hasErrors()) {
             model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
-            fillingModelDataForProfileDisplay(authorizedUser, user, null, pageable, model);
+            //fillingModelDataForProfileDisplay(authorizedUser, user, null, pageable, model);
             return "/profile/profile-edit";
         } else {
 
