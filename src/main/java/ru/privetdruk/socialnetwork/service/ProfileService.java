@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.privetdruk.socialnetwork.domain.Publication;
 import ru.privetdruk.socialnetwork.domain.PublicationDto;
 import ru.privetdruk.socialnetwork.domain.user.User;
+import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
 
 import java.util.List;
 
@@ -16,4 +17,5 @@ public interface ProfileService {
     void likePublication(User user, Publication publication);
     boolean isUserOnline(String login);
     List<String> lastUploadedImagesUser(User user);
+    void updatePersonalData(UserPersonalData oldPersonalData, UserPersonalData newPersonalData, MultipartFile image);
 }

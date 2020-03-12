@@ -31,7 +31,6 @@ public class UserPersonalData implements Serializable {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dateChange;
 
-    @Transient
     public UserPersonalDataDto convert() {
         return new UserPersonalDataDto(id, user, firstName, lastName, avatarFileName, city != null ? city.getId() : 0, dateBirth, dateChange);
     }

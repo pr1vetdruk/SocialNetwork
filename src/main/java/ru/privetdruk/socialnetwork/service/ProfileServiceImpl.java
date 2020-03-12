@@ -7,12 +7,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.Session;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ru.privetdruk.socialnetwork.domain.Publication;
 import ru.privetdruk.socialnetwork.domain.PublicationDto;
 import ru.privetdruk.socialnetwork.domain.user.User;
+import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
 import ru.privetdruk.socialnetwork.repository.PublicationRepository;
 import ru.privetdruk.socialnetwork.repository.UserRepository;
+import ru.privetdruk.socialnetwork.service.user.UserPersonalDataService;
 import ru.privetdruk.socialnetwork.util.FileUtils;
 
 import java.util.List;
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProfileServiceImpl implements ProfileService {
     private final PublicationRepository publicationRepository;
+    private final UserPersonalDataService personalDataService;
     private final FindByIndexNameSessionRepository<? extends Session> sessionRepository;
 
     @Autowired
@@ -30,8 +34,9 @@ public class ProfileServiceImpl implements ProfileService {
     @Value("${upload.path}")
     private String uploadPath;
 
-    public ProfileServiceImpl(PublicationRepository publicationRepository, FindByIndexNameSessionRepository<? extends Session> sessionRepository) {
+    public ProfileServiceImpl(PublicationRepository publicationRepository, UserPersonalDataService personalDataService, FindByIndexNameSessionRepository<? extends Session> sessionRepository) {
         this.publicationRepository = publicationRepository;
+        this.personalDataService = personalDataService;
         this.sessionRepository = sessionRepository;
     }
 
@@ -75,5 +80,19 @@ public class ProfileServiceImpl implements ProfileService {
     public List<String> lastUploadedImagesUser(User user) {
         List<Publication> lastPublicationList = publicationRepository.findTop4ByAuthorAndFileNameNotNullOrderByIdDesc(user);
         return lastPublicationList.stream().map(Publication::getFileName).collect(Collectors.toList());
+    }
+
+    @Override
+    public void updatePersonalData(UserPersonalData oldPersonalData, UserPersonalData newPersonalData, MultipartFile image) {
+        if (StringUtils.isEmpty(image.getOriginalFilename())) {
+            newPersonalData.setAvatarFileName(oldPersonalData.getAvatarFileName());
+        } else {
+            newPersonalData.setAvatarFileName(FileUtils.generateFileName(image.getOriginalFilename()));
+        }
+
+        if (!oldPersonalData.convert().equals(newPersonalData.convert())) {
+            FileUtils.saveFile(uploadPath, image);
+            personalDataService.save(newPersonalData);
+        }
     }
 }

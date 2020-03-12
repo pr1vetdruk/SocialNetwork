@@ -13,7 +13,8 @@
             </div>
         </div>
     </#if>
-    <form action="<#if isIndex>/registration<#else>/id${userPersonalDataDto.user.id}</#if>" method="post" class="mb-3">
+    <form action="<#if isIndex>/registration<#else>/id${userPersonalDataDto.user.id}/edit/save/</#if>" method="post" class="mb-3"
+          enctype="multipart/form-data">
         <#if !isIndex>
             <div class="form-group row">
                 <div class="col d-flex justify-content-center">
@@ -21,7 +22,6 @@
                         <img class="col " id="previewImg" alt="avatar"
                              src=<#if userPersonalDataDto?? && userPersonalDataDto.avatarFileName??>"/img/${userPersonalDataDto.avatarFileName}"
                         <#else>"../../static/img/profile/none_avatar.png"</#if>/>
-
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="col">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" name="avatarFileName" id="avatarFileName"
-                               aria-describedby="avatarFileName"
+                               aria-describedby="image"
                                onchange="this.value">
                         <label class="custom-file-label" for="avatarFileName">Ваша фотография</label>
                     </div>
@@ -120,8 +120,6 @@
                 </#if>
             </div>
         </div>
-
-
 
 
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>

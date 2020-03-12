@@ -1,4 +1,4 @@
-package ru.privetdruk.socialnetwork.service.user;
+package ru.privetdruk.socialnetwork.service.user.impl;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

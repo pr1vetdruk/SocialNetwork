@@ -5,6 +5,7 @@ import org.springframework.util.StringUtils;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
 import ru.privetdruk.socialnetwork.service.GeneralService;
+import ru.privetdruk.socialnetwork.util.FileUtils;
 import ru.privetdruk.socialnetwork.validator.annotation.DateBirth;
 
 import javax.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 public class UserPersonalDataDto implements Serializable {
     private Long id;
@@ -91,5 +93,30 @@ public class UserPersonalDataDto implements Serializable {
 
     public Date getDateChange() {
         return dateChange;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserPersonalDataDto that = (UserPersonalDataDto) o;
+
+        if (!Objects.equals(firstName, that.firstName)) return false;
+        if (!Objects.equals(lastName, that.lastName)) return false;
+        if (!Objects.equals(FileUtils.extractFileNameFromUUIDString(avatarFileName), FileUtils.extractFileNameFromUUIDString(that.avatarFileName)))
+            return false;
+        if (!Objects.equals(cityId, that.cityId)) return false;
+        return Objects.equals(dateBirth, that.dateBirth);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = firstName != null ? firstName.hashCode() : 0;
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (avatarFileName != null ? avatarFileName.hashCode() : 0);
+        result = 31 * result + (cityId != null ? cityId.hashCode() : 0);
+        result = 31 * result + (dateBirth != null ? dateBirth.hashCode() : 0);
+        return result;
     }
 }

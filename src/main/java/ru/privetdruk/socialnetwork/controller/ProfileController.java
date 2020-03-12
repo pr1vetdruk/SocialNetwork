@@ -17,6 +17,7 @@ import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
 import ru.privetdruk.socialnetwork.service.GeneralService;
 import ru.privetdruk.socialnetwork.service.ProfileService;
 import ru.privetdruk.socialnetwork.util.ControllerUtils;
+import ru.privetdruk.socialnetwork.util.FileUtils;
 import ru.privetdruk.socialnetwork.util.ResponseStatusUtils;
 import ru.privetdruk.socialnetwork.util.UriUtils;
 
@@ -42,34 +43,30 @@ public class ProfileController {
         ResponseStatusUtils.pageExistenceForObject(user);
 
         model.addAttribute("filter", tag);
-        fillingModelDataForProfileDisplay(authorizedUser, user, tag, pageable, model);
+        fillingModelForProfileDisplay(authorizedUser, user, tag, pageable, model);
 
         return "/profile/profile";
     }
 
     @GetMapping("/edit/")
     public String editProfile(@AuthenticationPrincipal User authorizedUser, Model model) {
-        model.addAttribute("userPersonalDataDto", authorizedUser.getPersonalData().convert());
-        model.addAttribute("selectedCity", generalService.findCity(authorizedUser.getPersonalData().getCity().getId()));
-        generalService.fillingCity(model);
+        fillingModelForEditProfileDisplay(authorizedUser.getPersonalData().convert(), model);
         return "/profile/profile-edit";
     }
 
     @PostMapping("/edit/save/")
     public String saveProfile(@AuthenticationPrincipal User authorizedUser,
-                              @PathVariable User user,
                               @Valid UserPersonalDataDto personalDataDto,
-                              @RequestParam("image") MultipartFile image,
-
                               BindingResult bindingResult,
-                              Model model) {
+                              Model model,
+                              @RequestParam("avatarFileName") MultipartFile image) {
         if (bindingResult.hasErrors()) {
             model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
-            //fillingModelDataForProfileDisplay(authorizedUser, user, null, pageable, model);
+            fillingModelForEditProfileDisplay(authorizedUser.getPersonalData().convert(), model);
             return "/profile/profile-edit";
         } else {
-
-            return "redirect:/id" + user.getId();
+            profileService.updatePersonalData(authorizedUser.getPersonalData(), personalDataDto.convert(generalService), image);
+            return "redirect:/id" + authorizedUser.getId();
         }
     }
 
@@ -83,7 +80,7 @@ public class ProfileController {
                                  @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         if (bindingResult.hasErrors()) {
             model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
-            fillingModelDataForProfileDisplay(authorizedUser, user, null, pageable, model);
+            fillingModelForProfileDisplay(authorizedUser, user, null, pageable, model);
             return "/profile/profile";
         } else {
             profileService.savePublication(authorizedUser, publicationDto, image);
@@ -108,11 +105,17 @@ public class ProfileController {
         return "redirect:" + UriUtils.previousAddress(redirectAttributes, referer);
     }
 
-    private void fillingModelDataForProfileDisplay(User authorizedUser, User user, String tag, Pageable pageable, Model model) {
+    private void fillingModelForProfileDisplay(User authorizedUser, User user, String tag, Pageable pageable, Model model) {
         model.addAttribute("url", "/id" + user.getId());
         model.addAttribute("pagePublications", profileService.userPublicationList(user.getId(), authorizedUser.getId(), tag, pageable));
         model.addAttribute("pageOwner", user);
         model.addAttribute("isPageOwnerOnline", profileService.isUserOnline(user.getLogin()));
         model.addAttribute("lastUploadedImagesUser", profileService.lastUploadedImagesUser(user));
+    }
+
+    private void fillingModelForEditProfileDisplay(UserPersonalDataDto personalDataDto, Model model) {
+        model.addAttribute("userPersonalDataDto", personalDataDto);
+        model.addAttribute("selectedCity", generalService.findCity(personalDataDto.getCityId()));
+        generalService.fillingCity(model);
     }
 }
