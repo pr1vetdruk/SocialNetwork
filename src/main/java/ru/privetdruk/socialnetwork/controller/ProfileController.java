@@ -17,7 +17,6 @@ import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
 import ru.privetdruk.socialnetwork.service.GeneralService;
 import ru.privetdruk.socialnetwork.service.ProfileService;
 import ru.privetdruk.socialnetwork.util.ControllerUtils;
-import ru.privetdruk.socialnetwork.util.FileUtils;
 import ru.privetdruk.socialnetwork.util.ResponseStatusUtils;
 import ru.privetdruk.socialnetwork.util.UriUtils;
 

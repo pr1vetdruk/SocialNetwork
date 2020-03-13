@@ -18,6 +18,7 @@ import ru.privetdruk.socialnetwork.repository.UserRepository;
 import ru.privetdruk.socialnetwork.service.user.UserPersonalDataService;
 import ru.privetdruk.socialnetwork.util.FileUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -91,8 +92,11 @@ public class ProfileServiceImpl implements ProfileService {
         }
 
         if (!oldPersonalData.convert().equals(newPersonalData.convert())) {
-            FileUtils.saveFile(uploadPath, image);
+            newPersonalData.setId(oldPersonalData.getId());
+            newPersonalData.setUser(oldPersonalData.getUser());
+            newPersonalData.setDateChange(new Date());
             personalDataService.save(newPersonalData);
+            FileUtils.saveFile(uploadPath, newPersonalData.getAvatarFileName(), image);
         }
     }
 }

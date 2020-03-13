@@ -65,7 +65,7 @@
                         <p class="mb-1">День рождения:</p>
                     </div>
                     <div class="col">
-                        <p class="mb-1">${pageOwner.personalData.dateBirth?date}</p>
+                        <p class="mb-1">${pageOwner.personalData.dateBirth}</p>
                     </div>
                 </div>
 

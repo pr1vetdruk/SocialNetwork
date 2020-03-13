@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -37,7 +38,7 @@ public class UserPersonalDataDto implements Serializable {
     @NotNull(message = "{validation.global.notEmpty}")
     @DateBirth
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date dateBirth;
+    private LocalDate dateBirth;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dateChange;
@@ -52,7 +53,7 @@ public class UserPersonalDataDto implements Serializable {
         return personalData;
     }
 
-    public UserPersonalDataDto(Long id, User user, String firstName, String lastName, String avatarFileName, Short cityId, Date dateBirth, Date dateChange) {
+    public UserPersonalDataDto(Long id, User user, String firstName, String lastName, String avatarFileName, Short cityId, LocalDate dateBirth, Date dateChange) {
         this.id = id;
         this.user = user;
         this.firstName = StringUtils.isEmpty(firstName) ? null : firstName;
@@ -87,7 +88,7 @@ public class UserPersonalDataDto implements Serializable {
         return cityId;
     }
 
-    public Date getDateBirth() {
+    public LocalDate getDateBirth() {
         return dateBirth;
     }
 
@@ -107,7 +108,7 @@ public class UserPersonalDataDto implements Serializable {
         if (!Objects.equals(FileUtils.extractFileNameFromUUIDString(avatarFileName), FileUtils.extractFileNameFromUUIDString(that.avatarFileName)))
             return false;
         if (!Objects.equals(cityId, that.cityId)) return false;
-        return Objects.equals(dateBirth, that.dateBirth);
+        return Objects.equals(this.dateBirth , that.dateBirth);
     }
 
     @Override

@@ -6,6 +6,7 @@ import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -26,7 +27,7 @@ public class UserPersonalData implements Serializable {
     private City city;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date dateBirth;
+    private LocalDate dateBirth;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dateChange;
@@ -83,11 +84,11 @@ public class UserPersonalData implements Serializable {
         this.city = city;
     }
 
-    public Date getDateBirth() {
+    public LocalDate getDateBirth() {
         return dateBirth;
     }
 
-    public void setDateBirth(Date dateBirth) {
+    public void setDateBirth(LocalDate dateBirth) {
         this.dateBirth = dateBirth;
     }
 

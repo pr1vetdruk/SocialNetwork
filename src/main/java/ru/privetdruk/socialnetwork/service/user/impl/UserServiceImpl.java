@@ -2,7 +2,6 @@ package ru.privetdruk.socialnetwork.service.user.impl;
 
 import org.springframework.stereotype.Service;
 import ru.privetdruk.socialnetwork.domain.user.User;
-import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
 import ru.privetdruk.socialnetwork.repository.UserRepository;
 import ru.privetdruk.socialnetwork.service.user.UserService;
 

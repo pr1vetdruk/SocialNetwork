@@ -35,7 +35,7 @@ create table user_personal_data_dbt
     last_name   varchar(255)                not null,
     avatar_file_name   varchar(255),
     city_id     int2 references city_dbt    not null,
-    date_birth  timestamp without time zone not null,
+    date_birth  date not null,
     date_change timestamp without time zone,
     primary key (id)
 );

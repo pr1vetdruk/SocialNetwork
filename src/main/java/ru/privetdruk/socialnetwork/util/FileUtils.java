@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public abstract class FileUtils {
     public static String extractFileNameFromUUIDString(String name) {
-        return name.substring(name.indexOf('.', 0) + 1);
+        return name == null ? null : name.substring(name.indexOf('.', 0) + 1);
     }
 
     public static String generateFileName(String name) {

@@ -4,24 +4,20 @@ import ru.privetdruk.socialnetwork.validator.annotation.DateBirth;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
-public class DateBirthConstraintValidator implements ConstraintValidator<DateBirth, Date> {
+public class DateBirthConstraintValidator implements ConstraintValidator<DateBirth, LocalDate> {
    public void initialize(DateBirth constraint) {
    }
 
-   public boolean isValid(Date target, ConstraintValidatorContext context) {
+   public boolean isValid(LocalDate target, ConstraintValidatorContext context) {
       if (target == null) {
          return true;
       }
 
-      Calendar calendar = Calendar.getInstance();
-      calendar.setTime(target);
-      int fieldYear = calendar.get(Calendar.YEAR);
-      calendar.setTime(new Date());
-      int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+      long years = ChronoUnit.YEARS.between(target, LocalDate.now());
 
-      return (currentYear - fieldYear) >= 14;
+      return years >= 14;
    }
 }

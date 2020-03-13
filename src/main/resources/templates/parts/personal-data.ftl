@@ -111,7 +111,7 @@
                 <label for="dateBirth" class="mb-1" style="font-size: 14px; color: #626d7a; line-height: 20px;">Дата
                     рождения</label>
                 <input type="date" name="dateBirth" id="dateBirth" placeholder="Дата рождения"
-                       value="<#if userPersonalDataDto?? && userPersonalDataDto.dateBirth??>${userPersonalDataDto.dateBirth?string("yyyy-MM-dd")}</#if>"
+                       value="<#if userPersonalDataDto?? && userPersonalDataDto.dateBirth??>${userPersonalDataDto.dateBirth}</#if>"
                        class="form-control ${(dateBirthError??)?string('is-invalid', '')}"/>
                 <#if dateBirthError??>
                     <div class="invalid-feedback">
