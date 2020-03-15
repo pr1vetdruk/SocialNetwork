@@ -59,13 +59,13 @@
 
                 <div class="dropdown-divider"></div>
 
-                <#-- День рождения -->
+                <#-- Дата рождения -->
                 <div class="row">
                     <div class="col-4">
                         <p class="mb-1">День рождения:</p>
                     </div>
                     <div class="col">
-                        <p class="mb-1">${pageOwner.personalData.dateBirth}</p>
+                        <p class="mb-1">${pageOwner.personalData.dateBirth?date('yyyy-MM-dd')}</p>
                     </div>
                 </div>
 
