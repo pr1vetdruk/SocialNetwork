@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.UUID;
 
 public abstract class FileUtils {
@@ -16,25 +17,23 @@ public abstract class FileUtils {
     }
 
     public static String saveFile(String uploadPath, MultipartFile file) {
-        return saveFile(uploadPath, generateFileName(file.getOriginalFilename()), file);
+        String fileName = generateFileName(file.getOriginalFilename());
+        saveFile(uploadPath, fileName, file);
+        return fileName;
     }
 
-    public static String saveFile(String uploadPath, String fileName, MultipartFile file) {
-        String resultFileName = null;
-        if (file != null && !file.getOriginalFilename().isEmpty()) {
+    public static void saveFile(String uploadPath, String fileName, MultipartFile file) {
+        if (file != null && !Objects.requireNonNull(file.getOriginalFilename()).isEmpty()) {
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
 
-            resultFileName = UUID.randomUUID().toString() + "." + fileName;
-
             try {
-                file.transferTo(new File(uploadPath + "/" + resultFileName));
-            } catch (IOException ex) {
-                resultFileName = "";
+                file.transferTo(new File(uploadPath + "/" + fileName));
+            } catch (IOException e) {
+                fileName = "error";
             }
         }
-        return resultFileName;
     }
 }

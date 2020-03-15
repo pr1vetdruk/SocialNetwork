@@ -7,13 +7,13 @@
 
     <div class="col-3">
         <div class="card pt-2 pb-0 px-2">
-            <img src="../../static/img/icon/camera_200.png" class="card-img-top" alt="avatar">
+            <img src="<#if pageOwner?? && pageOwner.personalData.avatarFileName??>/img/${pageOwner.personalData.avatarFileName}<#else>../../static/img/icon/camera_200.png</#if>"
+                 class="card-img-top" alt="avatar">
             <div class="card-body">
                 <#if authorizedUser.id != pageOwner.id>
                     <div class="row mb-2">
                         <a href="/id${pageOwner.id}/edit/" class="col btn pt-1"
-                           style="font-size: 12.5px; height: 30px; background-color: #5181b8; color: #fff;">Написать
-                            сообщение</a>
+                           style="font-size: 12.5px; height: 30px; background-color: #5181b8; color: #fff;">Написать сообщение</a>
                     </div>
                 </#if>
 
@@ -24,8 +24,7 @@
                     <#else>
                         <form action="/id${pageOwner.id}/add-friend/" method="post">
                             <button type="submit" class="col btn pt-1 mr-2"
-                                    style="font-size: 13px; height: 30px;  background-color: #5181b8; color: #fff">
-                                Добавить в друзья
+                                    style="font-size: 13px; height: 30px;  background-color: #5181b8; color: #fff"> Добавить в друзья
                             </button>
                         </form>
                     </#if>
@@ -245,7 +244,7 @@
                             <div class="dropdown-divider"></div>
 
                             <div class="row pb-2">
-                                <a class="col-2" href="/id${pageOwner.id}/publications/${publication.id}/like">
+                                <a class="col-2" href="/id${pageOwner.id}/publication/${publication.id}/like">
                                     <#if publication.getLikedAuthorizedUser()>
                                         <img class="main-menu-img" src="../../static/img/icon/like.png"
                                              alt="like"/> ${publication.numberLikes}

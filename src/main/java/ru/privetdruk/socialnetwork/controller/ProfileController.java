@@ -48,25 +48,34 @@ public class ProfileController {
     }
 
     @GetMapping("/edit/")
-    public String editProfile(@AuthenticationPrincipal User authorizedUser, Model model) {
-        fillingModelForEditProfileDisplay(authorizedUser.getPersonalData().convert(), model);
-        return "/profile/profile-edit";
+    public String editProfile(@AuthenticationPrincipal User authorizedUser, @PathVariable User user, Model model) {
+        if (authorizedUser.equals(user)) {
+            fillingModelForEditProfileDisplay(user.getPersonalData().convert(), model);
+            return "/profile/profile-edit";
+        } else {
+            return "redirect:/id" + authorizedUser.getId();
+        }
+
     }
 
     @PostMapping("/edit/save/")
     public String saveProfile(@AuthenticationPrincipal User authorizedUser,
+                              @PathVariable User user,
                               @Valid UserPersonalDataDto personalDataDto,
                               BindingResult bindingResult,
                               Model model,
                               @RequestParam("avatarFileName") MultipartFile image) {
-        if (bindingResult.hasErrors()) {
-            model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
-            fillingModelForEditProfileDisplay(authorizedUser.getPersonalData().convert(), model);
-            return "/profile/profile-edit";
-        } else {
-            profileService.updatePersonalData(authorizedUser.getPersonalData(), personalDataDto.convert(generalService), image);
-            return "redirect:/id" + authorizedUser.getId();
+        if (authorizedUser.equals(user)) {
+            if (bindingResult.hasErrors()) {
+                model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
+                fillingModelForEditProfileDisplay(user.getPersonalData().convert(), model);
+                return "/profile/profile-edit";
+            } else {
+                profileService.updatePersonalData(user.getPersonalData(), personalDataDto.convert(generalService), image);
+            }
         }
+
+        return "redirect:/id" + user.getId();
     }
 
     @PostMapping
@@ -88,7 +97,8 @@ public class ProfileController {
     }
 
     @PostMapping("/publication/delete/")
-    public String deletePublication(@AuthenticationPrincipal User authorizedUser, @RequestParam("id") Publication publication) {
+    public String deletePublication(@AuthenticationPrincipal User authorizedUser, @RequestParam("id") Publication
+            publication) {
         if (authorizedUser.equals(publication.getAuthor()))
             profileService.deletePublication(publication);
         return "redirect:/id" + publication.getAuthor().getId();
@@ -104,7 +114,8 @@ public class ProfileController {
         return "redirect:" + UriUtils.previousAddress(redirectAttributes, referer);
     }
 
-    private void fillingModelForProfileDisplay(User authorizedUser, User user, String tag, Pageable pageable, Model model) {
+    private void fillingModelForProfileDisplay(User authorizedUser, User user, String tag, Pageable pageable, Model
+            model) {
         model.addAttribute("url", "/id" + user.getId());
         model.addAttribute("pagePublications", profileService.userPublicationList(user.getId(), authorizedUser.getId(), tag, pageable));
         model.addAttribute("pageOwner", user);

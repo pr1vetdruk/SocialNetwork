@@ -19,9 +19,9 @@
             <div class="form-group row">
                 <div class="col d-flex justify-content-center">
                     <div class="row align-center" style="max-width: 200px">
-                        <img class="col " id="previewImg" alt="avatar"
-                             src=<#if userPersonalDataDto?? && userPersonalDataDto.avatarFileName??>"/img/${userPersonalDataDto.avatarFileName}"
-                        <#else>"../../static/img/profile/none_avatar.png"</#if>/>
+                        <img class="col" id="previewImg" alt="avatar"
+                             src="<#if userPersonalDataDto?? && userPersonalDataDto.avatarFileName??>/img/${userPersonalDataDto.avatarFileName}
+                        <#else>../../static/img/profile/none_avatar.png</#if>"/>
                     </div>
                 </div>
             </div>

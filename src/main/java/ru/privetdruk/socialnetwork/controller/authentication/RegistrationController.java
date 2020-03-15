@@ -27,11 +27,6 @@ public class RegistrationController {
     private final SecurityService securityService;
     private final UserDataValidator registrationValidator;
 
-    /*@InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(personalDataValidator);
-    }*/
-
     public RegistrationController(RegistrationServiceImpl registrationService, GeneralService generalService, SecurityService securityService, UserDataValidator registrationValidator) {
         this.registrationService = registrationService;
         this.generalService = generalService;
