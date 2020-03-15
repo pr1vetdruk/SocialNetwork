@@ -114,8 +114,11 @@ public class ProfileController {
         return "redirect:" + UriUtils.previousAddress(redirectAttributes, referer);
     }
 
-    private void fillingModelForProfileDisplay(User authorizedUser, User user, String tag, Pageable pageable, Model
-            model) {
+    private void fillingModelForProfileDisplay(User authorizedUser,
+                                               User user,
+                                               String tag,
+                                               Pageable pageable,
+                                               Model model) {
         model.addAttribute("url", "/id" + user.getId());
         model.addAttribute("pagePublications", profileService.userPublicationList(user.getId(), authorizedUser.getId(), tag, pageable));
         model.addAttribute("pageOwner", user);

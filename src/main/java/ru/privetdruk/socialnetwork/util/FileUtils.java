@@ -17,8 +17,11 @@ public abstract class FileUtils {
     }
 
     public static String saveFile(String uploadPath, MultipartFile file) {
-        String fileName = generateFileName(file.getOriginalFilename());
-        saveFile(uploadPath, fileName, file);
+        String fileName = null;
+        if (!file.isEmpty()) {
+            fileName = generateFileName(file.getOriginalFilename());
+            saveFile(uploadPath, fileName, file);
+        }
         return fileName;
     }
 

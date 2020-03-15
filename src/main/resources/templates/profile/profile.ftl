@@ -106,7 +106,7 @@
                 <div class="row mx-3  justify-content-center">
                     <div class="col px-0 pb-2">
                         <a class="row" href="#" style="text-decoration: none">
-                            <div class="col d-flex justify-content-center"><b>77</b></div>
+                            <div class="col d-flex justify-content-center"><b>72</b></div>
                             <div class="w-100"></div>
                             <div class="col d-flex justify-content-center"><p>друга</p></div>
                         </a>
@@ -146,12 +146,12 @@
 
         <#-- Фото из галереи -->
         <#if lastUploadedImagesUser?hasContent>
-            <div class="row mb-3">
+            <div class="row mb-3 ">
                 <div class="col bg-white border rounded">
                     <div class="row">
                         <div class="col p-2"><p>Мои фотографии</p></div>
                     </div>
-                    <div class="row pb-2">
+                    <div class="row pb-2 d-flex justify-content-center">
                         <#list lastUploadedImagesUser as image>
                             <div class="col-3 px-1 d-flex justify-content-center">
                                 <img src="img/${image}" style="width: 123px; height: 123px">
@@ -195,12 +195,10 @@
                     <div class="col bg-white border rounded">
                         <div class="card border-0">
                             <div class="row pt-3">
-                                <div class="col-2">
-                                    <img src="/img/photo_2019-11-06_16-22-22.jpg"
-                                         class="card-img-top rounded-circle"
-                                         style="width: 60px"
-                                         alt="avatar">
-                                </div>
+                                <img class="col-2 card-img-top rounded-circle"
+                                     src="<#if pageOwner.personalData.avatarFileName??>/img/${pageOwner.personalData.avatarFileName}<#else>../../static/img/icon/camera_200.png</#if>"
+                                     style="height: 63px;" alt="author-avatar">
+
                                 <div class="col pl-0">
                                     <a href="/id${pageOwner.id}">
                                         ${pageOwner.personalData.firstName} ${pageOwner.personalData.lastName}
@@ -231,7 +229,7 @@
 
                             <#if publication.fileName?hasContent>
                                 <div class="mb-1">
-                                    <img src="/img/${publication.fileName}" class="card-img-top" alt="mini-avatar"/>
+                                    <img src="/img/${publication.fileName}" class="card-img-top" alt="publication-image"/>
                                 </div>
                             </#if>
 
