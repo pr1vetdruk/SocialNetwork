@@ -16,8 +16,10 @@
     <body style="background: #edeef0">
 
     <#include "navbar.ftl">
-    <div class="container mt-5">
-        <#nested >
+    <div class="container mt-4" style="width: 960px;">
+        <div class="row">
+            <#nested >
+        </div>
     </div>
 
     <!-- Optional JavaScript -->

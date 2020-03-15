@@ -4,14 +4,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import ru.privetdruk.socialnetwork.utils.SessionUtils;
+import ru.privetdruk.socialnetwork.util.SessionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class LoginController {
+    @SuppressWarnings("")
     @GetMapping("/login")
-    public String login(Model model, HttpServletRequest request) {
+    public String showLoginPage(Model model, HttpServletRequest request) {
         AuthenticationException exception = (AuthenticationException) SessionUtils.getAndClearValueSession(request.getSession(), "SPRING_SECURITY_LAST_EXCEPTION");
         if (exception != null) {
             switch (exception.getMessage()) {

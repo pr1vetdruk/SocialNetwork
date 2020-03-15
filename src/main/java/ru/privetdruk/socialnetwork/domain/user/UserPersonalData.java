@@ -1,36 +1,40 @@
 package ru.privetdruk.socialnetwork.domain.user;
 
-import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.privetdruk.socialnetwork.domain.City;
+import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Table(name = "user_personal_data_dbt")
-public class UserPersonalData {
+public class UserPersonalData implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @NotBlank(message = "{validation.global.empty}")
     private String firstName;
-    @NotBlank(message = "{validation.global.empty}")
-    @Length(min = 2, max = 32, message = "{valid.registration.lastName.size}")
     private String lastName;
+    private String avatarFileName;
+
     @OneToOne
     @JoinColumn(name = "city_id")
-    @NotNull(message = "{validation.global.empty}")
     private City city;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @NotNull(message = "{validation.global.empty}")
-    private Date dateBirth;
+    private LocalDate dateBirth;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date dateChange;
+
+    public UserPersonalDataDto convert() {
+        return new UserPersonalDataDto(id, user, firstName, lastName, avatarFileName, city != null ? city.getId() : 0, dateBirth, dateChange);
+    }
 
     public Long getId() {
         return id;
@@ -64,6 +68,14 @@ public class UserPersonalData {
         this.lastName = lastName;
     }
 
+    public String getAvatarFileName() {
+        return avatarFileName;
+    }
+
+    public void setAvatarFileName(String avatarFileName) {
+        this.avatarFileName = avatarFileName;
+    }
+
     public City getCity() {
         return city;
     }
@@ -72,11 +84,19 @@ public class UserPersonalData {
         this.city = city;
     }
 
-    public Date getDateBirth() {
+    public LocalDate getDateBirth() {
         return dateBirth;
     }
 
-    public void setDateBirth(Date dateBirth) {
+    public void setDateBirth(LocalDate dateBirth) {
         this.dateBirth = dateBirth;
+    }
+
+    public Date getDateChange() {
+        return dateChange;
+    }
+
+    public void setDateChange(Date dateChange) {
+        this.dateChange = dateChange;
     }
 }

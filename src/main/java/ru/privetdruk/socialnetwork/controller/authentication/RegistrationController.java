@@ -10,55 +10,53 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.domain.user.dto.UserDto;
 import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
-import ru.privetdruk.socialnetwork.service.authentication.RegistrationServiceImpl;
+import ru.privetdruk.socialnetwork.service.GeneralService;
 import ru.privetdruk.socialnetwork.service.authentication.SecurityService;
-import ru.privetdruk.socialnetwork.utils.ControllerUtils;
-import ru.privetdruk.socialnetwork.validator.RegistrationValidator;
+import ru.privetdruk.socialnetwork.service.authentication.impl.RegistrationServiceImpl;
+import ru.privetdruk.socialnetwork.util.ControllerUtils;
+import ru.privetdruk.socialnetwork.validator.UserDataValidator;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Objects;
 
 @Controller
 public class RegistrationController {
     private final RegistrationServiceImpl registrationService;
+    private final GeneralService generalService;
     private final SecurityService securityService;
-    private final RegistrationValidator registrationValidator;
+    private final UserDataValidator registrationValidator;
 
-    /*@InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(personalDataValidator);
-    }*/
-
-    public RegistrationController(RegistrationServiceImpl registrationService, SecurityService securityService, RegistrationValidator registrationValidator) {
+    public RegistrationController(RegistrationServiceImpl registrationService, GeneralService generalService, SecurityService securityService, UserDataValidator registrationValidator) {
         this.registrationService = registrationService;
+        this.generalService = generalService;
         this.securityService = securityService;
         this.registrationValidator = registrationValidator;
     }
 
     @GetMapping("/registration")
-    public String registration(@AuthenticationPrincipal User user, Model model) {
+    public String showRegistrationPage(@AuthenticationPrincipal User user, Model model) {
         if (user != null)
             return "redirect:/";
 
-        registrationService.fillingCity(model);
+        generalService.fillingCity(model);
         return "registration";
     }
 
     @PostMapping(value = "/registration", params = "continue")
-    public String personalData(@Valid UserPersonalDataDto personalDataDto,
-                               BindingResult bindingResult,
-                               Model model,
-                               HttpServletRequest request) {
+    public String personalDataProcessing(@Valid UserPersonalDataDto personalDataDto,
+                                         BindingResult bindingResult,
+                                         Model model,
+                                         HttpSession session) {
         registrationValidator.validatePersonalData(personalDataDto, bindingResult);
         if (bindingResult.hasErrors()) {
             if (!bindingResult.hasFieldErrors("cityId")) {
-                model.addAttribute("selectedCity", registrationService.findCity(personalDataDto.getCityId()));
+                model.addAttribute("selectedCity", generalService.findCity(personalDataDto.getCityId()));
             }
             model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
-            registrationService.fillingCity(model);
+            generalService.fillingCity(model);
         } else {
-            request.getSession().setAttribute("personalDataDto", personalDataDto);
+            session.setAttribute("personalDataDto", personalDataDto);
             model.addAttribute("nextRegistrationStep", "true");
         }
 
@@ -69,27 +67,17 @@ public class RegistrationController {
     public String addUser(@Valid UserDto userDto,
                           BindingResult bindingResult,
                           Model model,
-                          HttpServletRequest request) {
+                          HttpSession session) {
         registrationValidator.validateAuthorizationData(userDto, bindingResult);
         if (bindingResult.hasErrors()) {
             model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
             model.addAttribute("nextRegistrationStep", "true");
             return "registration";
         } else {
-            registrationService.addUser(userDto, (UserPersonalDataDto) Objects.requireNonNull(request.getSession().getAttribute("personalDataDto")));
-            request.getSession().removeAttribute("personalData");
+            registrationService.addUser(userDto, (UserPersonalDataDto) Objects.requireNonNull(session.getAttribute("personalDataDto")));
+            session.removeAttribute("personalDataDto");
             securityService.autoLogin(userDto.getLogin(), userDto.getPasswordConfirmation());
             return "redirect:/";
         }
-        /*if (isLoginEmpty || isPasswordEmpty || isPasswordConfirmEmpty || isEmailEmpty || bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
-        } else if (registrationService.isFoundUser(user.getLogin())) {
-            model.addAttribute("loginError", "Пользователь с таким логином уже существует");
-        } else {
-
-        }*/
-
-
     }
 }

@@ -1,13 +1,13 @@
 package ru.privetdruk.socialnetwork.domain.user;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.privetdruk.socialnetwork.domain.Publication;
 import ru.privetdruk.socialnetwork.domain.Role;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "user_dbt")
@@ -27,12 +27,17 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private UserPersonalData personalData;
 
-    public boolean isAdmin() {
-        return roles.contains(Role.ADMIN);
-    }
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy("id desc")
+    private Set<Publication> publications = new HashSet<>();
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date dateCreation;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date dateChange;
 
     public Long getId() {
         return id;
@@ -96,6 +101,30 @@ public class User implements UserDetails {
 
     public void setPersonalData(UserPersonalData personalData) {
         this.personalData = personalData;
+    }
+
+    public Set<Publication> getPublications() {
+        return publications;
+    }
+
+    public void setPublications(Set<Publication> publications) {
+        this.publications = publications;
+    }
+
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    public Date getDateChange() {
+        return dateChange;
+    }
+
+    public void setDateChange(Date dateChange) {
+        this.dateChange = dateChange;
     }
 
     @Override
