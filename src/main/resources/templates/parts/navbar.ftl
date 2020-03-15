@@ -21,9 +21,9 @@
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="/id${pageOwner.id}">Моя страница</a>
+                        <a class="dropdown-item" href="/id${authorizedUser.id}">Моя страница</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/id${pageOwner.id}/edit/">Редактировать</a>
+                        <a class="dropdown-item" href="/id${authorizedUser.id}/edit/">Редактировать</a>
                         <a class="dropdown-item" href="#">Настройки</a>
                         <a class="dropdown-item" href="#">Помощь</a>
                         <div class="dropdown-divider"></div>
