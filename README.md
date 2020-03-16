@@ -30,8 +30,10 @@
 
 
 <h1>Release 1.0 Authentication system</h1>
+Что нового?
 <b>Главная страница с быстрым доступом к авторизации и регистрации</b>
-![index](https://user-images.githubusercontent.com/3762294/74590847-4894a500-5023-11ea-8c7a-f4f26e72e788.png)
 
+![index](https://user-images.githubusercontent.com/3762294/74590847-4894a500-5023-11ea-8c7a-f4f26e72e788.png)
 <b>Валидация данных средствами JSR 303 и Spring Validation</b>
+
 ![validation](https://user-images.githubusercontent.com/3762294/74590903-f30cc800-5023-11ea-9679-54d1011a7760.png)
