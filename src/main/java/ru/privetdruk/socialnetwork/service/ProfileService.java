@@ -18,4 +18,6 @@ public interface ProfileService {
     boolean isUserOnline(String login);
     List<String> lastUploadedImagesUser(User user);
     void updatePersonalData(UserPersonalData oldPersonalData, UserPersonalData newPersonalData, MultipartFile image);
+    void subscribe(User authorizedUser, User user);
+    void unsubscribe(User authorizedUser, User user);
 }

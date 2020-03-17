@@ -22,11 +22,13 @@
                         <a href="/id${pageOwner.id}/edit/" class="col-9 btn pt-1 mr-2"
                            style="font-size: 12.5px; height: 30px; background-color: #e5ebf1; color: #55677d;">Редактировать</a>
                     <#else>
-                        <form action="/id${pageOwner.id}/add-friend/" method="post">
-                            <button type="submit" class="col btn pt-1 mr-2"
-                                    style="font-size: 13px; height: 30px;  background-color: #5181b8; color: #fff"> Добавить в друзья
-                            </button>
-                        </form>
+                        <#if isSubscriber>
+                            <a href="/id${pageOwner.id}/unsubscribe" class="col btn pt-1 mr-2"
+                               style="font-size: 13px; height: 30px;  background-color: #5181b8; color: #fff">Отписаться</a>
+                        <#else>
+                            <a href="/id${pageOwner.id}/subscribe" class="col btn pt-1 mr-2"
+                               style="font-size: 13px; height: 30px;  background-color: #5181b8; color: #fff">Подписаться</a>
+                        </#if>
                     </#if>
 
 

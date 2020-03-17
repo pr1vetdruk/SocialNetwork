@@ -99,4 +99,20 @@ public class ProfileServiceImpl implements ProfileService {
             FileUtils.saveFile(uploadPath, newPersonalData.getAvatarFileName(), image);
         }
     }
+
+    @Override
+    public void subscribe(User authorizedUser, User user) {
+        if (!user.getSubscribers().contains(authorizedUser)) {
+            user.getSubscribers().add(authorizedUser);
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void unsubscribe(User authorizedUser, User user) {
+        if (user.getSubscribers().contains(authorizedUser)) {
+            user.getSubscribers().remove(authorizedUser);
+            userRepository.save(user);
+        }
+    }
 }

@@ -60,3 +60,10 @@ create table publication_likes_dbt
     date_creation  timestamp without time zone default CURRENT_DATE,
     primary key (id)
 );
+
+create table user_subscriptions_dbt
+(
+    user_id int8 not null references user_dbt,
+    subscriber_id int8 not null references user_dbt,
+    primary key(user_id, subscriber_id)
+)

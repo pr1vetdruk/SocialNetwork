@@ -34,11 +34,13 @@ public class ProfileController {
     }
 
     @GetMapping
-    public String showProfile(@AuthenticationPrincipal User authorizedUser,
-                              @RequestParam(required = false, defaultValue = "") String tag,
-                              @PathVariable User user,
-                              Model model,
-                              @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
+    public String showProfile(
+            @AuthenticationPrincipal User authorizedUser,
+            @RequestParam(required = false, defaultValue = "") String tag,
+            @PathVariable User user,
+            Model model,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
+    ) {
         ResponseStatusUtils.pageExistenceForObject(user);
 
         model.addAttribute("filter", tag);
@@ -59,12 +61,14 @@ public class ProfileController {
     }
 
     @PostMapping("/edit/save/")
-    public String saveProfile(@AuthenticationPrincipal User authorizedUser,
-                              @PathVariable User user,
-                              @Valid UserPersonalDataDto personalDataDto,
-                              BindingResult bindingResult,
-                              Model model,
-                              @RequestParam("avatarFileName") MultipartFile image) {
+    public String saveProfile(
+            @AuthenticationPrincipal User authorizedUser,
+            @PathVariable User user,
+            @Valid UserPersonalDataDto personalDataDto,
+            BindingResult bindingResult,
+            Model model,
+            @RequestParam("avatarFileName") MultipartFile image
+    ) {
         if (authorizedUser.equals(user)) {
             if (bindingResult.hasErrors()) {
                 model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
@@ -79,13 +83,15 @@ public class ProfileController {
     }
 
     @PostMapping
-    public String addPublication(@AuthenticationPrincipal User authorizedUser,
-                                 @PathVariable User user,
-                                 @Valid PublicationDto publicationDto,
-                                 BindingResult bindingResult,
-                                 Model model,
-                                 @RequestParam("image") MultipartFile image,
-                                 @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
+    public String addPublication(
+            @AuthenticationPrincipal User authorizedUser,
+            @PathVariable User user,
+            @Valid PublicationDto publicationDto,
+            BindingResult bindingResult,
+            Model model,
+            @RequestParam("image") MultipartFile image,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
+    ) {
         if (bindingResult.hasErrors()) {
             model.mergeAttributes(ControllerUtils.getErrors(bindingResult));
             fillingModelForProfileDisplay(authorizedUser, user, null, pageable, model);
@@ -97,33 +103,63 @@ public class ProfileController {
     }
 
     @PostMapping("/publication/delete/")
-    public String deletePublication(@AuthenticationPrincipal User authorizedUser, @RequestParam("id") Publication
-            publication) {
+    public String deletePublication(@AuthenticationPrincipal User authorizedUser, @RequestParam("id") Publication publication) {
         if (authorizedUser.equals(publication.getAuthor()))
             profileService.deletePublication(publication);
         return "redirect:/id" + publication.getAuthor().getId();
     }
 
     @GetMapping("/publication/{publication}/like")
-    public String like(@AuthenticationPrincipal User authorizedUser,
-                       @PathVariable Publication publication,
-                       RedirectAttributes redirectAttributes,
-                       @RequestHeader(required = false) String referer) {
+    public String like(
+            @AuthenticationPrincipal User authorizedUser,
+            @PathVariable Publication publication,
+            RedirectAttributes redirectAttributes,
+            @RequestHeader(required = false) String referer
+    ) {
         profileService.likePublication(authorizedUser, publication);
 
         return "redirect:" + UriUtils.previousAddress(redirectAttributes, referer);
     }
 
-    private void fillingModelForProfileDisplay(User authorizedUser,
-                                               User user,
-                                               String tag,
-                                               Pageable pageable,
-                                               Model model) {
+    @GetMapping("/subscribe")
+    public String subscribe(@AuthenticationPrincipal User authorizedUser, @PathVariable User user, Model model) {
+        profileService.subscribe(authorizedUser, user);
+        return "redirect:/id" + user.getId();
+    }
+
+    @GetMapping("/unsubscribe")
+    public String unsubscribe(@AuthenticationPrincipal User authorizedUser, @PathVariable User user, Model model) {
+        profileService.unsubscribe(authorizedUser, user);
+        return "redirect:/id" + user.getId();
+    }
+
+    @GetMapping("/{type}/list")
+    public String subscriptions(@PathVariable User user, @PathVariable String type, Model model) {
+        model.addAttribute("type", type);
+
+        if (type.equals("subscriptions")) {
+            model.addAttribute("users", user.getSubscriptions());
+        } else {
+            model.addAttribute("users", user.getSubscribers());
+        }
+
+        return "subscriptions";
+    }
+
+    private void fillingModelForProfileDisplay(
+            User authorizedUser,
+            User user,
+            String tag,
+            Pageable pageable,
+            Model model
+    ) {
         model.addAttribute("url", "/id" + user.getId());
         model.addAttribute("pagePublications", profileService.userPublicationList(user.getId(), authorizedUser.getId(), tag, pageable));
         model.addAttribute("pageOwner", user);
         model.addAttribute("isPageOwnerOnline", profileService.isUserOnline(user.getLogin()));
         model.addAttribute("lastUploadedImagesUser", profileService.lastUploadedImagesUser(user));
+        model.addAttribute("isSubscriber", user.getSubscribers().contains(authorizedUser));
+
     }
 
     private void fillingModelForEditProfileDisplay(UserPersonalDataDto personalDataDto, Model model) {
