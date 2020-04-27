@@ -1,3 +1,6 @@
 /.idea/
 /uploads/
 /SocialNetwork.iml
+/.gradle/
+/gradle/
+/target/
