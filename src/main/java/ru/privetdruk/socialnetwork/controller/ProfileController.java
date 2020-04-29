@@ -23,7 +23,7 @@ import ru.privetdruk.socialnetwork.util.UriUtils;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/id{user}")
+@RequestMapping("id{user}")
 public class ProfileController {
     private final ProfileService profileService;
     private final GeneralService generalService;
@@ -49,7 +49,7 @@ public class ProfileController {
         return "/profile/profile";
     }
 
-    @GetMapping("/edit/")
+    @GetMapping("edit")
     public String editProfile(@AuthenticationPrincipal User authorizedUser, @PathVariable User user, Model model) {
         if (authorizedUser.equals(user)) {
             fillingModelForEditProfileDisplay(user.getPersonalData().convert(), model);
@@ -60,7 +60,7 @@ public class ProfileController {
 
     }
 
-    @PostMapping("/edit/save/")
+    @PostMapping("edit/save")
     public String saveProfile(
             @AuthenticationPrincipal User authorizedUser,
             @PathVariable User user,
@@ -102,14 +102,14 @@ public class ProfileController {
         }
     }
 
-    @PostMapping("/publication/delete/")
+    @PostMapping("publication/delete")
     public String deletePublication(@AuthenticationPrincipal User authorizedUser, @RequestParam("id") Publication publication) {
         if (authorizedUser.equals(publication.getAuthor()))
             profileService.deletePublication(publication);
         return "redirect:/id" + publication.getAuthor().getId();
     }
 
-    @GetMapping("/publication/{publication}/like")
+    @GetMapping("publication/{publication}/like")
     public String like(
             @AuthenticationPrincipal User authorizedUser,
             @PathVariable Publication publication,
@@ -121,19 +121,19 @@ public class ProfileController {
         return "redirect:" + UriUtils.previousAddress(redirectAttributes, referer);
     }
 
-    @GetMapping("/subscribe")
+    @GetMapping("subscribe")
     public String subscribe(@AuthenticationPrincipal User authorizedUser, @PathVariable User user, Model model) {
         profileService.subscribe(authorizedUser, user);
         return "redirect:/id" + user.getId();
     }
 
-    @GetMapping("/unsubscribe")
+    @GetMapping("unsubscribe")
     public String unsubscribe(@AuthenticationPrincipal User authorizedUser, @PathVariable User user, Model model) {
         profileService.unsubscribe(authorizedUser, user);
         return "redirect:/id" + user.getId();
     }
 
-    @GetMapping("/{type}/list")
+    @GetMapping("{type}/list")
     public String subscriptions(@PathVariable User user, @PathVariable String type, Model model) {
         model.addAttribute("type", type);
 
