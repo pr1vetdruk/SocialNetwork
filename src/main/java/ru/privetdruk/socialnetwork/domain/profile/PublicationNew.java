@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Publication {
+public class PublicationNew {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -54,7 +54,7 @@ public class Publication {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Publication that = (Publication) o;
+        PublicationNew that = (PublicationNew) o;
 
         return Objects.equals(id, that.id);
     }

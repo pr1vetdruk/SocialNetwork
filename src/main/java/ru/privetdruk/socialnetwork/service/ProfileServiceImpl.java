@@ -13,8 +13,9 @@ import ru.privetdruk.socialnetwork.domain.Publication;
 import ru.privetdruk.socialnetwork.domain.PublicationDto;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.domain.user.UserPersonalData;
-import ru.privetdruk.socialnetwork.repository.PublicationRepository;
+import ru.privetdruk.socialnetwork.repository.PublicationRepositoryOld;
 import ru.privetdruk.socialnetwork.repository.UserRepository;
+import ru.privetdruk.socialnetwork.repository.profile.PublicationRepository;
 import ru.privetdruk.socialnetwork.service.user.UserPersonalDataService;
 import ru.privetdruk.socialnetwork.util.FileUtils;
 
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
-    private final PublicationRepository publicationRepository;
+    private final PublicationRepositoryOld publicationRepository;
     private final UserPersonalDataService personalDataService;
     private final FindByIndexNameSessionRepository<? extends Session> sessionRepository;
 
@@ -35,7 +36,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Value("${upload.path}")
     private String uploadPath;
 
-    public ProfileServiceImpl(PublicationRepository publicationRepository, UserPersonalDataService personalDataService, FindByIndexNameSessionRepository<? extends Session> sessionRepository) {
+    public ProfileServiceImpl(PublicationRepositoryOld publicationRepository, UserPersonalDataService personalDataService, FindByIndexNameSessionRepository<? extends Session> sessionRepository) {
         this.publicationRepository = publicationRepository;
         this.personalDataService = personalDataService;
         this.sessionRepository = sessionRepository;

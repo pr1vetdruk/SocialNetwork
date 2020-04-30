@@ -10,7 +10,7 @@ import ru.privetdruk.socialnetwork.domain.user.User;
 
 import java.util.List;
 
-public interface PublicationRepository extends CrudRepository<Publication, Long> {
+public interface PublicationRepositoryOld extends CrudRepository<Publication, Long> {
     @Query("SELECT new ru.privetdruk.socialnetwork.domain.PublicationDto(p, count(pl), " +
             "sum(case when pl.id = :authorizedUserId then 1 else 0 end) > 0) " +
             "FROM Publication p left join p.likes pl " +

@@ -5,7 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import ru.privetdruk.socialnetwork.domain.profile.Publication;
+import ru.privetdruk.socialnetwork.domain.profile.PublicationNew;
 import ru.privetdruk.socialnetwork.domain.user.User;
 import ru.privetdruk.socialnetwork.service.profile.PublicationService;
 
@@ -19,7 +19,7 @@ public class PublicationController {
     }
 
     @GetMapping
-    public Publication getAll(
+    public PublicationNew getAll(
             @PathVariable("user") User user,
             @PageableDefault(size = PublicationService.PUBLICATIONS_PER_PAGE, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
     ) {
@@ -27,22 +27,22 @@ public class PublicationController {
     }
 
     @GetMapping("{id}")
-    public Publication getOne(@PathVariable("id") Publication publication) {
+    public PublicationNew getOne(@PathVariable("id") PublicationNew publication) {
         return publication;
     }
 
     @PostMapping
-    public Publication create(@RequestBody Publication publication, @AuthenticationPrincipal User user) {
+    public PublicationNew create(@RequestBody PublicationNew publication, @AuthenticationPrincipal User user) {
         return publicationService.create(publication, user);
     }
 
     @PutMapping("{id}")
-    public Publication update(@PathVariable("id") Publication oldPublication, @RequestBody Publication newPublication) {
+    public PublicationNew update(@PathVariable("id") PublicationNew oldPublication, @RequestBody PublicationNew newPublication) {
         return publicationService.update(oldPublication, newPublication);
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") Publication publication) {
+    public void delete(@PathVariable("id") PublicationNew publication) {
         publicationService.delete(publication);
     }
 }
