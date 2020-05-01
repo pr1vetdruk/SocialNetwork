@@ -1,10 +1,14 @@
 package ru.privetdruk.socialnetwork.service.profile;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.privetdruk.socialnetwork.domain.profile.PublicationNew;
 import ru.privetdruk.socialnetwork.domain.user.User;
+import ru.privetdruk.socialnetwork.dto.page.PublicationPageDto;
 import ru.privetdruk.socialnetwork.repository.profile.PublicationRepository;
+
+import java.time.LocalDateTime;
 
 @Service
 public class PublicationService {
@@ -16,19 +20,24 @@ public class PublicationService {
         this.publicationRepository = publicationRepository;
     }
 
-    public PublicationNew list(User user, Pageable pageable) {
-        return null;
+    public PublicationPageDto list(User user, Pageable pageable) {
+        Page<PublicationNew> page = publicationRepository.findByAuthor(user, pageable);
+
+        return new PublicationPageDto(page.getContent(), pageable.getPageNumber(), page.getTotalPages());
     }
 
     public PublicationNew create(PublicationNew publication, User user) {
-        return null;
+        publication.setAuthor(user);
+        publication.setCreationDate(LocalDateTime.now());
+        return publicationRepository.save(publication);
     }
 
     public PublicationNew update(PublicationNew oldPublication, PublicationNew newPublication) {
-        return null;
+        oldPublication.setText(newPublication.getText());
+        return publicationRepository.save(oldPublication);
     }
 
     public void delete(PublicationNew publication) {
-
+        publicationRepository.delete(publication);
     }
 }
