@@ -2,6 +2,7 @@ package ru.privetdruk.socialnetwork.domain.profile;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import ru.privetdruk.socialnetwork.domain.user.User;
 
@@ -31,6 +32,7 @@ public class PublicationNew {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private User author;
 
     @ManyToMany

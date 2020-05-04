@@ -66,4 +66,17 @@ create table user_subscriptions_dbt
     user_id int8 not null references user_dbt,
     subscriber_id int8 not null references user_dbt,
     primary key(user_id, subscriber_id)
-)
+);
+
+create table publication_new
+(
+    id            bigint not null
+        constraint publication_new_pkey
+            primary key,
+    creation_date timestamp,
+    date_change   timestamp,
+    file_name     varchar(255),
+    tag           varchar(255),
+    text          varchar(255),
+    user_id       bigint references user_dbt
+);

@@ -1,5 +1,8 @@
 package ru.privetdruk.socialnetwork.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.privetdruk.socialnetwork.domain.City;
 import ru.privetdruk.socialnetwork.domain.user.dto.UserPersonalDataDto;
@@ -11,12 +14,14 @@ import java.util.Date;
 
 @Entity
 @Table(name = "user_personal_data_dbt")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class UserPersonalData implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
     @JoinColumn(name = "user_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private User user;
     private String firstName;
     private String lastName;

@@ -9,6 +9,7 @@ import ru.privetdruk.socialnetwork.dto.page.PublicationPageDto;
 import ru.privetdruk.socialnetwork.repository.profile.PublicationRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class PublicationService {
@@ -18,6 +19,10 @@ public class PublicationService {
 
     public PublicationService(PublicationRepository publicationRepository) {
         this.publicationRepository = publicationRepository;
+    }
+
+    public List<PublicationNew> getAll() {
+        return publicationRepository.findAll();
     }
 
     public PublicationPageDto list(User user, Pageable pageable) {

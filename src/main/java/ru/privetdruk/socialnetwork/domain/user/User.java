@@ -30,7 +30,7 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private UserPersonalData personalData;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OrderBy("id desc")
     private Set<Publication> publications = new HashSet<>();
 
@@ -112,11 +112,12 @@ public class User implements UserDetails {
     }
 
     public UserPersonalData getPersonalData() {
-        return personalData;
+//        return personalData;
+        return null;
     }
 
     public void setPersonalData(UserPersonalData personalData) {
-        this.personalData = personalData;
+//        this.personalData = personalData;
     }
 
     public Set<Publication> getPublications() {
